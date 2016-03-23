@@ -1,0 +1,546 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="${relativePackage}.${activityClass}" >
+
+    <com.tchip.autoui.view.MyScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none" >
+
+        <LinearLayout
+            android:id="@+id/layoutBottom"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal" >
+
+            <!-- 行车记录 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutRecord"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconRecord"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_record" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconRecord"
+                    android:text="@string/title_record"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconRecord"
+                    android:layout_alignRight="@id/iconRecord"
+                    android:layout_below="@id/iconRecord"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_record"
+                    android:src="@drawable/main_item_record" />
+            </RelativeLayout>
+
+            <!-- 导航 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutNavigation"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconNavigation"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_navigation" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconNavigation"
+                    android:text="@string/title_navigation"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconNavigation"
+                    android:layout_alignRight="@id/iconNavigation"
+                    android:layout_below="@id/iconNavigation"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_navigation"
+                    android:src="@drawable/main_item_navigation" />
+            </RelativeLayout>
+
+            <!-- 天气 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutWeather"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconWeather"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_weather" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconWeather"
+                    android:text="@string/title_weather"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconWeather"
+                    android:layout_alignRight="@id/iconWeather"
+                    android:layout_below="@id/iconWeather"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_weather"
+                    android:src="@drawable/main_item_weather" />
+            </RelativeLayout>
+
+            <!-- 音乐 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutMusic"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconMusic"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_music" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconMusic"
+                    android:text="@string/title_music"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconMusic"
+                    android:layout_alignRight="@id/iconMusic"
+                    android:layout_below="@id/iconMusic"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_music"
+                    android:src="@drawable/main_item_music" />
+            </RelativeLayout>
+            <!-- 喜马拉雅 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutXimalaya"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconXimalaya"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_ximalaya" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconXimalaya"
+                    android:text="@string/title_ximalaya"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconXimalaya"
+                    android:layout_alignRight="@id/iconXimalaya"
+                    android:layout_below="@id/iconXimalaya"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_ximalaya"
+                    android:src="@drawable/main_item_ximalaya" />
+            </RelativeLayout>
+
+            <!-- 电子狗 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutEDog"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconEDog"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_edog" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconEDog"
+                    android:text="@string/title_edog"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconEDog"
+                    android:layout_alignRight="@id/iconEDog"
+                    android:layout_below="@id/iconEDog"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_edog"
+                    android:src="@drawable/main_item_edog" />
+            </RelativeLayout>
+
+            <!-- 电话 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutPhone"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconPhone"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_phone" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconPhone"
+                    android:text="@string/title_phone"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconPhone"
+                    android:layout_alignRight="@id/iconPhone"
+                    android:layout_below="@id/iconPhone"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_phone"
+                    android:src="@drawable/main_item_phone" />
+            </RelativeLayout>
+            <!-- FM发射 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutFMTransmit"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconFMtransmit"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_fmtransmit" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconFMtransmit"
+                    android:text="@string/title_fm_transmit"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconFMtransmit"
+                    android:layout_alignRight="@id/iconFMtransmit"
+                    android:layout_below="@id/iconFMtransmit"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_fm_transmit"
+                    android:src="@drawable/main_item_fmtransmit" />
+            </RelativeLayout>
+            <!-- 多媒体 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutMultimedia"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconMultimedia"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_multimedia" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconMultimedia"
+                    android:text="@string/title_multimedia"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconMultimedia"
+                    android:layout_alignRight="@id/iconMultimedia"
+                    android:layout_below="@id/iconMultimedia"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_multimedia"
+                    android:src="@drawable/main_item_multimedia" />
+            </RelativeLayout>
+            <!-- 文件管理 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutFileManager"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconFileManager"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_filemanager" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconFileManager"
+                    android:text="@string/title_file_manager"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconFileManager"
+                    android:layout_alignRight="@id/iconFileManager"
+                    android:layout_below="@id/iconFileManager"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_file_manager"
+                    android:src="@drawable/main_item_filemanager" />
+            </RelativeLayout>
+            <!-- 微信助手 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutWechat"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconWechat"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_wechat" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconWechat"
+                    android:text="@string/title_wechat"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconWechat"
+                    android:layout_alignRight="@id/iconWechat"
+                    android:layout_below="@id/iconWechat"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_wechat"
+                    android:src="@drawable/main_item_wechat" />
+            </RelativeLayout>
+            <!-- 微密 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutWeme"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconWeme"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_weme" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconWeme"
+                    android:text="@string/title_weme"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconWeme"
+                    android:layout_alignRight="@id/iconWeme"
+                    android:layout_below="@id/iconWeme"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_weme"
+                    android:src="@drawable/main_item_weme" />
+            </RelativeLayout>
+            <!-- 设置 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutSetting"
+                android:layout_width="@dimen/main_item_total_width"
+                android:layout_height="@dimen/main_item_total_height"
+                android:background="@color/main_item_bg" >
+
+                <ImageView
+                    android:id="@+id/iconSetting"
+                    android:layout_width="@dimen/main_item_icon_width"
+                    android:layout_height="@dimen/main_item_icon_height"
+                    android:src="@drawable/main_icon_setting" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:layout_toRightOf="@id/iconSetting"
+                    android:text="@string/title_setting"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignLeft="@id/iconSetting"
+                    android:layout_alignRight="@id/iconSetting"
+                    android:layout_below="@id/iconSetting"
+                    android:src="@drawable/main_item_line" />
+
+                <ImageView
+                    android:layout_width="@dimen/main_item_image_width"
+                    android:layout_height="@dimen/main_item_image_height"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"
+                    android:contentDescription="@string/title_setting"
+                    android:src="@drawable/main_item_setting" />
+            </RelativeLayout>
+        </LinearLayout>
+    </com.tchip.autoui.view.MyScrollView>
+
+</RelativeLayout>

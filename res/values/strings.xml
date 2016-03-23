@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AutoUI</string>
+
+    <!-- Hint -->
+    <string name="hint_unknown">未知</string>
+    <string name="hint_no_network">无网络</string>
+
+    <!-- Title -->
+    <string name="title_record">行车记录</string>
+    <string name="title_navigation">导航</string>
+    <string name="title_weather">天气</string>
+    <string name="title_music">音乐</string>
+    <string name="title_cloudpick">一键接人</string>
+    <string name="title_music_online">在线音乐</string>
+    <string name="title_edog">电子狗</string>
+    <string name="title_ximalaya">网络电台</string>
+    <string name="title_multimedia">多媒体</string>
+    <string name="title_drive_route">行车轨迹</string>
+    <string name="title_file_manager">文件管理</string>
+    <string name="title_message">短信</string>
+    <string name="title_fm_transmit">FM发射</string>
+    <string name="title_phone">电话</string>
+    <string name="title_clouddialer">云电话</string>
+    <string name="title_setting">设置</string>
+    <string name="title_wechat">微信助手</string>
+    <string name="title_weme">道客</string>
+    <string name="title_cloudcenter">云中心</string>
+    <string name="title_picture">图片</string>
+    <string name="title_video">视频</string>
+
+</resources>
