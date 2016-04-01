@@ -1,0 +1,44 @@
+<resources>
+
+    <dimen name="main_item_total_height">420dp</dimen>
+    <dimen name="main_item_total_width">270dp</dimen>
+    <!-- 左上角图标 -->
+    <dimen name="main_item_icon_height">55dp</dimen>
+    <dimen name="main_item_icon_width">55dp</dimen>
+    <!-- 标题 -->
+    <dimen name="main_item_title_height">40dp</dimen>
+    <dimen name="main_item_title_size">27sp</dimen>
+    <!-- 大图 -->
+    <dimen name="main_item_image_height">480dp</dimen>
+    <dimen name="main_item_image_width">258dp</dimen>
+    <dimen name="main_item_title_margin_top">45dp</dimen>
+    <dimen name="main_item_title_margin_left">75dp</dimen>
+    <dimen name="main_item_center_point_margin_left">39dp</dimen>
+    <dimen name="main_item_center_point_margin_right">18dp</dimen>
+    <!-- FM -->
+    <dimen name="fmtransmit_freq_text_size">40sp</dimen>
+    <dimen name="fmtransmit_mhz_text_size">15sp</dimen>
+    <dimen name="fmtransmit_state_width">152dp</dimen>
+    <dimen name="fmtransmit_state_height">42dp</dimen>
+    <dimen name="fmtransmit_state_margin_bottom">30dp</dimen>
+    <!-- 文件管理 -->
+    <dimen name="filemanager_usage_height">190dp</dimen>
+    <dimen name="filemanager_usage_margin_left">35dp</dimen>
+    <dimen name="filemanager_usage_margin_top">145dp</dimen>
+    <dimen name="filemanager_usage_leftstorage_text_size">30sp</dimen>
+    <dimen name="filemanager_usage_leftstorage_margin_top">70dp</dimen>
+    <dimen name="filemanager_usage_lsfestorage_gb_size">20sp</dimen>
+    <dimen name="filemanager_file_count_height">32dp</dimen>
+    <dimen name="filemanager_file_count_margin_bottom">40dp</dimen>
+    <dimen name="filemanager_file_count_bg_width">142dp</dimen>
+    <dimen name="filemanager_file_count_bg_height">32dp</dimen>
+    <dimen name="filemanager_file_count_text_size">20sp</dimen>
+    <!-- 电子狗 -->
+    <dimen name="edog_state_edge_length">66dp</dimen>
+    <dimen name="edog_state_margin_left">90dp</dimen>
+    <dimen name="edog_state_margin_bottom">40dp</dimen>
+    <!-- 音乐 -->
+    <dimen name="music_play_song_text_size">18sp</dimen>
+    <dimen name="music_play_song_icon_edge">20dp</dimen>
+
+</resources>

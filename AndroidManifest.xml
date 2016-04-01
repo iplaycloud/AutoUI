@@ -9,7 +9,7 @@
         android:targetSdkVersion="22" />
 
     <application
-        android:name="com.tchip.carlauncher.MyApp"
+        android:name="com.tchip.autoui.MyApp"
         android:allowBackup="true"
         android:hardwareAccelerated="true"
         android:icon="@drawable/ic_launcher"
