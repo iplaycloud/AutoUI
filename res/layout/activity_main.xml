@@ -16,6 +16,62 @@
             android:layout_height="match_parent"
             android:orientation="horizontal" >
 
+            <!-- 日期时间 -->
+
+            <RelativeLayout
+                android:id="@+id/layoutDate"
+                android:layout_width="@dimen/date_total_width"
+                android:layout_height="match_parent" >
+
+                <TextClock
+                    android:id="@+id/textClockMinute"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:format12Hour="mm"
+                    android:format24Hour="mm"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="@color/time_text_color"
+                    android:textSize="@dimen/date_hour_minute_text_size" />
+
+                <TextClock
+                    android:id="@+id/textClockHour"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textClockMinute"
+                    android:format12Hour="HH"
+                    android:format24Hour="HH"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="@color/time_text_color"
+                    android:textSize="@dimen/date_hour_minute_text_size" />
+
+                <TextClock
+                    android:id="@+id/textClockDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textClockMinute"
+                    android:format12Hour="yyyy.MM.dd"
+                    android:format24Hour="yyyy.MM.dd"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="@color/time_text_color"
+                    android:textSize="@dimen/date_year_text_size" />
+
+                <TextClock
+                    android:id="@+id/textClockWeek"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/textClockDate"
+                    android:format12Hour="EEE"
+                    android:format24Hour="EEE"
+                    android:gravity="center"
+                    android:singleLine="true"
+                    android:textColor="@color/time_text_color"
+                    android:textSize="@dimen/date_week_text_size" />
+            </RelativeLayout>
+
             <!-- 行车记录 -->
 
             <RelativeLayout
@@ -37,6 +93,33 @@
                     android:text="@string/title_record"
                     android:textColor="@color/main_item_title_color"
                     android:textSize="@dimen/main_item_title_size" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
+                    android:layout_marginRight="@dimen/main_item_center_point_margin_right" >
+
+                    <ImageView
+                        android:id="@+id/imageRecordState"
+                        android:layout_width="@dimen/record_state_edge_length"
+                        android:layout_height="@dimen/record_state_edge_length"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginBottom="@dimen/edog_state_margin_bottom"
+                        android:contentDescription="@null"
+                        android:src="@drawable/main_item_state_record_start" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/record_not_record"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/record_screen_margin_right"
+                        android:layout_marginTop="@dimen/record_screen_margin_top"
+                        android:textColor="@color/record_screen_text_color"
+                        android:textSize="@dimen/record_screen_text_size" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <!-- 导航 -->

@@ -66,6 +66,9 @@ public class OpenUtil {
 		/** 导航：图吧 */
 		NAVI_TUBA,
 
+		/** 行车记录 */
+		RECORD,
+
 		/** 轨迹 */
 		ROUTE,
 
@@ -133,6 +136,7 @@ public class OpenUtil {
 	public static void openModule(Activity activity, MODULE_TYPE moduleTye) {
 		if (!ClickUtil.isQuickClick(1000)) {
 			try {
+				HintUtil.showToast(activity, moduleTye.name()); // FIXME:Debug
 				switch (moduleTye) {
 				case CHAT:
 					break;
@@ -335,7 +339,6 @@ public class OpenUtil {
 					break;
 
 				case NAVI_GAODE_CAR:
-
 					activity.sendBroadcast(new Intent(
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
 					ComponentName componentGaodeCar;
@@ -365,6 +368,9 @@ public class OpenUtil {
 					activity.overridePendingTransition(
 							R.anim.zms_translate_up_out,
 							R.anim.zms_translate_up_in);
+					break;
+
+				case RECORD:
 					break;
 
 				case ROUTE:

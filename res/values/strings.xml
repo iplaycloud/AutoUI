@@ -29,5 +29,7 @@
     <string name="title_cloudcenter">云中心</string>
     <string name="title_picture">图片</string>
     <string name="title_video">视频</string>
+    <!-- 行车记录 -->
+    <string name="record_not_record">未录像</string>
 
 </resources>

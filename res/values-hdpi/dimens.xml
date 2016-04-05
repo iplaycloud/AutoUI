@@ -40,5 +40,16 @@
     <!-- 音乐 -->
     <dimen name="music_play_song_text_size">12sp</dimen>
     <dimen name="music_play_song_icon_edge">14dp</dimen>
+    <!-- 行车记录 -->
+    <dimen name="record_state_edge_length">70dp</dimen>
+    <dimen name="record_state_margin_bottom">38dp</dimen>
+    <dimen name="record_screen_text_size">18sp</dimen>
+    <dimen name="record_screen_margin_right">26dp</dimen>
+    <dimen name="record_screen_margin_top">124dp</dimen>
+    <!-- 日期时间 -->
+    <dimen name="date_total_width">145dp</dimen>
+    <dimen name="date_hour_minute_text_size">70sp</dimen>
+    <dimen name="date_year_text_size">15sp</dimen>
+    <dimen name="date_week_text_size">20sp</dimen>
 
 </resources>

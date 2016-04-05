@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-   <color name="main_item_bg">#000000</color>
-   <color name="main_item_title_color">#FFFFFF</color>
+    <color name="main_item_bg">#000000</color>
+    <color name="main_item_title_color">#FFFFFF</color>
+    <!-- 时间 -->
+    <color name="time_text_color">#e2b223</color>
+    <!-- 行车记录 -->
+    <color name="record_screen_text_color">#323232</color>
 
 </resources>

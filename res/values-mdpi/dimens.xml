@@ -40,5 +40,9 @@
     <!-- 音乐 -->
     <dimen name="music_play_song_text_size">18sp</dimen>
     <dimen name="music_play_song_icon_edge">20dp</dimen>
+    <!-- 行车记录 -->
+    <dimen name="record_state_edge_length">104dp</dimen>
+    <dimen name="record_state_margin_bottom">57dp</dimen>
+ 
 
 </resources>
