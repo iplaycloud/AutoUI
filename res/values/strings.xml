@@ -32,4 +32,7 @@
     <!-- 行车记录 -->
     <string name="record_not_record">未录像</string>
 
+    <!-- 天气 -->
+    <string name="weather_not_record">未定位</string>
+
 </resources>

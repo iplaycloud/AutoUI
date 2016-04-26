@@ -16,6 +16,22 @@ public interface Constant {
 
 	/** 广播 */
 	public static final class Broadcast {
+
+		public static final String GPS_OFF = "tchip.intent.action.GPS_OFF";
+
+		public static final String GPS_ON = "tchip.intent.action.GPS_ON";
+
+		public static final String POWER_OFF = "tchip.intent.action.POWER_OFF";
+
+		public static final String SYSTEMUI_USB = "tchip.intent.action.SYSTEMUI_USB";
+
+		public static final String KILL_APP = "tchip.intent.action.KILL_APP";
+
+		/** 系统设置进入格式化界面 */
+		public static final String MEDIA_FORMAT = "tchip.intent.action.MEDIA_FORMAT";
+
+		/***** Below is OLD *****/
+
 		/** ACC上电 */
 		public static final String ACC_ON = "com.tchip.ACC_ON";
 
@@ -30,9 +46,6 @@ public interface Constant {
 
 		/** 停车守卫:发生碰撞 */
 		public static final String GSENSOR_CRASH = "com.tchip.GSENSOR_CRASH";
-
-		/** 系统设置进入格式化界面 */
-		public static final String MEDIA_FORMAT = "tchip.intent.action.MEDIA_FORMAT";
 
 		/** 外置蓝牙连接 */
 		public static final String BT_CONNECTED = "com.tchip.BT_CONNECTED";
@@ -102,8 +115,15 @@ public interface Constant {
 	public static final class Module {
 		/** 是否是公版软件 */
 		public static final boolean isPublic = true;
-		
+
 		public static boolean isIconAtom = false;
+
+	}
+
+	public static final class Path {
+
+		/** 字体目录 **/
+		public static final String FONT = "fonts/";
 
 	}
 

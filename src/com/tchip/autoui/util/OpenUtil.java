@@ -370,7 +370,18 @@ public class OpenUtil {
 							R.anim.zms_translate_up_in);
 					break;
 
-				case RECORD:
+				case RECORD: {
+					ComponentName componentRecord = new ComponentName(
+							"com.tchip.autorecord",
+							"com.tchip.autorecord.ui.MainActivity");
+					Intent intentRecord = new Intent();
+					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentRecord.setComponent(componentRecord);
+					activity.startActivity(intentRecord);
+					activity.overridePendingTransition(
+							R.anim.zms_translate_up_out,
+							R.anim.zms_translate_up_in);
+				}
 					break;
 
 				case ROUTE:
@@ -468,7 +479,7 @@ public class OpenUtil {
 				case WEATHER:
 					ComponentName componentWeather;
 					componentWeather = new ComponentName("com.tchip.weather",
-							"com.tchip.weather.ui.activity.MainActivity");
+							"com.tchip.weather.ui.MainActivity");
 					Intent intentWeather = new Intent();
 					intentWeather.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentWeather.setComponent(componentWeather);

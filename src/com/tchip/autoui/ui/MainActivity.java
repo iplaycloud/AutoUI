@@ -1,29 +1,66 @@
-package com.tchip.autoui;
+package com.tchip.autoui.ui;
 
+import com.tchip.autoui.Constant;
+import com.tchip.autoui.R;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.OpenUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
+import com.tchip.autoui.util.ProviderUtil;
+import com.tchip.autoui.util.ProviderUtil.Name;
+import com.tchip.autoui.util.TypefaceUtil;
+import com.tchip.autoui.util.WeatherUtil;
 
 import android.app.Activity;
+import android.content.Context;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
+	private Context context;
+
+	private ImageView imageWeatherInfo;
+	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		context = getApplicationContext();
 
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
 		setContentView(R.layout.activity_main);
 		initialLayout();
+
+		getContentResolver()
+				.registerContentObserver(
+						Uri.parse("content://com.tchip.provider.AutoProvider/state/name/"),
+						true, new AutoContentObserver(new Handler()));
+	}
+
+	@Override
+	protected void onResume() {
+		updateWeatherInfo();
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
 	}
 
 	/** 初始化布局 */
@@ -40,6 +77,12 @@ public class MainActivity extends Activity {
 		// 天气
 		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 		layoutWeather.setOnClickListener(myOnClickListener);
+		imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
+		textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
+		textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
+		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
+				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
+		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
 		// 音乐
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(myOnClickListener);
@@ -74,6 +117,64 @@ public class MainActivity extends Activity {
 		// 设置
 		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
 		layoutSetting.setOnClickListener(myOnClickListener);
+	}
+
+	/** 更新天气信息 */
+	private void updateWeatherInfo() {
+		String weatherInfo = ProviderUtil.getValue(context, Name.WEATHER_INFO);
+		if (weatherInfo != null && weatherInfo.trim().length() > 0) {
+			imageWeatherInfo.setImageResource(WeatherUtil
+					.getWeatherDrawable(WeatherUtil.getTypeByStr(weatherInfo)));
+			textWeatherInfo.setText(weatherInfo);
+		}
+
+		String weatherTempLow = ProviderUtil.getValue(context,
+				Name.WEATHER_TEMP_LOW);
+		String weatherTempHigh = ProviderUtil.getValue(context,
+				Name.WEATHER_TEMP_HIGH);
+		if (weatherTempLow != null && weatherTempLow.trim().length() > 0
+				&& weatherTempHigh != null
+				&& weatherTempHigh.trim().length() > 0) {
+			textWeatherTmpRange.setText(weatherTempLow + "~" + weatherTempHigh
+					+ "℃");
+		} else {
+			textWeatherTmpRange.setText("15~25℃");
+		}
+
+		String weatherCity = ProviderUtil.getValue(context,
+				Name.WEATHER_LOC_CITY);
+		if (weatherCity != null && weatherCity.trim().length() > 0) {
+			textWeatherCity.setText(weatherCity);
+		} else {
+			textWeatherCity.setText(getResources().getString(
+					R.string.weather_not_record));
+		}
+	}
+
+	/** ContentProvder监听 */
+	public class AutoContentObserver extends ContentObserver {
+
+		public AutoContentObserver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void onChange(boolean selfChange, Uri uri) {
+			String name = uri.getLastPathSegment();// getPathSegments().get(2);
+			if (name.equals("state")) { // insert
+
+			} else { // update
+				Toast.makeText(MainActivity.this,
+						"onChange,selfChange:" + selfChange + ",Name:" + name,
+						Toast.LENGTH_SHORT).show();
+			}
+			super.onChange(selfChange, uri);
+		}
+
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+		}
 
 	}
 

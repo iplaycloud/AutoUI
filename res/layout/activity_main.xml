@@ -113,10 +113,10 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="@string/record_not_record"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/record_screen_margin_right"
                         android:layout_marginTop="@dimen/record_screen_margin_top"
+                        android:text="@string/record_not_record"
                         android:textColor="@color/record_screen_text_color"
                         android:textSize="@dimen/record_screen_text_size" />
                 </RelativeLayout>
@@ -166,6 +166,55 @@
                     android:text="@string/title_weather"
                     android:textColor="@color/main_item_title_color"
                     android:textSize="@dimen/main_item_title_size" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
+                    android:layout_marginRight="@dimen/main_item_center_point_margin_right" >
+
+                    <ImageView
+                        android:id="@+id/imageWeatherInfo"
+                        android:layout_width="@dimen/weather_info_icon_length"
+                        android:layout_height="@dimen/weather_info_icon_length"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/weather_info_icon_margin_top"
+                        android:contentDescription="@null"
+                        android:src="@drawable/weather_sun" />
+
+                    <TextView
+                        android:id="@+id/textWeatherInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/imageWeatherInfo"
+                        android:layout_centerHorizontal="true"
+                        android:text="阵雨"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/weather_info_text_size" />
+
+                    <TextView
+                        android:id="@+id/textWeatherTmpRange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textWeatherInfo"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/weather_temp_margin_top"
+                        android:text="15~25℃"
+                        android:textColor="#ade8ff"
+                        android:textSize="@dimen/weather_temp_text_size" />
+
+                    <TextView
+                        android:id="@+id/textWeatherCity"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_below="@id/textWeatherTmpRange"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="@dimen/weather_city_margin_top"
+                        android:drawableLeft="@drawable/weather_location"
+                        android:text="未定位"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/weather_city_text_size" />
+                </RelativeLayout>
             </RelativeLayout>
 
             <!-- 音乐 -->

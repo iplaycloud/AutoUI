@@ -43,6 +43,13 @@
     <!-- 行车记录 -->
     <dimen name="record_state_edge_length">104dp</dimen>
     <dimen name="record_state_margin_bottom">57dp</dimen>
- 
+    <!-- 天气 -->
+    <dimen name="weather_temp_text_size">20sp</dimen>
+    <dimen name="weather_temp_margin_top">21dp</dimen>
+    <dimen name="weather_info_icon_length">90dp</dimen>
+    <dimen name="weather_info_icon_margin_top">80dp</dimen>
+    <dimen name="weather_info_text_size">18sp</dimen>
+    <dimen name="weather_city_text_size">18sp</dimen>
+    <dimen name="weather_city_margin_top">21dp</dimen>
 
 </resources>
