@@ -12,6 +12,7 @@ import com.tchip.autoui.util.WeatherUtil;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -50,11 +51,13 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		updateWeatherInfo();
+		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
+		sendBroadcast(new Intent(Constant.Broadcast.STATUS_HIDE)); // 隐藏状态栏
 		super.onPause();
 	}
 
@@ -127,7 +130,6 @@ public class MainActivity extends Activity {
 					.getWeatherDrawable(WeatherUtil.getTypeByStr(weatherInfo)));
 			textWeatherInfo.setText(weatherInfo);
 		}
-
 		String weatherTempLow = ProviderUtil.getValue(context,
 				Name.WEATHER_TEMP_LOW);
 		String weatherTempHigh = ProviderUtil.getValue(context,
@@ -151,6 +153,10 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void updateFmInfo() {
+
+	}
+
 	/** ContentProvder监听 */
 	public class AutoContentObserver extends ContentObserver {
 
@@ -160,13 +166,29 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onChange(boolean selfChange, Uri uri) {
-			String name = uri.getLastPathSegment();// getPathSegments().get(2);
+			String name = uri.getLastPathSegment(); // getPathSegments().get(2);
 			if (name.equals("state")) { // insert
 
 			} else { // update
 				Toast.makeText(MainActivity.this,
 						"onChange,selfChange:" + selfChange + ",Name:" + name,
 						Toast.LENGTH_SHORT).show();
+
+				if (name.startsWith("weather")) { // 天气
+					updateWeatherInfo();
+				} else if (name.startsWith("rec")) { // 录像
+
+				} else if (name.startsWith("music")) { // 音乐
+
+				} else if (name.startsWith("bt")) { // 蓝牙
+
+				} else if (name.startsWith("fm")) { // FM
+					updateFmInfo();
+				} else if (name.startsWith("set")) { // 设置
+
+				} else if (name.startsWith("edog")) { // EDog
+
+				}
 			}
 			super.onChange(selfChange, uri);
 		}
@@ -252,7 +274,6 @@ public class MainActivity extends Activity {
 			default:
 				break;
 			}
-
 		}
 
 	}

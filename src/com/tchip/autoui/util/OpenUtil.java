@@ -398,9 +398,10 @@ public class OpenUtil {
 
 				case SETTING:
 					ComponentName componentSetting = new ComponentName(
-							"com.tchip.carsetting",
-							"com.tchip.carsetting.ui.activity.MainActivity");
+							"com.tchip.autosetting",
+							"com.tchip.autosetting.ui.MainActivity");
 					Intent intentSetting = new Intent();
+					intentSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentSetting.setComponent(componentSetting);
 					activity.startActivity(intentSetting);
 					break;

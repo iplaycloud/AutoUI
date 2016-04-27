@@ -16,6 +16,10 @@ public interface Constant {
 
 	/** 广播 */
 	public static final class Broadcast {
+		/** 隐藏状态栏 */
+		public static final String STATUS_HIDE = "tchip.intent.action.STATUS_HIDE";
+		/** 显示状态栏 */
+		public static final String STATUS_SHOW = "tchip.intent.action.STATUS_SHOW";
 
 		public static final String GPS_OFF = "tchip.intent.action.GPS_OFF";
 
