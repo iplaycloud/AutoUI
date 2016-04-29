@@ -34,5 +34,14 @@
 
     <!-- 天气 -->
     <string name="weather_not_record">未定位</string>
+    <string name="weather_unknown">未知</string>
+    <string name="weather_no_temp">温度未获取</string>
+    
+    <!-- 文件管理 -->
+    <string name="file_total_default">总共00.00GB</string>
+    <string name="file_left_hint">剩余</string>
+    <string name="file_left_default">28.56</string>
+    <string name="file_total_hint">总共</string>
+    <string name="file_gb">GB</string>
 
 </resources>

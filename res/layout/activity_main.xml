@@ -21,7 +21,8 @@
             <RelativeLayout
                 android:id="@+id/layoutDate"
                 android:layout_width="@dimen/date_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:visibility="visible" >
 
                 <TextClock
                     android:id="@+id/textClockMinute"
@@ -31,6 +32,10 @@
                     android:format12Hour="mm"
                     android:format24Hour="mm"
                     android:gravity="center"
+                    android:shadowColor="#000000"
+                    android:shadowDx="5"
+                    android:shadowDy="5"
+                    android:shadowRadius="2.0"
                     android:singleLine="true"
                     android:textColor="@color/time_text_color"
                     android:textSize="@dimen/date_hour_minute_text_size" />
@@ -40,20 +45,33 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_above="@id/textClockMinute"
+                    android:layout_marginBottom="10dp"
                     android:format12Hour="HH"
                     android:format24Hour="HH"
                     android:gravity="center"
+                    android:shadowColor="#000000"
+                    android:shadowDx="8"
+                    android:shadowDy="8"
+                    android:shadowRadius="2.0"
                     android:singleLine="true"
                     android:textColor="@color/time_text_color"
                     android:textSize="@dimen/date_hour_minute_text_size" />
+
+                <ImageView
+                    android:id="@+id/imageTimeSeparator"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textClockMinute"
+                    android:src="@drawable/main_time_separator" />
 
                 <TextClock
                     android:id="@+id/textClockDate"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textClockMinute"
-                    android:format12Hour="yyyy.MM.dd"
-                    android:format24Hour="yyyy.MM.dd"
+                    android:layout_marginTop="@dimen/date_year_margin_top"
+                    android:format12Hour="yy.MM.dd"
+                    android:format24Hour="yy.MM.dd"
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/time_text_color"
@@ -64,8 +82,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/textClockDate"
-                    android:format12Hour="EEE"
-                    android:format24Hour="EEE"
+                    android:layout_marginTop="@dimen/date_week_margin_top"
+                    android:format12Hour="EEEE"
+                    android:format24Hour="EEEE"
                     android:gravity="center"
                     android:singleLine="true"
                     android:textColor="@color/time_text_color"
@@ -77,7 +96,9 @@
             <RelativeLayout
                 android:id="@+id/layoutRecord"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/main_item_margin_right"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -127,7 +148,8 @@
             <RelativeLayout
                 android:id="@+id/layoutNavigation"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -150,7 +172,8 @@
             <RelativeLayout
                 android:id="@+id/layoutWeather"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -188,7 +211,7 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@id/imageWeatherInfo"
                         android:layout_centerHorizontal="true"
-                        android:text="阵雨"
+                        android:text="未知"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/weather_info_text_size" />
 
@@ -222,7 +245,8 @@
             <RelativeLayout
                 android:id="@+id/layoutMusic"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -284,7 +308,8 @@
             <RelativeLayout
                 android:id="@+id/layoutXimalaya"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -323,7 +348,8 @@
             <RelativeLayout
                 android:id="@+id/layoutEDog"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -363,7 +389,8 @@
             <RelativeLayout
                 android:id="@+id/layoutPhone"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -386,7 +413,8 @@
             <RelativeLayout
                 android:id="@+id/layoutFMTransmit"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -449,7 +477,8 @@
             <RelativeLayout
                 android:id="@+id/layoutMultimedia"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -472,7 +501,8 @@
             <RelativeLayout
                 android:id="@+id/layoutFileManager"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -480,20 +510,20 @@
                     android:contentDescription="@null"
                     android:src="@drawable/main_item_filemanager" />
 
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                    android:layout_marginTop="@dimen/main_item_title_margin_top"
+                    android:text="@string/title_file_manager"
+                    android:textColor="@color/main_item_title_color"
+                    android:textSize="@dimen/main_item_title_size" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
                     android:layout_marginRight="@dimen/main_item_center_point_margin_right" >
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/main_item_title_margin_top"
-                        android:text="@string/title_file_manager"
-                        android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/main_item_title_size" />
 
                     <RelativeLayout
                         android:id="@+id/layoutUsage"
@@ -517,12 +547,21 @@
                             android:src="@drawable/main_item_filemanager_circle_big" />
 
                         <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/file_left_hint_margin_top"
+                            android:text="@string/file_left_hint"
+                            android:textColor="#ffffff"
+                            android:textSize="@dimen/filemanager_usage_lsftstorage_hint_size" />
+
+                        <TextView
                             android:id="@+id/textLeftStorage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerHorizontal="true"
                             android:layout_marginTop="@dimen/filemanager_usage_leftstorage_margin_top"
-                            android:text="28.56"
+                            android:text="@string/file_left_default"
                             android:textColor="#ffffff"
                             android:textSize="@dimen/filemanager_usage_leftstorage_text_size" />
 
@@ -531,9 +570,9 @@
                             android:layout_height="wrap_content"
                             android:layout_below="@id/textLeftStorage"
                             android:layout_centerHorizontal="true"
-                            android:text="GB"
+                            android:text="@string/file_gb"
                             android:textColor="#ffffff"
-                            android:textSize="@dimen/filemanager_usage_lsfestorage_gb_size" />
+                            android:textSize="@dimen/filemanager_usage_lsftstorage_gb_size" />
                     </RelativeLayout>
 
                     <RelativeLayout
@@ -550,11 +589,12 @@
                             android:src="@drawable/main_item_filemanager_file_bg" />
 
                         <TextView
+                            android:id="@+id/textTotalStorage"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerInParent="true"
-                            android:text="18个文件夹"
-                            android:textColor="#ff8888"
+                            android:text="@string/file_total_default"
+                            android:textColor="@color/file_total_text_color"
                             android:textSize="@dimen/filemanager_file_count_text_size" />
                     </RelativeLayout>
                 </RelativeLayout>
@@ -565,7 +605,8 @@
             <RelativeLayout
                 android:id="@+id/layoutWechat"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -588,7 +629,8 @@
             <RelativeLayout
                 android:id="@+id/layoutWeme"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"
@@ -611,7 +653,8 @@
             <RelativeLayout
                 android:id="@+id/layoutSetting"
                 android:layout_width="@dimen/main_item_total_width"
-                android:layout_height="match_parent" >
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/main_item_margin_right" >
 
                 <ImageView
                     android:layout_width="@dimen/main_item_image_width"

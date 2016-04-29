@@ -3,10 +3,12 @@ package com.tchip.autoui.ui;
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.R;
 import com.tchip.autoui.util.HintUtil;
+import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
 import com.tchip.autoui.util.ProviderUtil;
 import com.tchip.autoui.util.ProviderUtil.Name;
+import com.tchip.autoui.util.StorageUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
 
@@ -14,13 +16,19 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
+import android.os.Message;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,16 +38,32 @@ public class MainActivity extends Activity {
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
 
+	/** 剩余空间 */
+	private TextView textLeftStorage;
+	/** 总空间 */
+	private TextView textTotalStorage;
+
+	/** UI主线程Handler */
+	private Handler mainHandler;
+
+	/** 非UI任务线程 */
+	private static final HandlerThread taskHandlerThread = new HandlerThread(
+			"task-thread");
+	static {
+		taskHandlerThread.start();
+	}
+	private final Handler taskHandler = new TaskHandler(
+			taskHandlerThread.getLooper());
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		context = getApplicationContext();
-
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-		// WindowManager.LayoutParams.FLAG_FULLSCREEN);
-
 		setContentView(R.layout.activity_main);
+
+		context = getApplicationContext();
+		mainHandler = new Handler(this.getMainLooper());
+
 		initialLayout();
 
 		getContentResolver()
@@ -50,8 +74,8 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onResume() {
-		updateWeatherInfo();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
+		updateFileInfo();
 		super.onResume();
 	}
 
@@ -69,6 +93,10 @@ public class MainActivity extends Activity {
 	/** 初始化布局 */
 	private void initialLayout() {
 		MyOnClickListener myOnClickListener = new MyOnClickListener();
+		// 时钟
+		TextClock textClockDate = (TextClock) findViewById(R.id.textClockDate);
+		textClockDate.setTypeface(TypefaceUtil.get(this, Constant.Path.FONT
+				+ "Font-Helvetica-Neue-LT-Pro.otf"));
 		// 行车记录
 		RelativeLayout layoutRecord = (RelativeLayout) findViewById(R.id.layoutRecord);
 		layoutRecord.setOnClickListener(myOnClickListener);
@@ -111,6 +139,8 @@ public class MainActivity extends Activity {
 		// 文件管理
 		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
 		layoutFileManager.setOnClickListener(myOnClickListener);
+		textTotalStorage = (TextView) findViewById(R.id.textTotalStorage);
+		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
 		// 微信助手
 		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
 		layoutWechat.setOnClickListener(myOnClickListener);
@@ -120,41 +150,6 @@ public class MainActivity extends Activity {
 		// 设置
 		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
 		layoutSetting.setOnClickListener(myOnClickListener);
-	}
-
-	/** 更新天气信息 */
-	private void updateWeatherInfo() {
-		String weatherInfo = ProviderUtil.getValue(context, Name.WEATHER_INFO);
-		if (weatherInfo != null && weatherInfo.trim().length() > 0) {
-			imageWeatherInfo.setImageResource(WeatherUtil
-					.getWeatherDrawable(WeatherUtil.getTypeByStr(weatherInfo)));
-			textWeatherInfo.setText(weatherInfo);
-		}
-		String weatherTempLow = ProviderUtil.getValue(context,
-				Name.WEATHER_TEMP_LOW);
-		String weatherTempHigh = ProviderUtil.getValue(context,
-				Name.WEATHER_TEMP_HIGH);
-		if (weatherTempLow != null && weatherTempLow.trim().length() > 0
-				&& weatherTempHigh != null
-				&& weatherTempHigh.trim().length() > 0) {
-			textWeatherTmpRange.setText(weatherTempLow + "~" + weatherTempHigh
-					+ "℃");
-		} else {
-			textWeatherTmpRange.setText("15~25℃");
-		}
-
-		String weatherCity = ProviderUtil.getValue(context,
-				Name.WEATHER_LOC_CITY);
-		if (weatherCity != null && weatherCity.trim().length() > 0) {
-			textWeatherCity.setText(weatherCity);
-		} else {
-			textWeatherCity.setText(getResources().getString(
-					R.string.weather_not_record));
-		}
-	}
-
-	private void updateFmInfo() {
-
 	}
 
 	/** ContentProvder监听 */
@@ -170,24 +165,23 @@ public class MainActivity extends Activity {
 			if (name.equals("state")) { // insert
 
 			} else { // update
-				Toast.makeText(MainActivity.this,
-						"onChange,selfChange:" + selfChange + ",Name:" + name,
-						Toast.LENGTH_SHORT).show();
+				MyLog.v("[ContentObserver]onChange,selfChange:" + selfChange
+						+ ",Name:" + name);
 
 				if (name.startsWith("weather")) { // 天气
 					updateWeatherInfo();
 				} else if (name.startsWith("rec")) { // 录像
-
+					updateRecordInfo();
 				} else if (name.startsWith("music")) { // 音乐
-
+					updateMusicInfo();
 				} else if (name.startsWith("bt")) { // 蓝牙
-
+					updateBTDialerInfo();
 				} else if (name.startsWith("fm")) { // FM
-					updateFmInfo();
+					updateFMTransmitInfo();
 				} else if (name.startsWith("set")) { // 设置
 
 				} else if (name.startsWith("edog")) { // EDog
-
+					updateEDogInfo();
 				}
 			}
 			super.onChange(selfChange, uri);
@@ -273,6 +267,167 @@ public class MainActivity extends Activity {
 
 			default:
 				break;
+			}
+		}
+
+	}
+
+	/** 更新录制信息 */
+	private void updateRecordInfo() {
+		Message msgUpdateRecord = new Message();
+		msgUpdateRecord.what = 1;
+		taskHandler.sendMessage(msgUpdateRecord);
+	}
+
+	/** 更新天气信息 */
+	private void updateWeatherInfo() {
+		Message msgUpdateWeather = new Message();
+		msgUpdateWeather.what = 2;
+		taskHandler.sendMessage(msgUpdateWeather);
+	}
+
+	/** 更新音乐信息 */
+	private void updateMusicInfo() {
+		Message msgUpdateMusic = new Message();
+		msgUpdateMusic.what = 3;
+		taskHandler.sendMessage(msgUpdateMusic);
+	}
+
+	/** 更新FMOL信息 */
+	private void updateFMOLInfo() {
+		Message msgUpdateFMOL = new Message();
+		msgUpdateFMOL.what = 4;
+		taskHandler.sendMessage(msgUpdateFMOL);
+	}
+
+	/** 更新电子狗信息 */
+	private void updateEDogInfo() {
+		Message msgUpdateEDog = new Message();
+		msgUpdateEDog.what = 5;
+		taskHandler.sendMessage(msgUpdateEDog);
+	}
+
+	/** 更新蓝牙电话信息 */
+	private void updateBTDialerInfo() {
+		Message msgUpdateBTDialer = new Message();
+		msgUpdateBTDialer.what = 6;
+		taskHandler.sendMessage(msgUpdateBTDialer);
+	}
+
+	/** 更新FM发射信息 */
+	private void updateFMTransmitInfo() {
+		Message msgUpdateFMTransmit = new Message();
+		msgUpdateFMTransmit.what = 7;
+		taskHandler.sendMessage(msgUpdateFMTransmit);
+	}
+
+	/** 更新文件信息 */
+	private void updateFileInfo() {
+		Message msgUpdateFile = new Message();
+		msgUpdateFile.what = 8;
+		taskHandler.sendMessage(msgUpdateFile);
+	}
+
+	class TaskHandler extends Handler {
+
+		public TaskHandler(Looper looper) {
+			super(looper);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1: // 更新录制信息
+				this.removeMessages(1);
+				
+				this.removeMessages(1);
+				break;
+
+			case 2: // 更新天气信息
+				this.removeMessages(2);
+				final String weatherInfo = ProviderUtil.getValue(context,
+						Name.WEATHER_INFO);
+				final String weatherTempLow = ProviderUtil.getValue(context,
+						Name.WEATHER_TEMP_LOW);
+				final String weatherTempHigh = ProviderUtil.getValue(context,
+						Name.WEATHER_TEMP_HIGH);
+				final String weatherCity = ProviderUtil.getValue(context,
+						Name.WEATHER_LOC_CITY);
+				mainHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						if (weatherInfo != null
+								&& weatherInfo.trim().length() > 0) {
+							imageWeatherInfo.setImageResource(WeatherUtil
+									.getWeatherDrawable(WeatherUtil
+											.getTypeByStr(weatherInfo)));
+							textWeatherInfo.setText(weatherInfo);
+						} else {
+							textWeatherInfo.setText(getResources().getString(
+									R.string.weather_unknown));
+						}
+						if (weatherTempLow != null
+								&& weatherTempLow.trim().length() > 0
+								&& weatherTempHigh != null
+								&& weatherTempHigh.trim().length() > 0) {
+							textWeatherTmpRange.setText(weatherTempLow + "~"
+									+ weatherTempHigh + "℃");
+						} else {
+							textWeatherTmpRange.setText(getResources()
+									.getString(R.string.weather_no_temp));
+						}
+						if (weatherCity != null
+								&& weatherCity.trim().length() > 0) {
+							textWeatherCity.setText(weatherCity);
+						} else {
+							textWeatherCity.setText(getResources().getString(
+									R.string.weather_not_record));
+						}
+
+					}
+				});
+				this.removeMessages(2);
+				break;
+
+			case 3: // 更新音乐信息
+				this.removeMessages(3);
+				break;
+
+			case 4: // 更新FMOL信息
+				this.removeMessages(4);
+				break;
+
+			case 5: // 更新电子狗信息
+				this.removeMessages(5);
+				break;
+
+			case 6: // 更新蓝牙电话信息
+				this.removeMessages(6);
+				break;
+
+			case 7: // 更新FM发射信息
+				this.removeMessages(7);
+				break;
+
+			case 8: // 更新文件信息
+				this.removeMessages(8);
+				final String fileTotalSize = StorageUtil.getFileTotalSizeStr();
+				final String fileLeftSize = StorageUtil.getFileLeftSizeStr();
+				mainHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						textTotalStorage.setText(getResources().getString(
+								R.string.file_total_hint)
+								+ fileTotalSize
+								+ getResources().getString(R.string.file_gb));
+						textLeftStorage.setText(fileLeftSize);
+					}
+				});
+				this.removeMessages(8);
+				break;
+
 			}
 		}
 
