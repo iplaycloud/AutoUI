@@ -16,27 +16,28 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.ContentObserver;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	private Context context;
 
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
+
+	private ImageView imageRecordState;
+	private TextView textRecStateFront, textRecStateBack;
 
 	/** 剩余空间 */
 	private TextView textLeftStorage;
@@ -76,6 +77,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
 		updateFileInfo();
+		updateWeatherInfo();
 		super.onResume();
 	}
 
@@ -90,6 +92,14 @@ public class MainActivity extends Activity {
 		super.onDestroy();
 	}
 
+	@Override
+	public boolean onKeyDown(int keyCode, KeyEvent event) {
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			return true;
+		} else
+			return super.onKeyDown(keyCode, event);
+	}
+
 	/** 初始化布局 */
 	private void initialLayout() {
 		MyOnClickListener myOnClickListener = new MyOnClickListener();
@@ -100,8 +110,10 @@ public class MainActivity extends Activity {
 		// 行车记录
 		RelativeLayout layoutRecord = (RelativeLayout) findViewById(R.id.layoutRecord);
 		layoutRecord.setOnClickListener(myOnClickListener);
-		ImageView imageRecordState = (ImageView) findViewById(R.id.imageRecordState);
+		imageRecordState = (ImageView) findViewById(R.id.imageRecordState);
 		imageRecordState.setOnClickListener(myOnClickListener);
+		textRecStateFront = (TextView) findViewById(R.id.textRecStateFront);
+		textRecStateBack = (TextView) findViewById(R.id.textRecStateBack);
 		// 导航
 		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
 		layoutNavigation.setOnClickListener(myOnClickListener);
@@ -339,7 +351,40 @@ public class MainActivity extends Activity {
 			switch (msg.what) {
 			case 1: // 更新录制信息
 				this.removeMessages(1);
-				
+				final String recStateFront = ProviderUtil.getValue(context,
+						Name.REC_FRONT_STATE);
+				final String recStateBack = ProviderUtil.getValue(context,
+						Name.REC_BACK_STATE);
+				mainHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						if (recStateFront != null
+								&& recStateFront.trim().length() > 0) {
+							if ("1".equals(recStateFront)) {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_on));
+							} else {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_off));
+							}
+						}
+						if (recStateBack != null
+								&& recStateBack.trim().length() > 0) {
+							if ("1".equals(recStateBack)) {
+								textRecStateBack.setText(getResources()
+										.getString(R.string.rec_state_back_on));
+							} else {
+								textRecStateBack
+										.setText(getResources().getString(
+												R.string.rec_state_back_off));
+							}
+						}
+
+					}
+				});
 				this.removeMessages(1);
 				break;
 
@@ -430,6 +475,5 @@ public class MainActivity extends Activity {
 
 			}
 		}
-
 	}
 }

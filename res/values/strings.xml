@@ -30,13 +30,16 @@
     <string name="title_picture">图片</string>
     <string name="title_video">视频</string>
     <!-- 行车记录 -->
-    <string name="record_not_record">未录像</string>
+    <string name="rec_state_front_off">前:未录像</string>
+    <string name="rec_state_front_on">前:录像中</string>
+    <string name="rec_state_back_off">后:未录像</string>
+    <string name="rec_state_back_on">后:录像中</string>
 
     <!-- 天气 -->
     <string name="weather_not_record">未定位</string>
     <string name="weather_unknown">未知</string>
     <string name="weather_no_temp">温度未获取</string>
-    
+
     <!-- 文件管理 -->
     <string name="file_total_default">总共00.00GB</string>
     <string name="file_left_hint">剩余</string>

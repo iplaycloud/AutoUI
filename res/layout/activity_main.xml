@@ -132,12 +132,24 @@
                         android:src="@drawable/main_item_state_record_start" />
 
                     <TextView
+                        android:id="@+id/textRecStateFront"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="@dimen/record_screen_margin_right"
-                        android:layout_marginTop="@dimen/record_screen_margin_top"
-                        android:text="@string/record_not_record"
+                        android:layout_marginTop="@dimen/record_front_margin_top"
+                        android:text="@string/rec_state_front_off"
+                        android:textColor="@color/record_screen_text_color"
+                        android:textSize="@dimen/record_screen_text_size" />
+
+                    <TextView
+                        android:id="@+id/textRecStateBack"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="@dimen/record_screen_margin_right"
+                        android:layout_marginTop="@dimen/record_back_margin_top"
+                        android:text="@string/rec_state_back_off"
                         android:textColor="@color/record_screen_text_color"
                         android:textSize="@dimen/record_screen_text_size" />
                 </RelativeLayout>

@@ -48,7 +48,9 @@
     <dimen name="record_state_margin_bottom">38dp</dimen>
     <dimen name="record_screen_text_size">18sp</dimen>
     <dimen name="record_screen_margin_right">26dp</dimen>
-    <dimen name="record_screen_margin_top">124dp</dimen>
+    <dimen name="record_back_margin_top">124dp</dimen>
+    <dimen name="record_front_margin_top">100dp</dimen>
+    
     <!-- 日期时间 -->
     <dimen name="date_total_width">120dp</dimen>
     <dimen name="date_hour_minute_text_size">75sp</dimen>

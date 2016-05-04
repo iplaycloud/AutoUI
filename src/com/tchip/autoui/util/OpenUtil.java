@@ -245,8 +245,8 @@ public class OpenUtil {
 
 				case FMTRANSMIT:
 					ComponentName componentFM = new ComponentName(
-							"com.tchip.fmtransmit",
-							"com.tchip.fmtransmit.ui.activity.MainActivity");
+							"com.tchip.autofm",
+							"com.tchip.autofm.ui.MainActivity");
 					Intent intentFM = new Intent();
 					intentFM.setComponent(componentFM);
 					activity.startActivity(intentFM);
