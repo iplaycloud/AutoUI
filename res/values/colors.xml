@@ -9,5 +9,7 @@
     <color name="record_screen_text_color">#323232</color>
     <!-- 文件管理 -->
     <color name="file_total_text_color">#c7b39b</color>
+    <!-- 多媒体 -->
+    <color name="ui_setting_top_bar_bg">#29292d</color>
 
 </resources>

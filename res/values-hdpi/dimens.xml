@@ -14,8 +14,10 @@
     <dimen name="main_item_image_width">172dp</dimen>
     <dimen name="main_item_title_margin_top">30dp</dimen>
     <dimen name="main_item_title_margin_left">50dp</dimen>
-    <dimen name="main_item_center_point_margin_left">26dp</dimen>
-    <dimen name="main_item_center_point_margin_right">13dp</dimen>
+    <dimen name="main_item_center_point_margin_left">24dp</dimen>
+    <dimen name="main_item_center_point_margin_right">9dp</dimen>
+    <dimen name="main_item_center_point_margin_top">66dp</dimen>
+    <dimen name="main_item_center_point_margin_bottom">0dp</dimen>
     <!-- FM -->
     <dimen name="fmtransmit_freq_text_size">28sp</dimen>
     <dimen name="fmtransmit_mhz_text_size">10sp</dimen>
@@ -25,7 +27,7 @@
     <!-- 文件管理 -->
     <dimen name="filemanager_usage_height">126dp</dimen>
     <dimen name="filemanager_usage_margin_left">24dp</dimen>
-    <dimen name="filemanager_usage_margin_top">96dp</dimen>
+    <dimen name="filemanager_usage_margin_top">25dp</dimen>
     <dimen name="filemanager_usage_leftstorage_text_size">20sp</dimen>
     <dimen name="filemanager_usage_leftstorage_margin_top">48dp</dimen>
     <dimen name="filemanager_usage_lsftstorage_gb_size">14sp</dimen>
@@ -48,9 +50,9 @@
     <dimen name="record_state_margin_bottom">38dp</dimen>
     <dimen name="record_screen_text_size">18sp</dimen>
     <dimen name="record_screen_margin_right">26dp</dimen>
-    <dimen name="record_back_margin_top">124dp</dimen>
-    <dimen name="record_front_margin_top">100dp</dimen>
-    
+    <dimen name="record_back_margin_top">58dp</dimen>
+    <dimen name="record_front_margin_top">34dp</dimen>
+
     <!-- 日期时间 -->
     <dimen name="date_total_width">120dp</dimen>
     <dimen name="date_hour_minute_text_size">75sp</dimen>
@@ -58,5 +60,21 @@
     <dimen name="date_year_margin_top">10dp</dimen>
     <dimen name="date_week_text_size">20sp</dimen>
     <dimen name="date_week_margin_top">10dp</dimen>
+
+    <!-- 多媒体 -->
+    <dimen name="multimedia_item_text_size">25sp</dimen>
+    <dimen name="multimedia_title_height">65dp</dimen>
+    <dimen name="multimedia_title_text_size">25sp</dimen>
+    <dimen name="multimedia_image_margin_top">50dp</dimen>
+    <dimen name="multimedia_image_margin_left_right">120dp</dimen>
+
+    <!-- 天气 -->
+    <dimen name="weather_temp_text_size">21sp</dimen>
+    <dimen name="weather_temp_margin_top">21dp</dimen>
+    <dimen name="weather_info_icon_length">80dp</dimen>
+    <dimen name="weather_info_icon_margin_top">25dp</dimen>
+    <dimen name="weather_info_text_size">18sp</dimen>
+    <dimen name="weather_city_text_size">18sp</dimen>
+    <dimen name="weather_city_margin_top">21dp</dimen>
 
 </resources>

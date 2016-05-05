@@ -47,4 +47,7 @@
     <string name="file_total_hint">总共</string>
     <string name="file_gb">GB</string>
 
+    <!-- 异常处理 -->
+    <string name="app_has_exception">抱歉AutoUI出现异常,即将退出</string>
+
 </resources>

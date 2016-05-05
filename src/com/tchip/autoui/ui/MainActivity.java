@@ -1,6 +1,9 @@
 package com.tchip.autoui.ui;
 
+import java.util.Calendar;
+
 import com.tchip.autoui.Constant;
+import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
@@ -8,13 +11,16 @@ import com.tchip.autoui.util.OpenUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
 import com.tchip.autoui.util.ProviderUtil;
 import com.tchip.autoui.util.ProviderUtil.Name;
+import com.tchip.autoui.util.SettingUtil;
 import com.tchip.autoui.util.StorageUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,6 +31,7 @@ import android.os.Message;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
@@ -71,6 +78,13 @@ public class MainActivity extends Activity {
 				.registerContentObserver(
 						Uri.parse("content://com.tchip.provider.AutoProvider/state/name/"),
 						true, new AutoContentObserver(new Handler()));
+
+		mainReceiver = new MainReceiver();
+		IntentFilter mainFilter = new IntentFilter();
+		mainFilter.addAction(Constant.Broadcast.ACC_ON);
+		mainFilter.addAction(Constant.Broadcast.ACC_OFF);
+		mainFilter.addAction(Intent.ACTION_TIME_TICK);
+		registerReceiver(mainReceiver, mainFilter);
 	}
 
 	@Override
@@ -89,6 +103,9 @@ public class MainActivity extends Activity {
 
 	@Override
 	protected void onDestroy() {
+		if (mainReceiver != null) {
+			unregisterReceiver(mainReceiver);
+		}
 		super.onDestroy();
 	}
 
@@ -98,6 +115,45 @@ public class MainActivity extends Activity {
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
+	}
+
+	private MainReceiver mainReceiver;
+
+	private class MainReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			if (Constant.Broadcast.ACC_ON.equals(action)) {
+
+			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
+
+			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
+				// 获取时间
+				Calendar calendar = Calendar.getInstance();
+				int minute = calendar.get(Calendar.MINUTE);
+				if (minute == 0) {
+					int year = calendar.get(Calendar.YEAR);
+					MyLog.v("[TimeTickReceiver]Year:" + year);
+
+					int hour = calendar.get(Calendar.HOUR_OF_DAY);
+					if (MyApp.isAccOn) { // ACC_ON
+						if (year >= 2016) {
+							if (1 == SettingUtil.getAccStatus()) { // 再次确认
+								HintUtil.speakVoice(context, "整点报时:" + hour
+										+ "点整");
+							}
+						}
+					} else { // ACC_OFF
+						if (hour == 3) { // 凌晨3点重启机器
+							context.sendBroadcast(new Intent(
+									"tchip.intent.action.ACTION_REBOOT"));
+						}
+					}
+				}
+			}
+		}
+
 	}
 
 	/** 初始化布局 */
@@ -270,7 +326,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutWeme:
-				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.WEME);
+				 OpenUtil.openModule(MainActivity.this, MODULE_TYPE.WEME);
 				break;
 
 			case R.id.layoutSetting:

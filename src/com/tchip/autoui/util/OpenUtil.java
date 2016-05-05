@@ -1,6 +1,7 @@
 package com.tchip.autoui.util;
 
 import com.tchip.autoui.R;
+import com.tchip.autoui.ui.MultimediaActivity;
 
 import android.app.Activity;
 import android.content.ComponentName;
@@ -255,6 +256,7 @@ public class OpenUtil {
 							R.anim.zms_translate_up_in);
 					break;
 
+				case MULTIMEDIA:
 				case GALLERY:
 					ComponentName componentImage = new ComponentName(
 							"com.android.gallery3d",
@@ -278,14 +280,14 @@ public class OpenUtil {
 							R.anim.zms_translate_up_in);
 					break;
 
-				case MULTIMEDIA:
-					// Intent intentMultimedia = new Intent(activity,
-					// MultimediaActivity.class);
-					// activity.startActivity(intentMultimedia);
-					// activity.overridePendingTransition(
-					// R.anim.zms_translate_up_out,
-					// R.anim.zms_translate_up_in);
-					break;
+				// case MULTIMEDIA:
+				// Intent intentMultimedia = new Intent(activity,
+				// MultimediaActivity.class);
+				// activity.startActivity(intentMultimedia);
+				// activity.overridePendingTransition(
+				// R.anim.zms_translate_up_out,
+				// R.anim.zms_translate_up_in);
+				// break;
 
 				case MUSIC:
 					ComponentName componentMusic;
