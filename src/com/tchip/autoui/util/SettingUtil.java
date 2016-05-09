@@ -30,7 +30,7 @@ import android.provider.Settings;
 import android.util.Log;
 
 public class SettingUtil {
-	
+
 	/** ACC 是否在 */
 	public static boolean isAccOn(Context context) {
 		String accState = ProviderUtil.getValue(context, Name.ACC_STATE);
@@ -66,24 +66,128 @@ public class SettingUtil {
 		return gpsState;
 	}
 
-	/** FM发射开关节点,1：开 0：关 */
-	public static File nodeFmEnable = new File(
-			"/sys/devices/platform/mt-i2c.1/i2c-1/1-002c/enable_qn8027");
+	/**
+	 * FM发射开关节点
+	 * 
+	 * 1：开 0：关
+	 */
+	public static File nodeFmEnable = new File(Constant.Path.NODE_FM_ENABLE);
 
-	/** FM发射频率节点，频率范围：7600~10800:8750-10800 */
-	public static File nodeFmChannel = new File(
-			"/sys/devices/platform/mt-i2c.1/i2c-1/1-002c/setch_qn8027");
-	
+	/**
+	 * FM发射频率节点
+	 * 
+	 * 频率范围：支持7600~10800:使用8750-10800
+	 */
+	public static File nodeFmChannel = new File(Constant.Path.NODE_FM_FREQUENCY);
+
+	/**
+	 * FM发射是否打开:Config
+	 * 
+	 * @return
+	 * @deprecated Using {@link #isFmTransmitPowerOn()} instead.
+	 */
+	public static boolean isFmTransmitConfigOn(Context context) {
+		String strFmEnable = ProviderUtil.getValue(context,
+				Name.FM_TRANSMIT_STATE);
+		if (null != strFmEnable && strFmEnable.trim().length() > 0
+				&& "1".equals(strFmEnable)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public static void setFmTransmitConfigOn(Context context, boolean isOn) {
+		ProviderUtil
+				.setValue(context, Name.FM_TRANSMIT_STATE, isOn ? "1" : "0");
+	}
+
+	/**
+	 * FM发射是否打开:Power
+	 * 
+	 * @return
+	 */
+	public static boolean isFmTransmitOnNode() {
+		return getFileInt(nodeFmEnable) == 1;
+	}
+
+	public static void setFmTransmitPowerOn(Context context, boolean isOn) {
+		SettingUtil
+				.SaveFileToNode(SettingUtil.nodeFmEnable, (isOn ? "1" : "0"));
+		// context.sendBroadcast(new Intent(isOn ?
+		// "com.tchip.FM_OPEN_CARLAUNCHER"
+		// : "com.tchip.FM_CLOSE_CARLAUNCHER"));
+	}
+
+	/**
+	 * 获取设置中存取的频率
+	 * 
+	 * @return 8750-10800
+	 */
+	public static int getFmFrequcenyNode(Context context) {
+		int fmFreqency = 8800; // Default
+		String strNodeFmChannel = "";
+		if (nodeFmChannel.exists()) {
+			try {
+				InputStreamReader read = new InputStreamReader(
+						new FileInputStream(nodeFmChannel), "utf-8");
+				BufferedReader bufferedReader = new BufferedReader(read);
+				String lineTxt = null;
+				while ((lineTxt = bufferedReader.readLine()) != null) {
+					strNodeFmChannel += lineTxt.toString();
+				}
+				read.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				MyLog.e("[SettingUtil]getLCDValue: FileNotFoundException");
+			} catch (IOException e) {
+				e.printStackTrace();
+				MyLog.e("[SettingUtil]getLCDValue: IOException");
+			}
+		}
+		ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, strNodeFmChannel);
+		fmFreqency = Integer.parseInt(strNodeFmChannel);
+
+		MyLog.v("[SettingUtil]getFmFrequcenyNode,fmFreqency:" + fmFreqency);
+		return fmFreqency;
+	}
+
 	/**
 	 * 设置FM发射频率:8750-10800
 	 * 
 	 * @param frequency
 	 */
-	public static void setFmFrequency(Context context, int frequency) {
-		if (frequency >= 8750 || frequency <= 10800) {
-
+	public static void setFmFrequencyNode(Context context, int frequency) {
+		if (frequency >= 8750 && frequency <= 10800) {
 			SaveFileToNode(nodeFmChannel, String.valueOf(frequency));
-			MyLog.v("[SettingUtil]:Set FM Frequency success:" + frequency
+			MyLog.v("[SettingUtil]setFmFrequencyNode success:" + frequency
+					/ 100.0f + "MHz");
+		}
+	}
+
+	/**
+	 * @return 8750-10800
+	 * 
+	 * @deprecated
+	 */
+	public static int getFmFrequencyConfig(Context context) {
+		String strFrequency = ProviderUtil.getValue(context,
+				Name.FM_TRANSMIT_FREQ);
+		if (null != strFrequency && strFrequency.trim().length() > 0) {
+			return Integer.parseInt(strFrequency);
+		} else
+			return 8800;
+	}
+
+	/**
+	 * @param context
+	 * @param frequency
+	 */
+	public static void setFmFrequencyConfig(Context context, int frequency) {
+		if (frequency >= 8750 && frequency <= 10800) {
+			ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, ""
+					+ frequency);
+			MyLog.v("[SettingUtil]setFmFrequencyConfig success:" + frequency
 					/ 100.0f + "MHz");
 		}
 	}

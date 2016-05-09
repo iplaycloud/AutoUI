@@ -48,6 +48,8 @@ public class MainActivity extends Activity {
 
 	private ImageView imageRecordState;
 	private TextView textRecStateFront, textRecStateBack;
+	private TextView textFrequency; // FM发射频率
+	private ImageView imageFMState; // FM发射状态
 
 	/** 剩余空间 */
 	private TextView textLeftStorage;
@@ -90,7 +92,7 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		registerReceiver(mainReceiver, mainFilter);
-		
+
 		// SettingUtil.initialNodeState(MainActivity.this); // FIXME
 	}
 
@@ -100,6 +102,7 @@ public class MainActivity extends Activity {
 		updateFileInfo();
 		updateWeatherInfo();
 		updateRecordInfo();
+		updateFMTransmitInfo();
 		super.onResume();
 	}
 
@@ -140,6 +143,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void speakVoice(String content) {
+		MyLog.v("[AutoUI]speakVoice:" + content);
 		textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, content);
 	}
 
@@ -152,17 +156,19 @@ public class MainActivity extends Activity {
 			String action = intent.getAction();
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
-				 SettingUtil.setGpsState(MainActivity.this, true); // 打开GPS // FIXME
-				 SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
+				SettingUtil.setGpsState(MainActivity.this, true); // 打开GPS //
+																	// FIXME
+				SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
-				 SettingUtil.setGpsState(MainActivity.this, false); // 关闭GPS // FIXME
-				 SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
+				SettingUtil.setGpsState(MainActivity.this, false); // 关闭GPS //
+																	// FIXME
+				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
-				String content =  intent.getExtras().getString("content");
-				if(null != content && content.trim().length()>0){
+				String content = intent.getExtras().getString("content");
+				if (null != content && content.trim().length() > 0) {
 					speakVoice(content);
 				}
 			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
@@ -237,6 +243,9 @@ public class MainActivity extends Activity {
 		// FM发射
 		RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 		layoutFMTransmit.setOnClickListener(myOnClickListener);
+		textFrequency = (TextView) findViewById(R.id.textFrequency);
+		imageFMState = (ImageView) findViewById(R.id.imageFMState);
+		imageFMState.setOnClickListener(myOnClickListener);
 		// 多媒体
 		RelativeLayout layoutMultimedia = (RelativeLayout) findViewById(R.id.layoutMultimedia);
 		layoutMultimedia.setOnClickListener(myOnClickListener);
@@ -348,6 +357,10 @@ public class MainActivity extends Activity {
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.FMTRANSMIT);
 				break;
 
+			case R.id.imageFMState:
+				changeFMState();
+				break;
+
 			case R.id.layoutMultimedia:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.MULTIMEDIA);
 				break;
@@ -430,6 +443,13 @@ public class MainActivity extends Activity {
 		Message msgUpdateFile = new Message();
 		msgUpdateFile.what = 8;
 		taskHandler.sendMessage(msgUpdateFile);
+	}
+
+	/** 更改FM发射状态 */
+	private void changeFMState() {
+		Message msgChangeFmState = new Message();
+		msgChangeFmState.what = 9;
+		taskHandler.sendMessage(msgChangeFmState);
 	}
 
 	class TaskHandler extends Handler {
@@ -545,6 +565,40 @@ public class MainActivity extends Activity {
 
 			case 7: // 更新FM发射信息
 				this.removeMessages(7);
+				// String fmStateConfig = ProviderUtil.getValue(context,
+				// Name.FM_TRANSMIT_STATE);
+				boolean isFmOnNode = SettingUtil.isFmTransmitOnNode();
+				String fmFrequencyConfig = ProviderUtil.getValue(context,
+						Name.FM_TRANSMIT_FREQ);
+				int fmFreqencyNode = SettingUtil.getFmFrequcenyNode(context);
+
+				final String textFrequencyContent; // 发射频率
+				if (null != fmFrequencyConfig
+						&& fmFrequencyConfig.trim().length() > 0) {
+					int intFreqConfig = Integer.parseInt(fmFrequencyConfig);
+					if (intFreqConfig > 8750 && intFreqConfig <= 10800) {
+						textFrequencyContent = "" + intFreqConfig / 100.0f;
+					} else {
+						textFrequencyContent = "" + fmFreqencyNode / 100.0f;
+					}
+				} else {
+					textFrequencyContent = "" + fmFreqencyNode / 100.0f;
+					ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, ""
+							+ fmFreqencyNode);
+				}
+
+				final boolean isImageFMStateOn; // 发射状态
+				isImageFMStateOn = isFmOnNode;
+				mainHandler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						textFrequency.setText(textFrequencyContent);
+						imageFMState
+								.setImageResource(isImageFMStateOn ? R.drawable.main_item_state_stop
+										: R.drawable.main_item_state_play);
+					}
+				});
 				break;
 
 			case 8: // 更新文件信息
@@ -563,6 +617,28 @@ public class MainActivity extends Activity {
 					}
 				});
 				this.removeMessages(8);
+				break;
+
+			case 9: // 点击按钮：更改FM发射状态
+				this.removeMessages(9);
+				final boolean isFmOnNow = SettingUtil.isFmTransmitOnNode();
+				if (isFmOnNow) {
+					SettingUtil.setFmTransmitPowerOn(context, false);
+					SettingUtil.setFmTransmitConfigOn(context, false);
+				} else {
+					SettingUtil.setFmTransmitPowerOn(context, true);
+					SettingUtil.setFmTransmitConfigOn(context, true);
+				}
+				mainHandler.post(new Runnable() {
+					@Override
+					public void run() {
+						imageFMState
+								.setImageResource(!isFmOnNow ? R.drawable.main_item_state_stop
+										: R.drawable.main_item_state_play);
+
+					}
+				});
+				this.removeMessages(9);
 				break;
 
 			}

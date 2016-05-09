@@ -131,6 +131,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/edog_state_margin_bottom"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@null"
                         android:src="@drawable/main_item_state_record_start" />
 
@@ -307,6 +308,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@null"
                         android:src="@drawable/main_item_state_play" />
 
@@ -373,6 +375,8 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
+                        android:contentDescription="@null"
                         android:src="@drawable/main_item_state_play" />
                 </RelativeLayout>
             </RelativeLayout>
@@ -416,6 +420,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/edog_state_margin_bottom"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:contentDescription="@null"
                         android:src="@drawable/main_item_edog_on" />
                 </RelativeLayout>
@@ -494,6 +499,7 @@
                         android:layout_alignParentBottom="true"
                         android:layout_centerHorizontal="true"
                         android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
+                        android:background="?android:attr/selectableItemBackgroundBorderless"
                         android:src="@drawable/main_item_state_play" />
 
                     <RelativeLayout
