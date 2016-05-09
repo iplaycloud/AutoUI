@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
 
 import android.content.Context;

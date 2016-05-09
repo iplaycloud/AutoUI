@@ -1,7 +1,6 @@
 package com.tchip.autoui.util;
 
 import android.content.Context;
-import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.net.Uri;
@@ -25,15 +24,6 @@ public class HintUtil {
 			mediaPlayer = MediaPlayer.create(context, uri);
 			mediaPlayer.start();
 		}
-	}
-
-	public static void speakVoice(Context context, String content) {
-
-		Intent intent = new Intent();
-		intent.setClassName("com.tchip.weather",
-				"com.tchip.weather.service.SpeakService");
-		intent.putExtra("content", content);
-		context.startService(intent);
 	}
 
 	public static void showToast(Context context, String content) {

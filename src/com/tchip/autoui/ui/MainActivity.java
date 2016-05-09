@@ -1,6 +1,7 @@
 package com.tchip.autoui.ui;
 
 import java.util.Calendar;
+import java.util.Locale;
 
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
@@ -28,10 +29,11 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.speech.tts.TextToSpeech;
+import android.speech.tts.TextToSpeech.OnInitListener;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.Window;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextClock;
@@ -39,6 +41,7 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 	private Context context;
+	private TextToSpeech textToSpeech;
 
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
@@ -70,6 +73,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_main);
 
 		context = getApplicationContext();
+		textToSpeech = new TextToSpeech(context, new MyTTSOnInitListener());
 		mainHandler = new Handler(this.getMainLooper());
 
 		initialLayout();
@@ -83,8 +87,11 @@ public class MainActivity extends Activity {
 		IntentFilter mainFilter = new IntentFilter();
 		mainFilter.addAction(Constant.Broadcast.ACC_ON);
 		mainFilter.addAction(Constant.Broadcast.ACC_OFF);
+		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		registerReceiver(mainReceiver, mainFilter);
+		
+		// SettingUtil.initialNodeState(MainActivity.this); // FIXME
 	}
 
 	@Override
@@ -92,6 +99,7 @@ public class MainActivity extends Activity {
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
 		updateFileInfo();
 		updateWeatherInfo();
+		updateRecordInfo();
 		super.onResume();
 	}
 
@@ -106,6 +114,10 @@ public class MainActivity extends Activity {
 		if (mainReceiver != null) {
 			unregisterReceiver(mainReceiver);
 		}
+
+		if (textToSpeech != null) { // 关闭TTS引擎
+			textToSpeech.shutdown();
+		}
 		super.onDestroy();
 	}
 
@@ -117,6 +129,20 @@ public class MainActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 	}
 
+	class MyTTSOnInitListener implements OnInitListener {
+
+		@Override
+		public void onInit(int status) {
+			// tts.setEngineByPackageName("com.iflytek.vflynote");
+			textToSpeech.setLanguage(Locale.CHINESE);
+		}
+
+	}
+
+	private void speakVoice(String content) {
+		textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, content);
+	}
+
 	private MainReceiver mainReceiver;
 
 	private class MainReceiver extends BroadcastReceiver {
@@ -125,9 +151,20 @@ public class MainActivity extends Activity {
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
+				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
+				 SettingUtil.setGpsState(MainActivity.this, true); // 打开GPS // FIXME
+				 SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
+				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
+				 SettingUtil.setGpsState(MainActivity.this, false); // 关闭GPS // FIXME
+				 SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 
+			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
+				String content =  intent.getExtras().getString("content");
+				if(null != content && content.trim().length()>0){
+					speakVoice(content);
+				}
 			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
 				// 获取时间
 				Calendar calendar = Calendar.getInstance();
@@ -140,8 +177,7 @@ public class MainActivity extends Activity {
 					if (MyApp.isAccOn) { // ACC_ON
 						if (year >= 2016) {
 							if (1 == SettingUtil.getAccStatus()) { // 再次确认
-								HintUtil.speakVoice(context, "整点报时:" + hour
-										+ "点整");
+								speakVoice("整点报时:" + hour + "点整");
 							}
 						}
 					} else { // ACC_OFF
@@ -326,7 +362,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutWeme:
-				 OpenUtil.openModule(MainActivity.this, MODULE_TYPE.WEME);
+				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.WEME);
 				break;
 
 			case R.id.layoutSetting:

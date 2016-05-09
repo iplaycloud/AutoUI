@@ -1,8 +1,5 @@
 package com.tchip.autoui.util;
 
-import com.tchip.autoui.R;
-import com.tchip.autoui.ui.MultimediaActivity;
-
 import android.app.Activity;
 import android.content.ComponentName;
 import android.content.Intent;
@@ -109,9 +106,6 @@ public class OpenUtil {
 		/** 系统设置 */
 		SETTING_SYSTEM,
 
-		/** 用户中心 */
-		SETTING_USER_CENTER,
-
 		/** 视频 */
 		VIDEO,
 
@@ -137,7 +131,6 @@ public class OpenUtil {
 	public static void openModule(Activity activity, MODULE_TYPE moduleTye) {
 		if (!ClickUtil.isQuickClick(1000)) {
 			try {
-				HintUtil.showToast(activity, moduleTye.name()); // FIXME:Debug
 				switch (moduleTye) {
 				case CHAT:
 					break;
@@ -191,9 +184,6 @@ public class OpenUtil {
 					Intent intentDialer = new Intent();
 					intentDialer.setComponent(componentDialer);
 					activity.startActivity(intentDialer);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case ENGINEER_MODE:
@@ -215,9 +205,6 @@ public class OpenUtil {
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
 					activity.startActivity(intentEDog);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case FILE_EXPLORER:
@@ -227,9 +214,6 @@ public class OpenUtil {
 					Intent intentFileExplorer = new Intent();
 					intentFileExplorer.setComponent(componentFileExplorer);
 					activity.startActivity(intentFileExplorer);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case FILE_MANAGER_MTK:
@@ -239,9 +223,6 @@ public class OpenUtil {
 					Intent intentFileMtk = new Intent();
 					intentFileMtk.setComponent(componentFileMtk);
 					activity.startActivity(intentFileMtk);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case FMTRANSMIT:
@@ -251,9 +232,6 @@ public class OpenUtil {
 					Intent intentFM = new Intent();
 					intentFM.setComponent(componentFM);
 					activity.startActivity(intentFM);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case MULTIMEDIA:
@@ -275,18 +253,12 @@ public class OpenUtil {
 					Intent intentMessage = new Intent();
 					intentMessage.setComponent(componentMessage);
 					activity.startActivity(intentMessage);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				// case MULTIMEDIA:
 				// Intent intentMultimedia = new Intent(activity,
 				// MultimediaActivity.class);
 				// activity.startActivity(intentMultimedia);
-				// activity.overridePendingTransition(
-				// R.anim.zms_translate_up_out,
-				// R.anim.zms_translate_up_in);
 				// break;
 
 				case MUSIC:
@@ -298,9 +270,6 @@ public class OpenUtil {
 					Intent intentMusic = new Intent();
 					intentMusic.setComponent(componentMusic);
 					activity.startActivity(intentMusic);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case NAVI_BAIDU_SDK:
@@ -317,9 +286,6 @@ public class OpenUtil {
 						intentBaiduNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						intentBaiduNavi.setComponent(componentBaiduNavi);
 						activity.startActivity(intentBaiduNavi);
-						activity.overridePendingTransition(
-								R.anim.zms_translate_up_out,
-								R.anim.zms_translate_up_in);
 					} else {
 						// 无网络
 					}
@@ -335,9 +301,6 @@ public class OpenUtil {
 					intentGaodeMobile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentGaodeMobile.setComponent(componentGaodeMobile);
 					activity.startActivity(intentGaodeMobile);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case NAVI_GAODE_CAR:
@@ -351,9 +314,6 @@ public class OpenUtil {
 					intentGaodeCar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentGaodeCar.setComponent(componentGaodeCar);
 					activity.startActivity(intentGaodeCar);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case NAVI_TUBA:
@@ -367,9 +327,6 @@ public class OpenUtil {
 					intentTubaNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentTubaNavi.setComponent(componentTuba);
 					activity.startActivity(intentTubaNavi);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case RECORD: {
@@ -380,9 +337,6 @@ public class OpenUtil {
 					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentRecord.setComponent(componentRecord);
 					activity.startActivity(intentRecord);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 				}
 					break;
 
@@ -393,9 +347,6 @@ public class OpenUtil {
 					Intent intentRoute = new Intent();
 					intentRoute.setComponent(componentRoute);
 					activity.startActivity(intentRoute);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case SETTING:
@@ -457,15 +408,6 @@ public class OpenUtil {
 					activity.startActivity(intentSettingSystem);
 					break;
 
-				case SETTING_USER_CENTER:
-					ComponentName componentUserCenter = new ComponentName(
-							"com.tchip.usercenter",
-							"com.tchip.usercenter.ui.activity.MainActivity");
-					Intent intentUserCenter = new Intent();
-					intentUserCenter.setComponent(componentUserCenter);
-					activity.startActivity(intentUserCenter);
-					break;
-
 				case VIDEO:
 					ComponentName componentVideo = new ComponentName(
 							"com.mediatek.videoplayer",
@@ -487,9 +429,6 @@ public class OpenUtil {
 					intentWeather.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentWeather.setComponent(componentWeather);
 					activity.startActivity(intentWeather);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_down_out,
-							R.anim.zms_translate_down_in);
 					break;
 
 				case WECHAT:
@@ -500,9 +439,6 @@ public class OpenUtil {
 					intentWechat.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					intentWechat.setComponent(componentWechat);
 					activity.startActivity(intentWechat);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case WEME:
@@ -515,9 +451,6 @@ public class OpenUtil {
 					intentWeme.setComponent(componentWeme);
 					intentWeme.setAction("android.intent.action.VIEW");
 					activity.startActivity(intentWeme);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				case WIFI:
@@ -541,14 +474,14 @@ public class OpenUtil {
 					intentXimaLaya.setComponent(componentXimalaya);
 					intentXimaLaya.setAction("android.intent.action.VIEW");
 					activity.startActivity(intentXimaLaya);
-					activity.overridePendingTransition(
-							R.anim.zms_translate_up_out,
-							R.anim.zms_translate_up_in);
 					break;
 
 				default:
 					break;
 				}
+				// activity.overridePendingTransition(
+				// R.anim.zms_translate_up_out,
+				// R.anim.zms_translate_up_in);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

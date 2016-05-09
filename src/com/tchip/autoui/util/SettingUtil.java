@@ -15,6 +15,7 @@ import java.lang.reflect.Method;
 import java.util.List;
 
 import com.tchip.autoui.Constant;
+import com.tchip.autoui.util.ProviderUtil.Name;
 
 import android.app.ActivityManager;
 import android.app.KeyguardManager;
@@ -24,13 +25,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.location.LocationManager;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.provider.Settings;
-import android.provider.Settings.SettingNotFoundException;
 import android.util.Log;
 
 public class SettingUtil {
+	
+	/** ACC 是否在 */
+	public static boolean isAccOn(Context context) {
+		String accState = ProviderUtil.getValue(context, Name.ACC_STATE);
+		if (null != accState && accState.trim().length() > 0
+				&& "1".equals(accState)) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 
 	/** 设置飞行模式 */
 	public static void setAirplaneMode(Context context, boolean setAirPlane) {
@@ -43,33 +53,9 @@ public class SettingUtil {
 		context.sendBroadcast(intent);
 	}
 
-	public static void setGpsState(final Context context, final boolean isGpsOn) {
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				ContentResolver resolver = context.getContentResolver();
-				boolean nowState = getGpsState(context);
-				if (isGpsOn != nowState) {
-					MyLog.v("[GPS]Set State:" + isGpsOn);
-					// Settings.Secure.setLocationProviderEnabled(resolver,
-					// LocationManager.GPS_PROVIDER, isGpsOn);
-					int mCurrentMode = (!isGpsOn) ? Settings.Secure.LOCATION_MODE_HIGH_ACCURACY
-							: Settings.Secure.LOCATION_MODE_OFF;
-					int mode = isGpsOn ? Settings.Secure.LOCATION_MODE_HIGH_ACCURACY
-							: Settings.Secure.LOCATION_MODE_OFF;
-					Intent intent = new Intent(
-							"com.android.settings.location.MODE_CHANGING");
-					intent.putExtra("CURRENT_MODE", mCurrentMode);
-					intent.putExtra("NEW_MODE", mode);
-					context.sendBroadcast(intent,
-							android.Manifest.permission.WRITE_SECURE_SETTINGS);
-					Settings.Secure.putInt(resolver,
-							Settings.Secure.LOCATION_MODE, mode);
-				}
-			}
-
-		}, 6000);
+	public static void setGpsState(Context context, boolean isGpsOn) {
+		context.sendBroadcast(new Intent(isGpsOn ? Constant.Broadcast.GPS_ON
+				: Constant.Broadcast.GPS_OFF));
 	}
 
 	public static boolean getGpsState(Context context) {
@@ -80,23 +66,6 @@ public class SettingUtil {
 		return gpsState;
 	}
 
-	/** 设置熄屏时间 */
-	public static void setScreenOffTime(Context context, int time) {
-		Settings.System.putInt(context.getContentResolver(),
-				android.provider.Settings.System.SCREEN_OFF_TIMEOUT, time);
-	}
-
-	/** 获取熄屏时间 */
-	public static int getScreenOffTime(Context context) {
-		try {
-			return Settings.System.getInt(context.getContentResolver(),
-					Settings.System.SCREEN_OFF_TIMEOUT);
-		} catch (SettingNotFoundException e) {
-			e.printStackTrace();
-			return 155;
-		}
-	}
-
 	/** FM发射开关节点,1：开 0：关 */
 	public static File nodeFmEnable = new File(
 			"/sys/devices/platform/mt-i2c.1/i2c-1/1-002c/enable_qn8027");
@@ -104,7 +73,7 @@ public class SettingUtil {
 	/** FM发射频率节点，频率范围：7600~10800:8750-10800 */
 	public static File nodeFmChannel = new File(
 			"/sys/devices/platform/mt-i2c.1/i2c-1/1-002c/setch_qn8027");
-
+	
 	/**
 	 * 设置FM发射频率:8750-10800
 	 * 

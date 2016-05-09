@@ -20,10 +20,16 @@ public interface Constant {
 		public static final String STATUS_HIDE = "tchip.intent.action.STATUS_HIDE";
 		/** 显示状态栏 */
 		public static final String STATUS_SHOW = "tchip.intent.action.STATUS_SHOW";
-
+		/** 关闭GPS */
 		public static final String GPS_OFF = "tchip.intent.action.GPS_OFF";
-
+		/** 打开GPS */
 		public static final String GPS_ON = "tchip.intent.action.GPS_ON";
+		/** ACC上电 */
+		public static final String ACC_ON = "com.tchip.ACC_ON";
+		/** ACC下电 */
+		public static final String ACC_OFF = "com.tchip.ACC_OFF";
+		/** TTS播报,Extra:content(String) */
+		public static final String TTS_SPEAK = "tchip.intent.action.TTS_SPEAK";
 
 		public static final String POWER_OFF = "tchip.intent.action.POWER_OFF";
 
@@ -35,12 +41,6 @@ public interface Constant {
 		public static final String MEDIA_FORMAT = "tchip.intent.action.MEDIA_FORMAT";
 
 		/***** Below is OLD *****/
-
-		/** ACC上电 */
-		public static final String ACC_ON = "com.tchip.ACC_ON";
-
-		/** ACC下电 */
-		public static final String ACC_OFF = "com.tchip.ACC_OFF";
 
 		/** 进入休眠 */
 		public static final String SLEEP_ON = "com.tchip.SLEEP_ON";
