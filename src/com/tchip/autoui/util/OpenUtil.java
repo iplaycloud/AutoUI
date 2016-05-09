@@ -198,10 +198,9 @@ public class OpenUtil {
 				case EDOG:
 					activity.sendBroadcast(new Intent(
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
-
 					// SettingUtil.setEDogEnable(true);
 					ComponentName componentEDog = new ComponentName(
-							"entry.dsa2014", "entry.dsa2014.MainActivity");
+							"com.nengzhong.app.activity", "com.nengzhong.app.activity.DogActivity");
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
 					activity.startActivity(intentEDog);

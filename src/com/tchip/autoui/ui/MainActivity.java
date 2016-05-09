@@ -16,6 +16,7 @@ import com.tchip.autoui.util.SettingUtil;
 import com.tchip.autoui.util.StorageUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
+import com.tchip.autoui.view.MyScrollView;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -42,10 +43,10 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	private Context context;
 	private TextToSpeech textToSpeech;
-
+	
+	private MyScrollView scrollView;
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
-
 	private ImageView imageRecordState;
 	private TextView textRecStateFront, textRecStateBack;
 	private TextView textFrequency; // FM发射频率
@@ -99,6 +100,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onResume() {
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
+		scrollView.smoothScrollTo(0, 0); // 返回第一个图标
 		updateFileInfo();
 		updateWeatherInfo();
 		updateRecordInfo();
@@ -201,6 +203,7 @@ public class MainActivity extends Activity {
 	/** 初始化布局 */
 	private void initialLayout() {
 		MyOnClickListener myOnClickListener = new MyOnClickListener();
+		scrollView = (MyScrollView) findViewById(R.id.scrollView);
 		// 时钟
 		TextClock textClockDate = (TextClock) findViewById(R.id.textClockDate);
 		textClockDate.setTypeface(TypefaceUtil.get(this, Constant.Path.FONT
