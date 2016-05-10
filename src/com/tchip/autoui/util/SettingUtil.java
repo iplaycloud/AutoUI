@@ -145,7 +145,7 @@ public class SettingUtil {
 				MyLog.e("[SettingUtil]getLCDValue: IOException");
 			}
 		}
-		ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, strNodeFmChannel);
+		// ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, strNodeFmChannel);
 		fmFreqency = Integer.parseInt(strNodeFmChannel);
 
 		MyLog.v("[SettingUtil]getFmFrequcenyNode,fmFreqency:" + fmFreqency);

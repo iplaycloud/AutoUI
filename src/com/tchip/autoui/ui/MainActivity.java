@@ -43,7 +43,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	private Context context;
 	private TextToSpeech textToSpeech;
-	
+
 	private MyScrollView scrollView;
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
@@ -586,8 +586,10 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					textFrequencyContent = "" + fmFreqencyNode / 100.0f;
-					ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, ""
-							+ fmFreqencyNode);
+					 if (8800 != fmFreqencyNode) {
+					 ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ,
+					 "" + fmFreqencyNode);
+					 }
 				}
 
 				final boolean isImageFMStateOn; // 发射状态
