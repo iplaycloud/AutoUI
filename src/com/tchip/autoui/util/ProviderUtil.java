@@ -72,7 +72,7 @@ public class ProviderUtil {
 		/** 碰撞侦测开关:0,1 */
 		public static final String SET_DETECT_CRASH_STATE = "set_detect_crash_state";
 
-		/** 碰撞侦测灵敏度:1-低,2-中,3高 */
+		/** 碰撞侦测灵敏度:0-低,1-中,2-高 */
 		public static final String SET_DETECT_CRASH_LEVEL = "set_detect_crash_level";
 
 		/** 停车守卫开关:0,1 */
