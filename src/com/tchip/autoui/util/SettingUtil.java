@@ -114,6 +114,7 @@ public class SettingUtil {
 	public static void setFmTransmitPowerOn(Context context, boolean isOn) {
 		SettingUtil
 				.SaveFileToNode(SettingUtil.nodeFmEnable, (isOn ? "1" : "0"));
+		MyLog.v("[AutoUI]setFmTransmitPowerOn:" + isOn);
 		// context.sendBroadcast(new Intent(isOn ?
 		// "com.tchip.FM_OPEN_CARLAUNCHER"
 		// : "com.tchip.FM_CLOSE_CARLAUNCHER"));
@@ -125,7 +126,7 @@ public class SettingUtil {
 	 * @return 8750-10800
 	 */
 	public static int getFmFrequcenyNode(Context context) {
-		int fmFreqency = 8800; // Default
+		int fmFreqency = 9600; // 8800; // Default
 		String strNodeFmChannel = "";
 		if (nodeFmChannel.exists()) {
 			try {
@@ -145,7 +146,8 @@ public class SettingUtil {
 				MyLog.e("[SettingUtil]getLCDValue: IOException");
 			}
 		}
-		// ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ, strNodeFmChannel);
+		// ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ,
+		// strNodeFmChannel);
 		fmFreqency = Integer.parseInt(strNodeFmChannel);
 
 		MyLog.v("[SettingUtil]getFmFrequcenyNode,fmFreqency:" + fmFreqency);
@@ -284,11 +286,19 @@ public class SettingUtil {
 				InputStreamReader inputStreamReader = new InputStreamReader(
 						inputStream);
 				int ch = 0;
-				if ((ch = inputStreamReader.read()) != -1)
+				if ((ch = inputStreamReader.read()) != -1) {
+					inputStreamReader.close();
 					return Integer.parseInt(String.valueOf((char) ch));
+				} else {
+					inputStreamReader.close();
+				}
 			} catch (FileNotFoundException e) {
+				MyLog.e("[AutoUI.SettintUtil.getFileInt] FileNotFoundException:"
+						+ e.toString());
 				e.printStackTrace();
 			} catch (IOException e) {
+				MyLog.e("[AutoUI.SettintUtil.getFileInt] IOException:"
+						+ e.toString());
 				e.printStackTrace();
 			}
 		}

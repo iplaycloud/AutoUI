@@ -20,6 +20,7 @@ import com.tchip.autoui.view.MyScrollView;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -62,7 +63,7 @@ public class MainActivity extends Activity {
 
 	/** 非UI任务线程 */
 	private static final HandlerThread taskHandlerThread = new HandlerThread(
-			"task-thread");
+			"ui-task-thread");
 	static {
 		taskHandlerThread.start();
 	}
@@ -95,12 +96,15 @@ public class MainActivity extends Activity {
 		registerReceiver(mainReceiver, mainFilter);
 
 		// SettingUtil.initialNodeState(MainActivity.this); // FIXME
+
+		// TODO:Start AutoRecord
+		startAutoRecord("autoui_oncreate");
 	}
 
 	@Override
 	protected void onResume() {
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
-		scrollView.smoothScrollTo(0, 0); // 返回第一个图标
+		// scrollView.smoothScrollTo(0, 0); // 返回第一个图标
 		updateFileInfo();
 		updateWeatherInfo();
 		updateRecordInfo();
@@ -134,6 +138,17 @@ public class MainActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 	}
 
+	private void startAutoRecord(String reason) {
+		ComponentName componentRecord = new ComponentName(
+				"com.tchip.autorecord", "com.tchip.autorecord.ui.MainActivity");
+		Intent intentRecord = new Intent();
+		intentRecord.putExtra("time", System.currentTimeMillis());
+		intentRecord.putExtra("reason", reason);
+		intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intentRecord.setComponent(componentRecord);
+		startActivity(intentRecord);
+	}
+
 	class MyTTSOnInitListener implements OnInitListener {
 
 		@Override
@@ -156,6 +171,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
+			MyLog.v("[AutoUI.Main.MainReceiver]action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 				SettingUtil.setGpsState(MainActivity.this, true); // 打开GPS //
@@ -174,8 +190,7 @@ public class MainActivity extends Activity {
 					speakVoice(content);
 				}
 			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
-				// 获取时间
-				Calendar calendar = Calendar.getInstance();
+				Calendar calendar = Calendar.getInstance(); // 获取时间
 				int minute = calendar.get(Calendar.MINUTE);
 				if (minute == 0) {
 					int year = calendar.get(Calendar.YEAR);
@@ -586,10 +601,10 @@ public class MainActivity extends Activity {
 					}
 				} else {
 					textFrequencyContent = "" + fmFreqencyNode / 100.0f;
-					 if (8800 != fmFreqencyNode) {
-					 ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ,
-					 "" + fmFreqencyNode);
-					 }
+					if (9600 != fmFreqencyNode) {
+						ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ,
+								"" + fmFreqencyNode);
+					}
 				}
 
 				final boolean isImageFMStateOn; // 发射状态

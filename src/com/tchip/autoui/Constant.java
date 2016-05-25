@@ -130,15 +130,15 @@ public interface Constant {
 		public static final String FONT = "fonts/";
 
 		/**
-		 * 音频通道：0-系统到喇叭 1-蓝牙到喇叭 2-系统到FM 3-BT到FM
+		 * 音频通道：0-系统 1-蓝牙
 		 */
 		public static final String NODE_SWITCH_AUDIO = "/sys/bus/i2c/devices/0-007f/Spk_Choose_Num";
 
 		/** FM开关:0-下电 1-上电 */
-		public static final String NODE_FM_ENABLE = "/sys/bus/i2c/devices/2-0011/enable_si4712";
+		public static final String NODE_FM_ENABLE = "/sys/bus/i2c/devices/2-002c/enable_qn8027";
 
 		/** FM频率 */
-		public static final String NODE_FM_FREQUENCY = "/sys/bus/i2c/devices/2-0011/setch_si4712";
+		public static final String NODE_FM_FREQUENCY = "/sys/bus/i2c/devices/2-002c/setch_qn8027";
 	}
 
 }
