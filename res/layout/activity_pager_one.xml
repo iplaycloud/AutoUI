@@ -115,10 +115,10 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <!-- 电子狗 -->
+        <!-- 音乐 -->
 
         <RelativeLayout
-            android:id="@+id/layoutEDog"
+            android:id="@+id/layoutMusic"
             android:layout_width="@dimen/main_item_total_width"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/main_item_margin_right" >
@@ -127,14 +127,14 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_edog" />
+                android:src="@drawable/main_item_music" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/main_item_title_margin_left"
                 android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:text="@string/title_edog"
+                android:text="@string/title_music"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
@@ -148,15 +148,37 @@
                 android:background="?android:attr/selectableItemBackground" >
 
                 <ImageView
-                    android:id="@+id/imageEdogState"
-                    android:layout_width="@dimen/edog_state_edge_length"
-                    android:layout_height="@dimen/edog_state_edge_length"
+                    android:id="@+id/imageMusicState"
+                    android:layout_width="@dimen/fmtransmit_state_width"
+                    android:layout_height="@dimen/fmtransmit_state_height"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/edog_state_margin_bottom"
+                    android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_edog_on" />
+                    android:src="@drawable/main_item_state_play" />
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/imageMusicState"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal" >
+
+                    <ImageView
+                        android:layout_width="@dimen/music_play_song_icon_edge"
+                        android:layout_height="@dimen/music_play_song_icon_edge"
+                        android:contentDescription="@null"
+                        android:src="@drawable/main_item_music_song_icon" />
+
+                    <TextView
+                        android:id="@+id/textMusicInfo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="正在播放的歌"
+                        android:textColor="#ffffff"
+                        android:textSize="@dimen/music_play_song_text_size" />
+                </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
 
@@ -209,7 +231,7 @@
                 <!-- 音乐 -->
 
                 <RelativeLayout
-                    android:id="@+id/layoutMusic"
+                    android:id="@+id/layoutEDog"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/main_item_margin_right"
@@ -219,14 +241,14 @@
                         android:layout_width="@dimen/main_item_image_width"
                         android:layout_height="@dimen/main_item_image_height"
                         android:contentDescription="@null"
-                        android:src="@drawable/main_item_music" />
+                        android:src="@drawable/main_item_edog" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
                         android:layout_marginTop="@dimen/main_item_title_margin_top"
-                        android:text="@string/title_music"
+                        android:text="@string/title_edog"
                         android:textColor="@color/main_item_title_color"
                         android:textSize="@dimen/main_item_title_size" />
 
@@ -238,39 +260,6 @@
                         android:layout_marginRight="@dimen/main_item_center_point_margin_right"
                         android:layout_marginTop="@dimen/main_item_center_point_margin_top"
                         android:background="?android:attr/selectableItemBackground" >
-
-                        <ImageView
-                            android:id="@+id/imageMusicState"
-                            android:layout_width="@dimen/fmtransmit_state_width"
-                            android:layout_height="@dimen/fmtransmit_state_height"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@null"
-                            android:src="@drawable/main_item_state_play" />
-
-                        <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@id/imageMusicState"
-                            android:layout_centerHorizontal="true"
-                            android:orientation="horizontal" >
-
-                            <ImageView
-                                android:layout_width="@dimen/music_play_song_icon_edge"
-                                android:layout_height="@dimen/music_play_song_icon_edge"
-                                android:contentDescription="@null"
-                                android:src="@drawable/main_item_music_song_icon" />
-
-                            <TextView
-                                android:id="@+id/textMusicInfo"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="正在播放的歌"
-                                android:textColor="#ffffff"
-                                android:textSize="@dimen/music_play_song_text_size" />
-                        </LinearLayout>
                     </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>
@@ -281,10 +270,10 @@
                 android:layout_weight="1"
                 android:orientation="horizontal" >
 
-                <!-- 喜马拉雅 -->
+                <!-- FM发射 -->
 
                 <RelativeLayout
-                    android:id="@+id/layoutXimalaya"
+                    android:id="@+id/layoutFMTransmit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/main_item_margin_right"
@@ -294,14 +283,14 @@
                         android:layout_width="@dimen/main_item_image_width"
                         android:layout_height="@dimen/main_item_image_height"
                         android:contentDescription="@null"
-                        android:src="@drawable/main_item_ximalaya" />
+                        android:src="@drawable/main_item_fmtransmit" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
                         android:layout_marginTop="@dimen/main_item_title_margin_top"
-                        android:text="@string/title_ximalaya"
+                        android:text="@string/title_fm_transmit"
                         android:textColor="@color/main_item_title_color"
                         android:textSize="@dimen/main_item_title_size" />
 
@@ -315,22 +304,44 @@
                         android:background="?android:attr/selectableItemBackground" >
 
                         <ImageView
-                            android:id="@+id/imageXimalayaState"
+                            android:id="@+id/imageFMState"
                             android:layout_width="@dimen/fmtransmit_state_width"
                             android:layout_height="@dimen/fmtransmit_state_height"
                             android:layout_alignParentBottom="true"
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:contentDescription="@null"
                             android:src="@drawable/main_item_state_play" />
+
+                        <RelativeLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_above="@id/imageFMState"
+                            android:layout_centerHorizontal="true" >
+
+                            <TextView
+                                android:id="@+id/textFrequency"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="108.5"
+                                android:textColor="#ffffff"
+                                android:textSize="@dimen/fmtransmit_freq_text_size" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_alignRight="@id/textFrequency"
+                                android:layout_below="@id/textFrequency"
+                                android:text="MHz"
+                                android:textColor="#ffffff"
+                                android:textSize="@dimen/fmtransmit_mhz_text_size" />
+                        </RelativeLayout>
                     </RelativeLayout>
                 </RelativeLayout>
-
-                <!-- 设置 -->
+                <!-- 文件管理 -->
 
                 <RelativeLayout
-                    android:id="@+id/layoutSetting"
+                    android:id="@+id/layoutFileManager"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginRight="@dimen/main_item_margin_right"
@@ -340,14 +351,14 @@
                         android:layout_width="@dimen/main_item_image_width"
                         android:layout_height="@dimen/main_item_image_height"
                         android:contentDescription="@null"
-                        android:src="@drawable/main_item_setting" />
+                        android:src="@drawable/main_item_filemanager" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
                         android:layout_marginTop="@dimen/main_item_title_margin_top"
-                        android:text="@string/title_setting"
+                        android:text="@string/title_file_manager"
                         android:textColor="@color/main_item_title_color"
                         android:textSize="@dimen/main_item_title_size" />
 
@@ -359,6 +370,79 @@
                         android:layout_marginRight="@dimen/main_item_center_point_margin_right"
                         android:layout_marginTop="@dimen/main_item_center_point_margin_top"
                         android:background="?android:attr/selectableItemBackground" >
+
+                        <RelativeLayout
+                            android:id="@+id/layoutUsage"
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/filemanager_usage_height"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="@dimen/filemanager_usage_margin_top" >
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:contentDescription="@null"
+                                android:src="@drawable/main_item_filemanager_circle_small" />
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:contentDescription="@null"
+                                android:src="@drawable/main_item_filemanager_circle_big" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/file_left_hint_margin_top"
+                                android:text="@string/file_left_hint"
+                                android:textColor="#ffffff"
+                                android:textSize="@dimen/filemanager_usage_lsftstorage_hint_size" />
+
+                            <TextView
+                                android:id="@+id/textLeftStorage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerHorizontal="true"
+                                android:layout_marginTop="@dimen/filemanager_usage_leftstorage_margin_top"
+                                android:text="@string/file_left_default"
+                                android:textColor="#ffffff"
+                                android:textSize="@dimen/filemanager_usage_leftstorage_text_size" />
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_below="@id/textLeftStorage"
+                                android:layout_centerHorizontal="true"
+                                android:text="@string/file_gb"
+                                android:textColor="#ffffff"
+                                android:textSize="@dimen/filemanager_usage_lsftstorage_gb_size" />
+                        </RelativeLayout>
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/filemanager_file_count_height"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginBottom="@dimen/filemanager_file_count_margin_bottom" >
+
+                            <ImageView
+                                android:layout_width="@dimen/filemanager_file_count_bg_width"
+                                android:layout_height="@dimen/filemanager_file_count_bg_height"
+                                android:layout_centerInParent="true"
+                                android:src="@drawable/main_item_filemanager_file_bg" />
+
+                            <TextView
+                                android:id="@+id/textTotalStorage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_centerInParent="true"
+                                android:text="@string/file_total_default"
+                                android:textColor="@color/file_total_text_color"
+                                android:textSize="@dimen/filemanager_file_count_text_size" />
+                        </RelativeLayout>
                     </RelativeLayout>
                 </RelativeLayout>
             </LinearLayout>

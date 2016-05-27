@@ -37,7 +37,30 @@ public class TransitionViewPager extends ViewPager {
 	private static final float ROT_MAX = 15.0f;
 
 	public enum TransitionEffect {
-		Standard, Tablet, CubeIn, CubeOut, FlipVertical, FlipHorizontal, Stack, ZoomIn, ZoomOut, RotateUp, RotateDown, Accordion
+		/** 0 */
+		Standard,
+		/** 1 */
+		Tablet,
+		/** 2 */
+		CubeIn,
+		/** 3 */
+		CubeOut,
+		/** 4 */
+		FlipVertical,
+		/** 5 */
+		FlipHorizontal,
+		/** 6 */
+		Stack,
+		/** 7 */
+		ZoomIn,
+		/** 8 */
+		ZoomOut,
+		/** 9 */
+		RotateUp,
+		/** 10 */
+		RotateDown,
+		/** 11 */
+		Accordion
 	}
 
 	private static final boolean API_11;
@@ -112,7 +135,8 @@ public class TransitionViewPager extends ViewPager {
 	private View wrapChild(View child) {
 		if (!mOutlineEnabled || child instanceof TransitionViewPagerContainer)
 			return child;
-		TransitionViewPagerContainer out = new TransitionViewPagerContainer(getContext());
+		TransitionViewPagerContainer out = new TransitionViewPagerContainer(
+				getContext());
 		out.setLayoutParams(generateDefaultLayoutParams());
 		child.setLayoutParams(new TransitionViewPagerContainer.LayoutParams(
 				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
@@ -94,10 +95,10 @@ public class PagerActivity extends Activity {
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
 		viewList.add(viewVice);
-		viewPager = (TransitionViewPager) findViewById(R.id.viewpager);
-		viewPager.setTransitionEffect(TransitionEffect.CubeOut);
 
-		viewPager.setPageMargin(10);
+		viewPager = (TransitionViewPager) findViewById(R.id.viewpager);
+		viewPager.setTransitionEffect(TransitionEffect.Standard);
+		viewPager.setPageMargin(0); // 10
 		viewPager.setAdapter(pagerAdapter);
 
 		mainReceiver = new MainReceiver();
@@ -163,6 +164,7 @@ public class PagerActivity extends Activity {
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
+			MyLog.v("[PagerAdapter]destroyItem position" + position);
 			container.removeView(viewList.get(position));
 		}
 
@@ -176,7 +178,7 @@ public class PagerActivity extends Activity {
 			container.addView(viewList.get(position));
 			viewPager.setObjectForPosition(viewList.get(position), position); // 动画需要
 
-			HintUtil.showToast(context, "position:" + position); // TODO:Delete
+			MyLog.v("[PagerActivity]position:" + position);
 			if (position == 0)
 				updateLayoutOne();
 			else
@@ -197,39 +199,18 @@ public class PagerActivity extends Activity {
 		// 导航
 		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
 		layoutNavigation.setOnClickListener(new MyOnClickListener());
-		// 电子狗
-		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
-		layoutEDog.setOnClickListener(new MyOnClickListener());
-
-		// 蓝牙通话
-		RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
-		layoutPhone.setOnClickListener(new MyOnClickListener());
 		// 音乐
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(new MyOnClickListener());
 		ImageView imageMusicState = (ImageView) findViewById(R.id.imageMusicState);
 		imageMusicState.setOnClickListener(new MyOnClickListener());
-		// 喜马拉雅
-		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
-		layoutXimalaya.setOnClickListener(new MyOnClickListener());
-		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
-		imageXimalayaState.setOnClickListener(new MyOnClickListener());
-		// 设置
-		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
-		layoutSetting.setOnClickListener(new MyOnClickListener());
 
-	}
-
-	private void updateLayoutTwo() {
-		// 天气
-		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
-		layoutWeather.setOnClickListener(new MyOnClickListener());
-		imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
-		textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
-		textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
-		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
-				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
-		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
+		// 蓝牙通话
+		RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
+		layoutPhone.setOnClickListener(new MyOnClickListener());
+		// 电子狗
+		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
+		layoutEDog.setOnClickListener(new MyOnClickListener());
 		// FM发射
 		RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 		layoutFMTransmit.setOnClickListener(new MyOnClickListener());
@@ -242,15 +223,30 @@ public class PagerActivity extends Activity {
 		textTotalStorage = (TextView) findViewById(R.id.textTotalStorage);
 		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
 
-		// 多媒体
-		RelativeLayout layoutMultimedia = (RelativeLayout) findViewById(R.id.layoutMultimedia);
-		layoutMultimedia.setOnClickListener(new MyOnClickListener());
+	}
+
+	private void updateLayoutTwo() {
+		// 喜马拉雅
+		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
+		layoutXimalaya.setOnClickListener(new MyOnClickListener());
+		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
+		imageXimalayaState.setOnClickListener(new MyOnClickListener());
+
+		// 天气
+		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
+		layoutWeather.setOnClickListener(new MyOnClickListener());
+		imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
+		textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
+		textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
+		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
+				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
+		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
 		// 微信助手
 		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
 		layoutWechat.setOnClickListener(new MyOnClickListener());
 		// 微密
-		RelativeLayout layoutWeme = (RelativeLayout) findViewById(R.id.layoutWeme);
-		layoutWeme.setOnClickListener(new MyOnClickListener());
+		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
+		layoutYiKa.setOnClickListener(new MyOnClickListener());
 
 	}
 
@@ -321,8 +317,8 @@ public class PagerActivity extends Activity {
 				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.WECHAT);
 				break;
 
-			case R.id.layoutWeme:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.WEME);
+			case R.id.layoutYiKa:
+				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.YIKA);
 				break;
 
 			case R.id.layoutSetting:

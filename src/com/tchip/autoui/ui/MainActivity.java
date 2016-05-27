@@ -393,7 +393,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutWeme:
-				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.WEME);
+				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
 				break;
 
 			case R.id.layoutSetting:

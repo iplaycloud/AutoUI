@@ -117,8 +117,8 @@ public class OpenUtil {
 		/** 微信助手 */
 		WECHAT,
 
-		/** 微密 */
-		WEME,
+		/** 翼卡 */
+		YIKA,
 
 		/** Wi-Fi */
 		WIFI,
@@ -452,7 +452,7 @@ public class OpenUtil {
 					activity.startActivity(intentWechat);
 					break;
 
-				case WEME:
+				case YIKA:
 					activity.sendBroadcast(new Intent(
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
 
