@@ -11,5 +11,6 @@
     <color name="file_total_text_color">#c7b39b</color>
     <!-- 多媒体 -->
     <color name="ui_setting_top_bar_bg">#29292d</color>
+    <color name="holo_blue">#FF33E5B5</color>
 
 </resources>

@@ -3,6 +3,9 @@
     <dimen name="main_item_total_height">280dp</dimen>
     <dimen name="main_item_total_width">180dp</dimen>
     <dimen name="main_item_margin_right">0dp</dimen>
+    <!-- ViewPager -->
+    <dimen name="samll_item_total_width">100dp</dimen>
+    <dimen name="small_item_total_height">140dp</dimen>
     <!-- 左上角图标 -->
     <dimen name="main_item_icon_height">36dp</dimen>
     <dimen name="main_item_icon_width">36dp</dimen>

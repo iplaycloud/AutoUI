@@ -66,6 +66,8 @@ public class OpenUtil {
 
 		/** 行车记录 */
 		RECORD,
+		
+		RECORD_BACK,
 
 		/** 轨迹 */
 		ROUTE,
@@ -337,6 +339,16 @@ public class OpenUtil {
 					intentRecord.setComponent(componentRecord);
 					activity.startActivity(intentRecord);
 				}
+					break;
+					
+				case RECORD_BACK:
+					ComponentName componentRecord = new ComponentName(
+							"com.tchip.autorecordback",
+							"com.tchip.autorecordback.ui.MainActivity");
+					Intent intentRecord = new Intent();
+					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentRecord.setComponent(componentRecord);
+					activity.startActivity(intentRecord);
 					break;
 
 				case ROUTE:
