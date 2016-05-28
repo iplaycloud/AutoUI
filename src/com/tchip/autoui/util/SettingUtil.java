@@ -45,12 +45,9 @@ public class SettingUtil {
 	/** 设置飞行模式 */
 	public static void setAirplaneMode(Context context, boolean setAirPlane) {
 		MyLog.v("[SettingUtil]setAirplaneMode:" + setAirPlane);
-		Settings.Global.putInt(context.getContentResolver(),
-				Settings.Global.AIRPLANE_MODE_ON, setAirPlane ? 1 : 0);
-		// 广播飞行模式的改变，让相应的程序可以处理。
-		Intent intent = new Intent(Intent.ACTION_AIRPLANE_MODE_CHANGED);
-		intent.putExtra("state", setAirPlane);
-		context.sendBroadcast(intent);
+		context.sendBroadcast(new Intent(
+				setAirPlane ? Constant.Broadcast.AIRPLANE_ON
+						: Constant.Broadcast.AIRPLANE_OFF));
 	}
 
 	public static void setGpsState(Context context, boolean isGpsOn) {

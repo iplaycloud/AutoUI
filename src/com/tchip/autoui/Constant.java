@@ -24,6 +24,10 @@ public interface Constant {
 		public static final String GPS_OFF = "tchip.intent.action.GPS_OFF";
 		/** 打开GPS */
 		public static final String GPS_ON = "tchip.intent.action.GPS_ON";
+		/** 打开飞行模式 */
+		public static final String AIRPLANE_ON = "tchip.intent.action.AIRPLANE_ON";
+		/** 关闭飞行模式 */
+		public static final String AIRPLANE_OFF = "tchip.intent.action.AIRPLANE_OFF";
 		/** ACC上电 */
 		public static final String ACC_ON = "com.tchip.ACC_ON";
 		/** ACC下电 */

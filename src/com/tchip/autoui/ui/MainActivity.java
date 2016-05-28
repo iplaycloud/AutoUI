@@ -95,6 +95,10 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		registerReceiver(mainReceiver, mainFilter);
 
+		// Reset Record State
+		ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
+		ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
+
 		// SettingUtil.initialNodeState(MainActivity.this); // FIXME
 
 		// TODO:Start AutoRecord
