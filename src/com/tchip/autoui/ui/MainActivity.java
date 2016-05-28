@@ -331,7 +331,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.layoutRecord:
-				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.RECORD_BACK);
+				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.RECORD);
 				break;
 
 			case R.id.imageRecordState:

@@ -163,7 +163,8 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/imageMusicState"
                     android:layout_centerHorizontal="true"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:visibility="gone" >
 
                     <ImageView
                         android:layout_width="@dimen/music_play_song_icon_edge"
@@ -212,10 +213,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/main_item_title_margin_top"
+                        android:layout_marginTop="@dimen/small_item_title_margin_top"
                         android:text="@string/title_phone"
                         android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/main_item_title_size" />
+                        android:textSize="@dimen/small_item_title_size" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -247,10 +248,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/main_item_title_margin_top"
+                        android:layout_marginTop="@dimen/small_item_title_margin_top"
                         android:text="@string/title_edog"
                         android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/main_item_title_size" />
+                        android:textSize="@dimen/small_item_title_size" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -289,10 +290,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/main_item_title_margin_top"
+                        android:layout_marginTop="@dimen/small_item_title_margin_top"
                         android:text="@string/title_fm_transmit"
                         android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/main_item_title_size" />
+                        android:textSize="@dimen/small_item_title_size" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"
@@ -304,6 +305,7 @@
                         android:background="?android:attr/selectableItemBackground" >
 
                         <ImageView
+                            android:visibility="gone"
                             android:id="@+id/imageFMState"
                             android:layout_width="@dimen/fmtransmit_state_width"
                             android:layout_height="@dimen/fmtransmit_state_height"
@@ -357,10 +359,10 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/main_item_title_margin_top"
+                        android:layout_marginTop="@dimen/small_item_title_margin_top"
                         android:text="@string/title_file_manager"
                         android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/main_item_title_size" />
+                        android:textSize="@dimen/small_item_title_size" />
 
                     <RelativeLayout
                         android:layout_width="match_parent"

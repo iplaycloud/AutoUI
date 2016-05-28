@@ -47,6 +47,7 @@
 
                 <ImageView
                     android:id="@+id/imageXimalayaState"
+                    android:visibility="gone"
                     android:layout_width="@dimen/fmtransmit_state_width"
                     android:layout_height="@dimen/fmtransmit_state_height"
                     android:layout_alignParentBottom="true"

@@ -77,6 +77,9 @@ public class PagerActivity extends Activity {
 	private final Handler taskHandler = new TaskHandler(
 			taskHandlerThread.getLooper());
 
+	private boolean isPagerOneShowed = false;
+	private boolean isPagerTwoShowed = false;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -112,12 +115,16 @@ public class PagerActivity extends Activity {
 
 	@Override
 	protected void onResume() {
+		MyLog.i("[PagerActivity]onResume");
 		super.onResume();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
-		// updateRecordInfo();
-		// updateFileInfo(); FIXME
-		// updateWeatherInfo();
-		// updateFMTransmitInfo();
+		// Page 1
+		updateRecordInfo();
+		updateMusicInfo();
+		updateFMTransmitInfo();
+		updateFileInfo();
+		// Page 2
+		updateWeatherInfo();
 	}
 
 	@Override
@@ -196,6 +203,7 @@ public class PagerActivity extends Activity {
 		imageRecordState.setOnClickListener(new MyOnClickListener());
 		textRecStateFront = (TextView) findViewById(R.id.textRecStateFront);
 		textRecStateBack = (TextView) findViewById(R.id.textRecStateBack);
+		updateRecordInfo();
 		// 导航
 		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
 		layoutNavigation.setOnClickListener(new MyOnClickListener());
@@ -223,6 +231,7 @@ public class PagerActivity extends Activity {
 		textTotalStorage = (TextView) findViewById(R.id.textTotalStorage);
 		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
 
+		isPagerOneShowed = true;
 	}
 
 	private void updateLayoutTwo() {
@@ -231,7 +240,6 @@ public class PagerActivity extends Activity {
 		layoutXimalaya.setOnClickListener(new MyOnClickListener());
 		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
 		imageXimalayaState.setOnClickListener(new MyOnClickListener());
-
 		// 天气
 		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 		layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -241,6 +249,8 @@ public class PagerActivity extends Activity {
 		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
 				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
 		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
+		updateWeatherInfo();
+
 		// 微信助手
 		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
 		layoutWechat.setOnClickListener(new MyOnClickListener());
@@ -248,6 +258,7 @@ public class PagerActivity extends Activity {
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
 
+		isPagerTwoShowed = true;
 	}
 
 	class MyOnClickListener implements View.OnClickListener {
@@ -256,7 +267,7 @@ public class PagerActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.layoutRecord:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.RECORD_BACK);
+				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.RECORD);
 				break;
 
 			case R.id.imageRecordState:
@@ -349,23 +360,47 @@ public class PagerActivity extends Activity {
 
 	/** 更新录制信息 */
 	private void updateRecordInfo() {
-		Message msgUpdateRecord = new Message();
-		msgUpdateRecord.what = 1;
-		taskHandler.sendMessage(msgUpdateRecord);
-	}
-
-	/** 更新天气信息 */
-	private void updateWeatherInfo() {
-		Message msgUpdateWeather = new Message();
-		msgUpdateWeather.what = 2;
-		taskHandler.sendMessage(msgUpdateWeather);
+		if (isPagerOneShowed) {
+			Message msgUpdateRecord = new Message();
+			msgUpdateRecord.what = 1;
+			taskHandler.sendMessage(msgUpdateRecord);
+		}
 	}
 
 	/** 更新音乐信息 */
 	private void updateMusicInfo() {
-		Message msgUpdateMusic = new Message();
-		msgUpdateMusic.what = 3;
-		taskHandler.sendMessage(msgUpdateMusic);
+		if (isPagerOneShowed) {
+			Message msgUpdateMusic = new Message();
+			msgUpdateMusic.what = 3;
+			taskHandler.sendMessage(msgUpdateMusic);
+		}
+	}
+
+	/** 更新FM发射信息 */
+	private void updateFMTransmitInfo() {
+		if (isPagerOneShowed) {
+			Message msgUpdateFMTransmit = new Message();
+			msgUpdateFMTransmit.what = 7;
+			taskHandler.sendMessage(msgUpdateFMTransmit);
+		}
+	}
+
+	/** 更新文件信息 */
+	private void updateFileInfo() {
+		if (isPagerOneShowed) {
+			Message msgUpdateFile = new Message();
+			msgUpdateFile.what = 8;
+			taskHandler.sendMessage(msgUpdateFile);
+		}
+	}
+
+	/** 更新天气信息 */
+	private void updateWeatherInfo() {
+		if (isPagerTwoShowed) {
+			Message msgUpdateWeather = new Message();
+			msgUpdateWeather.what = 2;
+			taskHandler.sendMessage(msgUpdateWeather);
+		}
 	}
 
 	/** 更新FMOL信息 */
@@ -387,20 +422,6 @@ public class PagerActivity extends Activity {
 		Message msgUpdateBTDialer = new Message();
 		msgUpdateBTDialer.what = 6;
 		taskHandler.sendMessage(msgUpdateBTDialer);
-	}
-
-	/** 更新FM发射信息 */
-	private void updateFMTransmitInfo() {
-		Message msgUpdateFMTransmit = new Message();
-		msgUpdateFMTransmit.what = 7;
-		taskHandler.sendMessage(msgUpdateFMTransmit);
-	}
-
-	/** 更新文件信息 */
-	private void updateFileInfo() {
-		Message msgUpdateFile = new Message();
-		msgUpdateFile.what = 8;
-		taskHandler.sendMessage(msgUpdateFile);
 	}
 
 	/** 更改FM发射状态 */
