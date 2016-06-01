@@ -156,7 +156,8 @@
                     android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_state_play" />
+                    android:src="@drawable/main_item_state_play"
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -305,7 +306,6 @@
                         android:background="?android:attr/selectableItemBackground" >
 
                         <ImageView
-                            android:visibility="gone"
                             android:id="@+id/imageFMState"
                             android:layout_width="@dimen/fmtransmit_state_width"
                             android:layout_height="@dimen/fmtransmit_state_height"
@@ -313,7 +313,8 @@
                             android:layout_centerHorizontal="true"
                             android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                             android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/main_item_state_play" />
+                            android:src="@drawable/main_item_state_play"
+                            android:visibility="gone" />
 
                         <RelativeLayout
                             android:layout_width="wrap_content"
