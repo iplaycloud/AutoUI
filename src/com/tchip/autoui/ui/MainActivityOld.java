@@ -1,10 +1,10 @@
 package com.tchip.autoui.ui;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
-import java.util.Random;
+
+import cn.kuwo.autosdk.api.KWAPI;
+import cn.kuwo.autosdk.api.PlayState;
 
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
@@ -12,22 +12,23 @@ import com.tchip.autoui.R;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
+import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
 import com.tchip.autoui.util.ProviderUtil;
+import com.tchip.autoui.util.ProviderUtil.Name;
 import com.tchip.autoui.util.SettingUtil;
 import com.tchip.autoui.util.StorageUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
-import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
-import com.tchip.autoui.util.ProviderUtil.Name;
-import com.tchip.autoui.view.TransitionViewPager;
-import com.tchip.autoui.view.TransitionViewPager.TransitionEffect;
-import com.tchip.autoui.view.TransitionViewPagerContainer;
+import com.tchip.autoui.view.MyScrollView;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -35,35 +36,32 @@ import android.os.Looper;
 import android.os.Message;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
-import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextClock;
 import android.widget.TextView;
 
-public class PagerActivity extends Activity {
+public class MainActivityOld extends Activity {
 	private Context context;
+	private TextToSpeech textToSpeech;
 
-	private View viewMain, viewVice;
-	private List<View> viewList;
-	private TransitionViewPager viewPager;
-
+	private MyScrollView scrollView;
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
 	private ImageView imageRecordState;
 	private TextView textRecStateFront, textRecStateBack;
 	private TextView textFrequency; // FM发射频率
 	private ImageView imageFMState; // FM发射状态
+
 	/** 剩余空间 */
 	private TextView textLeftStorage;
 	/** 总空间 */
 	private TextView textTotalStorage;
-
-	private TextToSpeech textToSpeech;
+	/** 酷我API */
+	private KWAPI kuwoAPI;
 
 	/** UI主线程Handler */
 	private Handler mainHandler;
@@ -77,65 +75,62 @@ public class PagerActivity extends Activity {
 	private final Handler taskHandler = new TaskHandler(
 			taskHandlerThread.getLooper());
 
-	private boolean isPagerOneShowed = false;
-	private boolean isPagerTwoShowed = false;
-
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		context = getApplicationContext();
+		setContentView(R.layout.activity_main);
 
+		context = getApplicationContext();
 		textToSpeech = new TextToSpeech(context, new MyTTSOnInitListener());
 		mainHandler = new Handler(this.getMainLooper());
+		kuwoAPI = KWAPI.createKWAPI(this, "auto");
 
-		setContentView(R.layout.activity_pager);
+		initialLayout();
 
-		LayoutInflater inflater = LayoutInflater.from(this);
-		viewMain = inflater.inflate(R.layout.activity_pager_one, null);
-		viewVice = inflater.inflate(R.layout.activity_pager_two, null);
-
-		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
-		viewList.add(viewMain);
-		viewList.add(viewVice);
-
-		viewPager = (TransitionViewPager) findViewById(R.id.viewpager);
-		viewPager.setTransitionEffect(TransitionEffect.Standard);
-		viewPager.setPageMargin(0); // 10
-		viewPager.setAdapter(pagerAdapter);
+		getContentResolver()
+				.registerContentObserver(
+						Uri.parse("content://com.tchip.provider.AutoProvider/state/name/"),
+						true, new AutoContentObserver(new Handler()));
 
 		mainReceiver = new MainReceiver();
 		IntentFilter mainFilter = new IntentFilter();
 		mainFilter.addAction(Constant.Broadcast.ACC_ON);
 		mainFilter.addAction(Constant.Broadcast.ACC_OFF);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
+		mainFilter.addAction(Constant.Broadcast.SPEECH_COMMAND);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		registerReceiver(mainReceiver, mainFilter);
+
+		// Reset Record State
+		ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
+		ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
+
+		// SettingUtil.initialNodeState(MainActivity.this); // FIXME
+
+		// Start AutoRecord
+		startAutoRecord("autoui_oncreate");
 	}
 
 	@Override
 	protected void onResume() {
-		MyLog.i("[PagerActivity]onResume");
-		super.onResume();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
-		// Page 1
-		updateRecordInfo();
-		updateMusicInfo();
-		updateFMTransmitInfo();
+		// scrollView.smoothScrollTo(0, 0); // 返回第一个图标
 		updateFileInfo();
-		// Page 2
 		updateWeatherInfo();
+		updateRecordInfo();
+		updateFMTransmitInfo();
+		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		super.onPause();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_HIDE)); // 隐藏状态栏
+		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		super.onDestroy();
 		if (mainReceiver != null) {
 			unregisterReceiver(mainReceiver);
 		}
@@ -143,6 +138,7 @@ public class PagerActivity extends Activity {
 		if (textToSpeech != null) { // 关闭TTS引擎
 			textToSpeech.shutdown();
 		}
+		super.onDestroy();
 	}
 
 	@Override
@@ -153,194 +149,15 @@ public class PagerActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 	}
 
-	PagerAdapter pagerAdapter = new PagerAdapter() {
-
-		@Override
-		public boolean isViewFromObject(View view, Object obj) {
-			if (view instanceof TransitionViewPagerContainer) {
-				return ((TransitionViewPagerContainer) view).getChildAt(0) == obj;
-			} else {
-				return view == obj;
-			}
-		}
-
-		@Override
-		public int getCount() {
-			return viewList.size();
-		}
-
-		@Override
-		public void destroyItem(ViewGroup container, int position, Object object) {
-			MyLog.v("[PagerAdapter]destroyItem position" + position);
-			container.removeView(viewList.get(position));
-		}
-
-		@Override
-		public int getItemPosition(Object object) {
-			return super.getItemPosition(object);
-		}
-
-		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
-			container.addView(viewList.get(position));
-			viewPager.setObjectForPosition(viewList.get(position), position); // 动画需要
-
-			MyLog.v("[PagerActivity]position:" + position);
-			if (position == 0)
-				updateLayoutOne();
-			else
-				updateLayoutTwo();
-			return viewList.get(position);
-		}
-
-	};
-
-	private void updateLayoutOne() {
-		// 行车记录
-		RelativeLayout layoutRecord = (RelativeLayout) findViewById(R.id.layoutRecord);
-		layoutRecord.setOnClickListener(new MyOnClickListener());
-		imageRecordState = (ImageView) findViewById(R.id.imageRecordState);
-		imageRecordState.setOnClickListener(new MyOnClickListener());
-		textRecStateFront = (TextView) findViewById(R.id.textRecStateFront);
-		textRecStateBack = (TextView) findViewById(R.id.textRecStateBack);
-		updateRecordInfo();
-		// 导航
-		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
-		layoutNavigation.setOnClickListener(new MyOnClickListener());
-		// 音乐
-		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
-		layoutMusic.setOnClickListener(new MyOnClickListener());
-		ImageView imageMusicState = (ImageView) findViewById(R.id.imageMusicState);
-		imageMusicState.setOnClickListener(new MyOnClickListener());
-
-		// 蓝牙通话
-		RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
-		layoutPhone.setOnClickListener(new MyOnClickListener());
-		// 电子狗
-		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
-		layoutEDog.setOnClickListener(new MyOnClickListener());
-		// FM发射
-		RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
-		layoutFMTransmit.setOnClickListener(new MyOnClickListener());
-		textFrequency = (TextView) findViewById(R.id.textFrequency);
-		imageFMState = (ImageView) findViewById(R.id.imageFMState);
-		imageFMState.setOnClickListener(new MyOnClickListener());
-		// 文件管理
-		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
-		layoutFileManager.setOnClickListener(new MyOnClickListener());
-		textTotalStorage = (TextView) findViewById(R.id.textTotalStorage);
-		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
-
-		isPagerOneShowed = true;
-	}
-
-	private void updateLayoutTwo() {
-		// 喜马拉雅
-		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
-		layoutXimalaya.setOnClickListener(new MyOnClickListener());
-		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
-		imageXimalayaState.setOnClickListener(new MyOnClickListener());
-		// 天气
-		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
-		layoutWeather.setOnClickListener(new MyOnClickListener());
-		imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
-		textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
-		textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
-		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
-				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
-		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
-		updateWeatherInfo();
-
-		// 微信助手
-		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
-		layoutWechat.setOnClickListener(new MyOnClickListener());
-		// 微密
-		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
-		layoutYiKa.setOnClickListener(new MyOnClickListener());
-
-		isPagerTwoShowed = true;
-	}
-
-	class MyOnClickListener implements View.OnClickListener {
-
-		@Override
-		public void onClick(View v) {
-			switch (v.getId()) {
-			case R.id.layoutRecord:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.RECORD);
-				break;
-
-			case R.id.imageRecordState:
-				HintUtil.showToast(PagerActivity.this, "Change Record State"); // FIXME
-				break;
-
-			case R.id.layoutNavigation:
-				OpenUtil.openModule(PagerActivity.this,
-						MODULE_TYPE.NAVI_GAODE_CAR);
-				break;
-
-			case R.id.layoutWeather:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.WEATHER);
-				break;
-
-			case R.id.layoutMusic:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.MUSIC);
-				break;
-
-			case R.id.imageMusicState:
-				HintUtil.showToast(PagerActivity.this, "Change Music State"); // FIXME
-				break;
-
-			case R.id.layoutXimalaya:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.XIMALAYA);
-				break;
-
-			case R.id.imageXimalayaState:
-				HintUtil.showToast(PagerActivity.this, "Change Ximalaya State"); // FIXME
-				break;
-
-			case R.id.layoutEDog:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.EDOG);
-				break;
-
-			case R.id.layoutPhone:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.DIALER);
-				break;
-
-			case R.id.layoutFMTransmit:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.FMTRANSMIT);
-				break;
-
-			case R.id.imageFMState:
-				changeFMState();
-				break;
-
-			case R.id.layoutMultimedia:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.MULTIMEDIA);
-				break;
-
-			case R.id.layoutFileManager:
-				OpenUtil.openModule(PagerActivity.this,
-						MODULE_TYPE.FILE_MANAGER_MTK);
-				break;
-
-			case R.id.layoutWechat:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.WECHAT);
-				break;
-
-			case R.id.layoutYiKa:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.YIKA);
-				break;
-
-			case R.id.layoutSetting:
-				OpenUtil.openModule(PagerActivity.this, MODULE_TYPE.SETTING);
-				break;
-
-			default:
-				break;
-			}
-		}
-
+	private void startAutoRecord(String reason) {
+		ComponentName componentRecord = new ComponentName(
+				"com.tchip.autorecord", "com.tchip.autorecord.ui.MainActivity");
+		Intent intentRecord = new Intent();
+		intentRecord.putExtra("time", System.currentTimeMillis());
+		intentRecord.putExtra("reason", reason);
+		intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intentRecord.setComponent(componentRecord);
+		startActivity(intentRecord);
 	}
 
 	class MyTTSOnInitListener implements OnInitListener {
@@ -358,79 +175,6 @@ public class PagerActivity extends Activity {
 		textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, content);
 	}
 
-	/** 更新录制信息 */
-	private void updateRecordInfo() {
-		if (isPagerOneShowed) {
-			Message msgUpdateRecord = new Message();
-			msgUpdateRecord.what = 1;
-			taskHandler.sendMessage(msgUpdateRecord);
-		}
-	}
-
-	/** 更新音乐信息 */
-	private void updateMusicInfo() {
-		if (isPagerOneShowed) {
-			Message msgUpdateMusic = new Message();
-			msgUpdateMusic.what = 3;
-			taskHandler.sendMessage(msgUpdateMusic);
-		}
-	}
-
-	/** 更新FM发射信息 */
-	private void updateFMTransmitInfo() {
-		if (isPagerOneShowed) {
-			Message msgUpdateFMTransmit = new Message();
-			msgUpdateFMTransmit.what = 7;
-			taskHandler.sendMessage(msgUpdateFMTransmit);
-		}
-	}
-
-	/** 更新文件信息 */
-	private void updateFileInfo() {
-		if (isPagerOneShowed) {
-			Message msgUpdateFile = new Message();
-			msgUpdateFile.what = 8;
-			taskHandler.sendMessage(msgUpdateFile);
-		}
-	}
-
-	/** 更新天气信息 */
-	private void updateWeatherInfo() {
-		if (isPagerTwoShowed) {
-			Message msgUpdateWeather = new Message();
-			msgUpdateWeather.what = 2;
-			taskHandler.sendMessage(msgUpdateWeather);
-		}
-	}
-
-	/** 更新FMOL信息 */
-	private void updateFMOLInfo() {
-		Message msgUpdateFMOL = new Message();
-		msgUpdateFMOL.what = 4;
-		taskHandler.sendMessage(msgUpdateFMOL);
-	}
-
-	/** 更新电子狗信息 */
-	private void updateEDogInfo() {
-		Message msgUpdateEDog = new Message();
-		msgUpdateEDog.what = 5;
-		taskHandler.sendMessage(msgUpdateEDog);
-	}
-
-	/** 更新蓝牙电话信息 */
-	private void updateBTDialerInfo() {
-		Message msgUpdateBTDialer = new Message();
-		msgUpdateBTDialer.what = 6;
-		taskHandler.sendMessage(msgUpdateBTDialer);
-	}
-
-	/** 更改FM发射状态 */
-	private void changeFMState() {
-		Message msgChangeFmState = new Message();
-		msgChangeFmState.what = 9;
-		taskHandler.sendMessage(msgChangeFmState);
-	}
-
 	private MainReceiver mainReceiver;
 
 	private class MainReceiver extends BroadcastReceiver {
@@ -441,15 +185,17 @@ public class PagerActivity extends Activity {
 			MyLog.v("[AutoUI.Main.MainReceiver]action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
-				SettingUtil.setGpsState(PagerActivity.this, true); // 打开GPS //
-																	// FIXME
-				SettingUtil.setAirplaneMode(PagerActivity.this, false); // 飞行模式
+				SettingUtil.setGpsState(MainActivityOld.this, true); // 打开GPS
+				SettingUtil.setAirplaneMode(MainActivityOld.this, false); // 飞行模式
+
+				startAutoRecord("acc_on");
 
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
-				SettingUtil.setGpsState(PagerActivity.this, false); // 关闭GPS //
-																	// FIXME
-				SettingUtil.setAirplaneMode(PagerActivity.this, true); // 飞行模式
+				SettingUtil.setGpsState(MainActivityOld.this, false); // 关闭GPS
+				SettingUtil.setAirplaneMode(MainActivityOld.this, true); // 飞行模式
+
+				sendBroadcast(new Intent(Constant.Broadcast.RELEASE_RECORD));
 
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
@@ -480,6 +226,261 @@ public class PagerActivity extends Activity {
 			}
 		}
 
+	}
+
+	/** 初始化布局 */
+	private void initialLayout() {
+		MyOnClickListener myOnClickListener = new MyOnClickListener();
+		scrollView = (MyScrollView) findViewById(R.id.scrollView);
+		// 时钟
+		TextClock textClockDate = (TextClock) findViewById(R.id.textClockDate);
+		textClockDate.setTypeface(TypefaceUtil.get(this, Constant.Path.FONT
+				+ "Font-Helvetica-Neue-LT-Pro.otf"));
+		// 行车记录
+		RelativeLayout layoutRecord = (RelativeLayout) findViewById(R.id.layoutRecord);
+		layoutRecord.setOnClickListener(myOnClickListener);
+		imageRecordState = (ImageView) findViewById(R.id.imageRecordState);
+		imageRecordState.setOnClickListener(myOnClickListener);
+		textRecStateFront = (TextView) findViewById(R.id.textRecStateFront);
+		textRecStateBack = (TextView) findViewById(R.id.textRecStateBack);
+		// 导航
+		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
+		layoutNavigation.setOnClickListener(myOnClickListener);
+		// 天气
+		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
+		layoutWeather.setOnClickListener(myOnClickListener);
+		imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
+		textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
+		textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
+		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
+				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
+		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
+		// 音乐
+		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
+		layoutMusic.setOnClickListener(myOnClickListener);
+		ImageView imageMusicState = (ImageView) findViewById(R.id.imageMusicState);
+		imageMusicState.setOnClickListener(myOnClickListener);
+		// 喜马拉雅
+		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
+		layoutXimalaya.setOnClickListener(myOnClickListener);
+		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
+		imageXimalayaState.setOnClickListener(myOnClickListener);
+		// 电子狗
+		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
+		layoutEDog.setOnClickListener(myOnClickListener);
+		// 蓝牙通话
+		RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
+		layoutPhone.setOnClickListener(myOnClickListener);
+		// FM发射
+		RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
+		layoutFMTransmit.setOnClickListener(myOnClickListener);
+		textFrequency = (TextView) findViewById(R.id.textFrequency);
+		imageFMState = (ImageView) findViewById(R.id.imageFMState);
+		imageFMState.setOnClickListener(myOnClickListener);
+		// 多媒体
+		RelativeLayout layoutMultimedia = (RelativeLayout) findViewById(R.id.layoutMultimedia);
+		layoutMultimedia.setOnClickListener(myOnClickListener);
+		// 文件管理
+		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
+		layoutFileManager.setOnClickListener(myOnClickListener);
+		textTotalStorage = (TextView) findViewById(R.id.textTotalStorage);
+		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
+		// 微信助手
+		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
+		layoutWechat.setOnClickListener(myOnClickListener);
+		// 微密
+		RelativeLayout layoutWeme = (RelativeLayout) findViewById(R.id.layoutWeme);
+		layoutWeme.setOnClickListener(myOnClickListener);
+		// 设置
+		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
+		layoutSetting.setOnClickListener(myOnClickListener);
+	}
+
+	/** ContentProvder监听 */
+	public class AutoContentObserver extends ContentObserver {
+
+		public AutoContentObserver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void onChange(boolean selfChange, Uri uri) {
+			String name = uri.getLastPathSegment(); // getPathSegments().get(2);
+			if (name.equals("state")) { // insert
+
+			} else { // update
+				MyLog.v("[ContentObserver]onChange,selfChange:" + selfChange
+						+ ",Name:" + name);
+
+				if (name.startsWith("weather")) { // 天气
+					updateWeatherInfo();
+				} else if (name.startsWith("rec")) { // 录像
+					updateRecordInfo();
+				} else if (name.startsWith("music")) { // 音乐
+					updateMusicInfo();
+				} else if (name.startsWith("bt")) { // 蓝牙
+					updateBTDialerInfo();
+				} else if (name.startsWith("fm")) { // FM
+					updateFMTransmitInfo();
+				} else if (name.startsWith("set")) { // 设置
+
+				} else if (name.startsWith("edog")) { // EDog
+					updateEDogInfo();
+				}
+			}
+			super.onChange(selfChange, uri);
+		}
+
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
+		}
+
+	}
+
+	class MyOnClickListener implements View.OnClickListener {
+
+		@Override
+		public void onClick(View v) {
+			switch (v.getId()) {
+			case R.id.layoutRecord:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.RECORD);
+				break;
+
+			case R.id.imageRecordState:
+				HintUtil.showToast(MainActivityOld.this, "Change Record State"); // FIXME
+				break;
+
+			case R.id.layoutNavigation:
+				OpenUtil.openModule(MainActivityOld.this,
+						MODULE_TYPE.NAVI_GAODE_CAR);
+				break;
+
+			case R.id.layoutWeather:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.WEATHER);
+				break;
+
+			case R.id.layoutMusic:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.MUSIC);
+				break;
+
+			case R.id.imageMusicState:
+				kuwoAPI.setPlayState(MainActivityOld.this, PlayState.STATE_PLAY);
+				break;
+
+			case R.id.layoutXimalaya:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.XIMALAYA);
+				break;
+
+			case R.id.imageXimalayaState:
+				HintUtil.showToast(MainActivityOld.this, "Change Ximalaya State"); // FIXME
+				break;
+
+			case R.id.layoutEDog:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.EDOG);
+				break;
+
+			case R.id.layoutPhone:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.DIALER);
+				break;
+
+			case R.id.layoutFMTransmit:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.FMTRANSMIT);
+				break;
+
+			case R.id.imageFMState:
+				changeFMState();
+				break;
+
+			case R.id.layoutMultimedia:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.MULTIMEDIA);
+				break;
+
+			case R.id.layoutFileManager:
+				OpenUtil.openModule(MainActivityOld.this,
+						MODULE_TYPE.FILE_MANAGER_MTK);
+				break;
+
+			case R.id.layoutWechat:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.WECHAT);
+				break;
+
+			case R.id.layoutWeme:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.YIKA);
+				break;
+
+			case R.id.layoutSetting:
+				OpenUtil.openModule(MainActivityOld.this, MODULE_TYPE.SETTING);
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	}
+
+	/** 更新录制信息 */
+	private void updateRecordInfo() {
+		Message msgUpdateRecord = new Message();
+		msgUpdateRecord.what = 1;
+		taskHandler.sendMessage(msgUpdateRecord);
+	}
+
+	/** 更新天气信息 */
+	private void updateWeatherInfo() {
+		Message msgUpdateWeather = new Message();
+		msgUpdateWeather.what = 2;
+		taskHandler.sendMessage(msgUpdateWeather);
+	}
+
+	/** 更新音乐信息 */
+	private void updateMusicInfo() {
+		Message msgUpdateMusic = new Message();
+		msgUpdateMusic.what = 3;
+		taskHandler.sendMessage(msgUpdateMusic);
+	}
+
+	/** 更新FMOL信息 */
+	private void updateFMOLInfo() {
+		Message msgUpdateFMOL = new Message();
+		msgUpdateFMOL.what = 4;
+		taskHandler.sendMessage(msgUpdateFMOL);
+	}
+
+	/** 更新电子狗信息 */
+	private void updateEDogInfo() {
+		Message msgUpdateEDog = new Message();
+		msgUpdateEDog.what = 5;
+		taskHandler.sendMessage(msgUpdateEDog);
+	}
+
+	/** 更新蓝牙电话信息 */
+	private void updateBTDialerInfo() {
+		Message msgUpdateBTDialer = new Message();
+		msgUpdateBTDialer.what = 6;
+		taskHandler.sendMessage(msgUpdateBTDialer);
+	}
+
+	/** 更新FM发射信息 */
+	private void updateFMTransmitInfo() {
+		Message msgUpdateFMTransmit = new Message();
+		msgUpdateFMTransmit.what = 7;
+		taskHandler.sendMessage(msgUpdateFMTransmit);
+	}
+
+	/** 更新文件信息 */
+	private void updateFileInfo() {
+		Message msgUpdateFile = new Message();
+		msgUpdateFile.what = 8;
+		taskHandler.sendMessage(msgUpdateFile);
+	}
+
+	/** 更改FM发射状态 */
+	private void changeFMState() {
+		Message msgChangeFmState = new Message();
+		msgChangeFmState.what = 9;
+		taskHandler.sendMessage(msgChangeFmState);
 	}
 
 	class TaskHandler extends Handler {
@@ -676,5 +677,4 @@ public class PagerActivity extends Activity {
 			}
 		}
 	}
-
 }

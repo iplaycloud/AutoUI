@@ -44,6 +44,9 @@ public interface Constant {
 		/** 系统设置进入格式化界面 */
 		public static final String MEDIA_FORMAT = "tchip.intent.action.MEDIA_FORMAT";
 
+		/** 关掉录像：释放预览 */
+		public static final String RELEASE_RECORD = "tchip.intent.action.RELEASE_RECORD";
+
 		/***** Below is OLD *****/
 
 		/** 进入休眠 */
@@ -133,9 +136,7 @@ public interface Constant {
 		/** 字体目录 **/
 		public static final String FONT = "fonts/";
 
-		/**
-		 * 音频通道：0-系统 1-蓝牙
-		 */
+		/** 音频通道：0-系统 1-蓝牙 */
 		public static final String NODE_SWITCH_AUDIO = "/sys/bus/i2c/devices/0-007f/Spk_Choose_Num";
 
 		/** FM开关:0-下电 1-上电 */
@@ -143,6 +144,12 @@ public interface Constant {
 
 		/** FM频率 */
 		public static final String NODE_FM_FREQUENCY = "/sys/bus/i2c/devices/2-002c/setch_qn8027";
+
+		/** 电子狗 */
+		public static final String NODE_EDOG_ENABLE = "/sys/bus/i2c/devices/0-007f/EDog_enable";
+
+		/** LED指示灯:0-全灭 1X-红灯 2X-蓝灯 100-都亮 */
+		public static final String NODE_LED_ENABLE = "/sys/bus/i2c/devices/0-007f/LED_ON_OFF";
 	}
 
 }
