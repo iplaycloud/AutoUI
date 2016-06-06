@@ -46,6 +46,15 @@ public interface Constant {
 
 		/** 关掉录像：释放预览 */
 		public static final String RELEASE_RECORD = "tchip.intent.action.RELEASE_RECORD";
+		
+		/** FM发射开启,通知侧边栏更新 */
+		public static final String FM_ON = "tchip.intent.action.FM_ON";
+		
+		/** FM发射关闭,通知侧边栏更新 */
+		public static final String FM_OFF = "tchip.intent.action.FM_OFF";
+
+		/** 重启设备 */
+		public static final String DEVICE_REBOOT = "tchip.intent.action.DEVICE_REBOOT";
 
 		/***** Below is OLD *****/
 

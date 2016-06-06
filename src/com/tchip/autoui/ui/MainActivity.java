@@ -16,7 +16,6 @@ import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
 import com.tchip.autoui.util.ProviderUtil;
 import com.tchip.autoui.util.SettingUtil;
-import com.tchip.autoui.util.StorageUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
@@ -36,6 +35,7 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.os.PowerManager;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.view.PagerAdapter;
@@ -59,14 +59,11 @@ public class MainActivity extends Activity {
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
 	private ImageView imageRecordState;
 	private TextView textRecStateFront, textRecStateBack;
-	/** 剩余空间 */
-	private TextView textLeftStorage;
-	/** 总空间 */
-	private TextView textTotalStorage;
 	/** 酷我API */
 	private KWAPI kuwoAPI;
 
 	private TextToSpeech textToSpeech;
+	private PowerManager powerManager;
 
 	/** UI主线程Handler */
 	private Handler mainHandler;
@@ -89,6 +86,7 @@ public class MainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		context = getApplicationContext();
 
+		powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
 		textToSpeech = new TextToSpeech(context, new MyTTSOnInitListener());
 		mainHandler = new Handler(this.getMainLooper());
 		kuwoAPI = KWAPI.createKWAPI(this, "auto");
@@ -116,8 +114,14 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		registerReceiver(mainReceiver, mainFilter);
 
+		// Reset Record State
+		ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
+		ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
+
+		initialNodeState();
+
 		// Start AutoRecord
-		startAutoRecord("autoui_oncreate");
+		new Thread(new StartRecordWhenOnCreateThread()).start();
 	}
 
 	@Override
@@ -154,16 +158,7 @@ public class MainActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 	}
 
-	private void updateAllInfo() {
-		// Page 1
-		updateRecordInfo();
-		updateMusicInfo();
-		// updateFMTransmitInfo();
-		// updateFileInfo();
-		// Page 2
-		updateWeatherInfo();
-	}
-
+	/** 启动录像 */
 	private void startAutoRecord(String reason) {
 		ComponentName componentRecord = new ComponentName(
 				"com.tchip.autorecord", "com.tchip.autorecord.ui.MainActivity");
@@ -173,6 +168,46 @@ public class MainActivity extends Activity {
 		intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		intentRecord.setComponent(componentRecord);
 		startActivity(intentRecord);
+	}
+
+	class StartRecordWhenOnCreateThread implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (MyApp.isAccOn) {
+				startAutoRecord("autoui_oncreate");
+			}
+		}
+
+	}
+
+	class StartRecordWhenAccOnThread implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (MyApp.isAccOn) {
+				startAutoRecord("acc_on");
+			}
+		}
+
+	}
+
+	private void updateAllInfo() {
+		// Page 1
+		updateRecordInfo();
+		updateMusicInfo();
+		// Page 2
+		updateWeatherInfo();
 	}
 
 	PagerAdapter pagerAdapter = new PagerAdapter() {
@@ -247,8 +282,6 @@ public class MainActivity extends Activity {
 		// 文件管理
 		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
 		layoutFileManager.setOnClickListener(new MyOnClickListener());
-		textTotalStorage = (TextView) findViewById(R.id.textTotalStorage);
-		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
 
 		isPagerOneShowed = true;
 		updateAllInfo();
@@ -324,8 +357,6 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.imageXimalayaState:
-				// HintUtil.showToast(PagerActivity.this,
-				// "Change Ximalaya State"); // FIXME
 				break;
 
 			case R.id.layoutEDog:
@@ -401,22 +432,17 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	/** 更新FM发射信息 */
-	private void updateFMTransmitInfo() {
-		if (isPagerOneShowed) {
-			Message msgUpdateFMTransmit = new Message();
-			msgUpdateFMTransmit.what = 7;
-			taskHandler.sendMessage(msgUpdateFMTransmit);
-		}
-	}
-
-	/** 更新文件信息 */
-	private void updateFileInfo() {
-		if (isPagerOneShowed) {
-			Message msgUpdateFile = new Message();
-			msgUpdateFile.what = 8;
-			taskHandler.sendMessage(msgUpdateFile);
-		}
+	/**
+	 * 初始化节点,调用：
+	 * 
+	 * 1.onCreate
+	 * 
+	 * 2.ACC_ON
+	 */
+	private void initialNodeState() {
+		Message msgInitialNodeState = new Message();
+		msgInitialNodeState.what = 7;
+		taskHandler.sendMessage(msgInitialNodeState);
 	}
 
 	/** 更新天气信息 */
@@ -428,34 +454,6 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	/** 更新FMOL信息 */
-	private void updateFMOLInfo() {
-		Message msgUpdateFMOL = new Message();
-		msgUpdateFMOL.what = 4;
-		taskHandler.sendMessage(msgUpdateFMOL);
-	}
-
-	/** 更新电子狗信息 */
-	private void updateEDogInfo() {
-		Message msgUpdateEDog = new Message();
-		msgUpdateEDog.what = 5;
-		taskHandler.sendMessage(msgUpdateEDog);
-	}
-
-	/** 更新蓝牙电话信息 */
-	private void updateBTDialerInfo() {
-		Message msgUpdateBTDialer = new Message();
-		msgUpdateBTDialer.what = 6;
-		taskHandler.sendMessage(msgUpdateBTDialer);
-	}
-
-	/** 更改FM发射状态 */
-	private void changeFMState() {
-		Message msgChangeFmState = new Message();
-		msgChangeFmState.what = 9;
-		taskHandler.sendMessage(msgChangeFmState);
-	}
-
 	private MainReceiver mainReceiver;
 
 	private class MainReceiver extends BroadcastReceiver {
@@ -465,18 +463,30 @@ public class MainActivity extends Activity {
 			String action = intent.getAction();
 			MyLog.v("[AutoUI.Main.MainReceiver]action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
+				if (!powerManager.isScreenOn()) { // 点亮屏幕
+					SettingUtil.lightScreen(getApplicationContext());
+				}
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
-				SettingUtil.setGpsState(MainActivity.this, true); // 打开GPS
 				SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
+				initialNodeState();
 
-				startAutoRecord("acc_on");
+				startAutoRecord("");
+				new Thread(new StartRecordWhenAccOnThread()).start();
+				SettingUtil.setEdogPowerOn(true); // 打开电子狗电源
 
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
-				SettingUtil.setGpsState(MainActivity.this, false); // 关闭GPS
-				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
+				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 
 				sendBroadcast(new Intent(Constant.Broadcast.RELEASE_RECORD));
+				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
+						MainActivity.this);
+
+				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
+
+				// Reset Record State
+				ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
+				ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {
@@ -499,7 +509,7 @@ public class MainActivity extends Activity {
 					} else { // ACC_OFF
 						if (hour == 3) { // 凌晨3点重启机器
 							context.sendBroadcast(new Intent(
-									"tchip.intent.action.ACTION_REBOOT"));
+									Constant.Broadcast.DEVICE_REBOOT));
 						}
 					}
 				}
@@ -607,97 +617,25 @@ public class MainActivity extends Activity {
 				this.removeMessages(3);
 				break;
 
-			case 4: // 更新FMOL信息
-				this.removeMessages(4);
-				break;
-
-			case 5: // 更新电子狗信息
-				this.removeMessages(5);
-				break;
-
-			case 6: // 更新蓝牙电话信息
-				this.removeMessages(6);
-				break;
-
-			case 7: // 更新FM发射信息
+			case 7: // 初始化节点
 				this.removeMessages(7);
-				// String fmStateConfig = ProviderUtil.getValue(context,
-				// Name.FM_TRANSMIT_STATE);
-				boolean isFmOnNode = SettingUtil.isFmTransmitOnNode();
+				// FM发射开关/频率
 				String fmFrequencyConfig = ProviderUtil.getValue(context,
 						Name.FM_TRANSMIT_FREQ);
-				int fmFreqencyNode = SettingUtil.getFmFrequcenyNode(context);
-
-				final String textFrequencyContent; // 发射频率
 				if (null != fmFrequencyConfig
 						&& fmFrequencyConfig.trim().length() > 0) {
-					int intFreqConfig = Integer.parseInt(fmFrequencyConfig);
-					if (intFreqConfig > 8750 && intFreqConfig <= 10800) {
-						textFrequencyContent = "" + intFreqConfig / 100.0f;
-					} else {
-						textFrequencyContent = "" + fmFreqencyNode / 100.0f;
-					}
-				} else {
-					textFrequencyContent = "" + fmFreqencyNode / 100.0f;
-					if (9600 != fmFreqencyNode) {
-						ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ,
-								"" + fmFreqencyNode);
-					}
+					SettingUtil.setFmFrequencyNode(context,
+							Integer.parseInt(fmFrequencyConfig));
 				}
-
-				final boolean isImageFMStateOn; // 发射状态
-				isImageFMStateOn = isFmOnNode;
-				mainHandler.post(new Runnable() {
-
-					@Override
-					public void run() {
-						// textFrequency.setText(textFrequencyContent);
-						// imageFMState
-						// .setImageResource(isImageFMStateOn ?
-						// R.drawable.main_item_state_stop
-						// : R.drawable.main_item_state_play);
-					}
-				});
-				break;
-
-			case 8: // 更新文件信息
-				this.removeMessages(8);
-				final String fileTotalSize = StorageUtil.getFileTotalSizeStr();
-				final String fileLeftSize = StorageUtil.getFileLeftSizeStr();
-				mainHandler.post(new Runnable() {
-
-					@Override
-					public void run() {
-						textTotalStorage.setText(getResources().getString(
-								R.string.file_total_hint)
-								+ fileTotalSize
-								+ getResources().getString(R.string.file_gb));
-						textLeftStorage.setText(fileLeftSize);
-					}
-				});
-				this.removeMessages(8);
-				break;
-
-			case 9: // 点击按钮：更改FM发射状态
-				this.removeMessages(9);
-				final boolean isFmOnNow = SettingUtil.isFmTransmitOnNode();
-				if (isFmOnNow) {
-					SettingUtil.setFmTransmitPowerOn(context, false);
-					SettingUtil.setFmTransmitConfigOn(context, false);
-				} else {
+				String fmStateConfig = ProviderUtil.getValue(context,
+						Name.FM_TRANSMIT_STATE);
+				if (null != fmStateConfig && fmStateConfig.trim().length() > 0
+						&& "1".equals(fmStateConfig)) {
 					SettingUtil.setFmTransmitPowerOn(context, true);
-					SettingUtil.setFmTransmitConfigOn(context, true);
+				} else {
+					SettingUtil.setFmTransmitPowerOn(context, false);
 				}
-				mainHandler.post(new Runnable() {
-					@Override
-					public void run() {
-						// imageFMState
-						// .setImageResource(!isFmOnNow ?
-						// R.drawable.main_item_state_stop
-						// : R.drawable.main_item_state_play);
-					}
-				});
-				this.removeMessages(9);
+				this.removeMessages(7);
 				break;
 
 			}

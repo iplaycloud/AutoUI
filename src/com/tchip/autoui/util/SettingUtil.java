@@ -111,10 +111,16 @@ public class SettingUtil {
 	public static void setFmTransmitPowerOn(Context context, boolean isOn) {
 		SettingUtil
 				.SaveFileToNode(SettingUtil.nodeFmEnable, (isOn ? "1" : "0"));
+		context.sendBroadcast(new Intent(isOn ? Constant.Broadcast.FM_ON
+				: Constant.Broadcast.FM_OFF));
 		MyLog.v("[AutoUI]setFmTransmitPowerOn:" + isOn);
-		// context.sendBroadcast(new Intent(isOn ?
-		// "com.tchip.FM_OPEN_CARLAUNCHER"
-		// : "com.tchip.FM_CLOSE_CARLAUNCHER"));
+	}
+
+	public static File nodeEdogPower = new File(Constant.Path.NODE_EDOG_ENABLE);
+
+	public static void setEdogPowerOn(boolean isOn) {
+		SettingUtil.SaveFileToNode(nodeEdogPower, isOn ? "1" : "0");
+		MyLog.v("[AutoUI]setEdogPowerOn:" + isOn);
 	}
 
 	/**
@@ -227,14 +233,14 @@ public class SettingUtil {
 		// 获取PowerManager.WakeLock对象,后面的参数|表示同时传入两个值,最后的是LogCat里用的Tag
 		PowerManager.WakeLock wl = pm.newWakeLock(
 				PowerManager.ACQUIRE_CAUSES_WAKEUP
-						| PowerManager.SCREEN_DIM_WAKE_LOCK, "bright");
+						| PowerManager.SCREEN_DIM_WAKE_LOCK, "autoui");
 
 		wl.acquire(); // 点亮屏幕
 		wl.release(); // 释放
 
 		KeyguardManager km = (KeyguardManager) context
 				.getSystemService(Context.KEYGUARD_SERVICE); // 得到键盘锁管理器对象
-		KeyguardLock kl = km.newKeyguardLock("ZMS"); // 参数是LogCat里用的Tag
+		KeyguardLock kl = km.newKeyguardLock("AutoUI"); // 参数是LogCat里用的Tag
 		kl.disableKeyguard();
 	}
 

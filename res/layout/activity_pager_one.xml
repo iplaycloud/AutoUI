@@ -154,8 +154,8 @@
         android:id="@+id/layoutBottomBig"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_toLeftOf="@id/layoutBottomSmall"
         android:layout_marginRight="@dimen/layout_big_margin_right"
+        android:layout_toLeftOf="@id/layoutBottomSmall"
         android:orientation="horizontal" >
 
         <!-- 行车记录 -->
@@ -302,7 +302,7 @@
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:src="@drawable/main_item_state_play"
-                    android:visibility="visible" />
+                    android:visibility="gone" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
