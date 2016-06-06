@@ -7,10 +7,155 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
+    <RelativeLayout
+        android:id="@+id/layoutBottomSmall"
+        android:layout_width="200dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:orientation="vertical" >
+
+        <!-- 电话 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <TextView
+                android:id="@+id/textPhone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/main_item_title_margin_top"
+                android:text="@string/title_phone"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textPhone"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:contentDescription="@null"
+                android:src="@drawable/main_item_phone_small" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textPhone"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:background="?android:attr/selectableItemBackground" />
+        </RelativeLayout>
+
+        <!-- 电子狗 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutEDog"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <TextView
+                android:id="@+id/textEDog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/main_item_title_margin_top"
+                android:text="@string/title_edog"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textEDog"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:contentDescription="@null"
+                android:src="@drawable/main_item_edog_small" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textEDog"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:background="?android:attr/selectableItemBackground" />
+        </RelativeLayout>
+
+        <!-- FM发射 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutFMTransmit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layoutPhone"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <TextView
+                android:id="@+id/textFmTransmit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_item_title_margin_top"
+                android:text="@string/title_fm_transmit"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textFmTransmit"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:contentDescription="@null"
+                android:src="@drawable/main_item_fmtransmit_small" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textFmTransmit"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:background="?android:attr/selectableItemBackground" />
+        </RelativeLayout>
+        <!-- 文件管理 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutFileManager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/layoutEDog"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <TextView
+                android:id="@+id/textFileManager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/small_item_title_margin_top"
+                android:text="@string/title_file_manager"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textFileManager"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:contentDescription="@null"
+                android:src="@drawable/main_item_filemanager_small" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/pager_one_image_length"
+                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_below="@id/textFileManager"
+                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:background="?android:attr/selectableItemBackground" />
+        </RelativeLayout>
+    </RelativeLayout>
+
     <LinearLayout
-        android:id="@+id/layoutBottom"
+        android:id="@+id/layoutBottomBig"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/layoutBottomSmall"
+        android:layout_marginRight="@dimen/layout_big_margin_right"
         android:orientation="horizontal" >
 
         <!-- 行车记录 -->
@@ -157,7 +302,7 @@
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:src="@drawable/main_item_state_play"
-                    android:visibility="gone" />
+                    android:visibility="visible" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -183,273 +328,6 @@
                 </LinearLayout>
             </RelativeLayout>
         </RelativeLayout>
-
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical" >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <!-- 电话 -->
-
-                <RelativeLayout
-                    android:id="@+id/layoutPhone"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/main_item_margin_right"
-                    android:layout_weight="1" >
-
-                    <ImageView
-                        android:layout_width="@dimen/main_item_image_width"
-                        android:layout_height="@dimen/main_item_image_height"
-                        android:contentDescription="@null"
-                        android:src="@drawable/main_item_phone" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/small_item_title_margin_top"
-                        android:text="@string/title_phone"
-                        android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/small_item_title_size" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                        android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                        android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                        android:layout_marginTop="@dimen/main_item_center_point_margin_top"
-                        android:background="?android:attr/selectableItemBackground" >
-                    </RelativeLayout>
-                </RelativeLayout>
-
-                <!-- 音乐 -->
-
-                <RelativeLayout
-                    android:id="@+id/layoutEDog"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/main_item_margin_right"
-                    android:layout_weight="1" >
-
-                    <ImageView
-                        android:layout_width="@dimen/main_item_image_width"
-                        android:layout_height="@dimen/main_item_image_height"
-                        android:contentDescription="@null"
-                        android:src="@drawable/main_item_edog" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/small_item_title_margin_top"
-                        android:text="@string/title_edog"
-                        android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/small_item_title_size" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                        android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                        android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                        android:layout_marginTop="@dimen/main_item_center_point_margin_top"
-                        android:background="?android:attr/selectableItemBackground" >
-                    </RelativeLayout>
-                </RelativeLayout>
-            </LinearLayout>
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:orientation="horizontal" >
-
-                <!-- FM发射 -->
-
-                <RelativeLayout
-                    android:id="@+id/layoutFMTransmit"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/main_item_margin_right"
-                    android:layout_weight="1" >
-
-                    <ImageView
-                        android:layout_width="@dimen/main_item_image_width"
-                        android:layout_height="@dimen/main_item_image_height"
-                        android:contentDescription="@null"
-                        android:src="@drawable/main_item_fmtransmit" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/small_item_title_margin_top"
-                        android:text="@string/title_fm_transmit"
-                        android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/small_item_title_size" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                        android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                        android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                        android:layout_marginTop="@dimen/main_item_center_point_margin_top"
-                        android:background="?android:attr/selectableItemBackground" >
-
-                        <ImageView
-                            android:id="@+id/imageFMState"
-                            android:layout_width="@dimen/fmtransmit_state_width"
-                            android:layout_height="@dimen/fmtransmit_state_height"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
-                            android:background="?android:attr/selectableItemBackgroundBorderless"
-                            android:src="@drawable/main_item_state_play"
-                            android:visibility="gone" />
-
-                        <RelativeLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_above="@id/imageFMState"
-                            android:layout_centerHorizontal="true" >
-
-                            <TextView
-                                android:id="@+id/textFrequency"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="108.5"
-                                android:textColor="#ffffff"
-                                android:textSize="@dimen/fmtransmit_freq_text_size" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignRight="@id/textFrequency"
-                                android:layout_below="@id/textFrequency"
-                                android:text="MHz"
-                                android:textColor="#ffffff"
-                                android:textSize="@dimen/fmtransmit_mhz_text_size" />
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
-                <!-- 文件管理 -->
-
-                <RelativeLayout
-                    android:id="@+id/layoutFileManager"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginRight="@dimen/main_item_margin_right"
-                    android:layout_weight="1" >
-
-                    <ImageView
-                        android:layout_width="@dimen/main_item_image_width"
-                        android:layout_height="@dimen/main_item_image_height"
-                        android:contentDescription="@null"
-                        android:src="@drawable/main_item_filemanager" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                        android:layout_marginTop="@dimen/small_item_title_margin_top"
-                        android:text="@string/title_file_manager"
-                        android:textColor="@color/main_item_title_color"
-                        android:textSize="@dimen/small_item_title_size" />
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                        android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                        android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                        android:layout_marginTop="@dimen/main_item_center_point_margin_top"
-                        android:background="?android:attr/selectableItemBackground" >
-
-                        <RelativeLayout
-                            android:id="@+id/layoutUsage"
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/filemanager_usage_height"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginTop="@dimen/filemanager_usage_margin_top" >
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:contentDescription="@null"
-                                android:src="@drawable/main_item_filemanager_circle_small" />
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:contentDescription="@null"
-                                android:src="@drawable/main_item_filemanager_circle_big" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/file_left_hint_margin_top"
-                                android:text="@string/file_left_hint"
-                                android:textColor="#ffffff"
-                                android:textSize="@dimen/filemanager_usage_lsftstorage_hint_size" />
-
-                            <TextView
-                                android:id="@+id/textLeftStorage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerHorizontal="true"
-                                android:layout_marginTop="@dimen/filemanager_usage_leftstorage_margin_top"
-                                android:text="@string/file_left_default"
-                                android:textColor="#ffffff"
-                                android:textSize="@dimen/filemanager_usage_leftstorage_text_size" />
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_below="@id/textLeftStorage"
-                                android:layout_centerHorizontal="true"
-                                android:text="@string/file_gb"
-                                android:textColor="#ffffff"
-                                android:textSize="@dimen/filemanager_usage_lsftstorage_gb_size" />
-                        </RelativeLayout>
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/filemanager_file_count_height"
-                            android:layout_alignParentBottom="true"
-                            android:layout_centerHorizontal="true"
-                            android:layout_marginBottom="@dimen/filemanager_file_count_margin_bottom" >
-
-                            <ImageView
-                                android:layout_width="@dimen/filemanager_file_count_bg_width"
-                                android:layout_height="@dimen/filemanager_file_count_bg_height"
-                                android:layout_centerInParent="true"
-                                android:src="@drawable/main_item_filemanager_file_bg" />
-
-                            <TextView
-                                android:id="@+id/textTotalStorage"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_centerInParent="true"
-                                android:text="@string/file_total_default"
-                                android:textColor="@color/file_total_text_color"
-                                android:textSize="@dimen/filemanager_file_count_text_size" />
-                        </RelativeLayout>
-                    </RelativeLayout>
-                </RelativeLayout>
-            </LinearLayout>
-        </LinearLayout>
     </LinearLayout>
 
 </RelativeLayout>

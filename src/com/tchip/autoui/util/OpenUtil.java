@@ -66,7 +66,7 @@ public class OpenUtil {
 
 		/** 行车记录 */
 		RECORD,
-		
+
 		RECORD_BACK,
 
 		/** 轨迹 */
@@ -202,7 +202,8 @@ public class OpenUtil {
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
 					// SettingUtil.setEDogEnable(true);
 					ComponentName componentEDog = new ComponentName(
-							"com.nengzhong.app.activity", "com.nengzhong.app.activity.DogActivity");
+							"com.nengzhong.app.activity",
+							"com.nengzhong.app.activity.DogActivity");
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
 					activity.startActivity(intentEDog);
@@ -340,7 +341,7 @@ public class OpenUtil {
 					activity.startActivity(intentRecord);
 				}
 					break;
-					
+
 				case RECORD_BACK:
 					ComponentName componentRecord = new ComponentName(
 							"com.tchip.autorecordback",
@@ -453,15 +454,12 @@ public class OpenUtil {
 					break;
 
 				case YIKA:
-					activity.sendBroadcast(new Intent(
-							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
+					// activity.sendBroadcast(new Intent(
+					// "tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
 
-					Intent intentWeme = new Intent();
-					ComponentName componentWeme = new ComponentName(
-							"com.mirrtalk.app", "com.mirrtalk.app.MainActivity");
-					intentWeme.setComponent(componentWeme);
-					intentWeme.setAction("android.intent.action.VIEW");
-					activity.startActivity(intentWeme);
+					Intent tmpIntent = new Intent("com.android.ecar.recv");
+					tmpIntent.putExtra("ecarSendKey", "StartECar");
+					activity.sendBroadcast(tmpIntent);
 					break;
 
 				case WIFI:

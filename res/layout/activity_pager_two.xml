@@ -7,10 +7,136 @@
     android:gravity="center"
     android:orientation="horizontal" >
 
+    <RelativeLayout
+        android:id="@+id/layoutBottomSmall"
+        android:layout_width="@dimen/pager_two_image_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/pager_two_image_margin_top" >
+
+        <!-- 天气 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutWeather"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pager_two_image_height" >
+
+            <TextView
+                android:id="@+id/textWeather"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                android:layout_marginTop="@dimen/pager_two_small_title_margin_top"
+                android:text="@string/title_weather"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_two_image_width"
+                android:layout_height="@dimen/pager_two_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/main_item_weather_small" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/pager_two_ripple_width"
+                android:layout_height="@dimen/pager_two_ripple_height"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="?android:attr/selectableItemBackground" >
+
+                <TextView
+                    android:id="@+id/textWeatherTmpRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/weather_info_margin_bottom"
+                    android:layout_marginRight="@dimen/weather_info_margin_right"
+                    android:text="15~25℃"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/weather_info_text_size" />
+
+                <TextView
+                    android:id="@+id/textWeatherInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textWeatherTmpRange"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/weather_info_margin_span"
+                    android:layout_marginRight="@dimen/weather_info_margin_right"
+                    android:text="未知"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/weather_info_text_size" />
+
+                <TextView
+                    android:id="@+id/textWeatherCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textWeatherInfo"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/weather_info_margin_span"
+                    android:layout_marginRight="@dimen/weather_info_margin_right"
+                    android:drawableLeft="@drawable/weather_location"
+                    android:text="未定位"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/weather_info_text_size" />
+
+                <ImageView
+                    android:id="@+id/imageWeatherInfo"
+                    android:layout_width="@dimen/weather_info_icon_length"
+                    android:layout_height="@dimen/weather_info_icon_length"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="@dimen/weather_info_icon_margin_top"
+                    android:contentDescription="@null"
+                    android:src="@drawable/weather_sun" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 设置 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutSetting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pager_two_image_height"
+            android:layout_below="@id/layoutWeather"
+            android:layout_marginRight="@dimen/main_item_margin_right"
+            android:layout_marginTop="16dp" >
+
+            <TextView
+                android:id="@+id/textSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                android:layout_marginTop="@dimen/pager_two_small_title_margin_top"
+                android:text="@string/title_setting"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_two_image_width"
+                android:layout_height="@dimen/pager_two_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/main_item_setting_small" />
+
+            <RelativeLayout
+                android:layout_width="@dimen/pager_two_ripple_width"
+                android:layout_height="@dimen/pager_two_ripple_height"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="?android:attr/selectableItemBackground" />
+        </RelativeLayout>
+    </RelativeLayout>
+
     <LinearLayout
-        android:id="@+id/layoutBottom"
+        android:id="@+id/layoutBottomBig"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/layoutBottomSmall"
         android:orientation="horizontal" >
 
         <!-- 喜马拉雅 -->
@@ -47,7 +173,6 @@
 
                 <ImageView
                     android:id="@+id/imageXimalayaState"
-                    android:visibility="gone"
                     android:layout_width="@dimen/fmtransmit_state_width"
                     android:layout_height="@dimen/fmtransmit_state_height"
                     android:layout_alignParentBottom="true"
@@ -55,83 +180,8 @@
                     android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_state_play" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!-- 天气 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutWeather"
-            android:layout_width="@dimen/main_item_total_width"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="@dimen/main_item_image_width"
-                android:layout_height="@dimen/main_item_image_height"
-                android:contentDescription="@null"
-                android:src="@drawable/main_item_weather" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:text="@string/title_weather"
-                android:textColor="@color/main_item_title_color"
-                android:textSize="@dimen/main_item_title_size" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                android:layout_marginTop="@dimen/main_item_center_point_margin_top"
-                android:background="?android:attr/selectableItemBackground" >
-
-                <ImageView
-                    android:id="@+id/imageWeatherInfo"
-                    android:layout_width="@dimen/weather_info_icon_length"
-                    android:layout_height="@dimen/weather_info_icon_length"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/weather_info_icon_margin_top"
-                    android:contentDescription="@null"
-                    android:src="@drawable/weather_sun" />
-
-                <TextView
-                    android:id="@+id/textWeatherInfo"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/imageWeatherInfo"
-                    android:layout_centerHorizontal="true"
-                    android:text="未知"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/weather_info_text_size" />
-
-                <TextView
-                    android:id="@+id/textWeatherTmpRange"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textWeatherInfo"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/weather_temp_margin_top"
-                    android:text="15~25℃"
-                    android:textColor="#ade8ff"
-                    android:textSize="@dimen/weather_temp_text_size" />
-
-                <TextView
-                    android:id="@+id/textWeatherCity"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@id/textWeatherTmpRange"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginTop="@dimen/weather_city_margin_top"
-                    android:drawableLeft="@drawable/weather_location"
-                    android:text="未定位"
-                    android:textColor="#ffffff"
-                    android:textSize="@dimen/weather_city_text_size" />
+                    android:src="@drawable/main_item_state_play"
+                    android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
 

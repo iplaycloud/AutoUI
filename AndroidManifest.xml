@@ -2,7 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.tchip.autoui"
     android:versionCode="1"
-    android:versionName="2016.06.01-10:20" >
+    android:versionName="2016.06.03-16:00" >
 
     <uses-sdk
         android:minSdkVersion="21"

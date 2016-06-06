@@ -254,7 +254,7 @@
                         android:layout_marginTop="@dimen/weather_temp_margin_top"
                         android:text="15~25℃"
                         android:textColor="#ade8ff"
-                        android:textSize="@dimen/weather_temp_text_size" />
+                        android:textSize="@dimen/weather_info_text_size" />
 
                     <TextView
                         android:id="@+id/textWeatherCity"
@@ -266,7 +266,7 @@
                         android:drawableLeft="@drawable/weather_location"
                         android:text="未定位"
                         android:textColor="#ffffff"
-                        android:textSize="@dimen/weather_city_text_size" />
+                        android:textSize="@dimen/weather_info_text_size" />
                 </RelativeLayout>
             </RelativeLayout>
 

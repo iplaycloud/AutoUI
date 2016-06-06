@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
-import java.util.Random;
 
 import cn.kuwo.autosdk.api.KWAPI;
 import cn.kuwo.autosdk.api.PlayState;
@@ -60,8 +59,6 @@ public class MainActivity extends Activity {
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
 	private ImageView imageRecordState;
 	private TextView textRecStateFront, textRecStateBack;
-	private TextView textFrequency; // FM发射频率
-	private ImageView imageFMState; // FM发射状态
 	/** 剩余空间 */
 	private TextView textLeftStorage;
 	/** 总空间 */
@@ -128,13 +125,7 @@ public class MainActivity extends Activity {
 		MyLog.i("[PagerActivity]onResume");
 		super.onResume();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
-		// Page 1
-		updateRecordInfo();
-		updateMusicInfo();
-		updateFMTransmitInfo();
-		updateFileInfo();
-		// Page 2
-		updateWeatherInfo();
+		updateAllInfo();
 	}
 
 	@Override
@@ -161,6 +152,16 @@ public class MainActivity extends Activity {
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
+	}
+
+	private void updateAllInfo() {
+		// Page 1
+		updateRecordInfo();
+		updateMusicInfo();
+		// updateFMTransmitInfo();
+		// updateFileInfo();
+		// Page 2
+		updateWeatherInfo();
 	}
 
 	private void startAutoRecord(String reason) {
@@ -243,9 +244,6 @@ public class MainActivity extends Activity {
 		// FM发射
 		RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 		layoutFMTransmit.setOnClickListener(new MyOnClickListener());
-		textFrequency = (TextView) findViewById(R.id.textFrequency);
-		imageFMState = (ImageView) findViewById(R.id.imageFMState);
-		imageFMState.setOnClickListener(new MyOnClickListener());
 		// 文件管理
 		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
 		layoutFileManager.setOnClickListener(new MyOnClickListener());
@@ -253,14 +251,21 @@ public class MainActivity extends Activity {
 		textLeftStorage = (TextView) findViewById(R.id.textLeftStorage);
 
 		isPagerOneShowed = true;
+		updateAllInfo();
 	}
 
 	private void updateLayoutTwo() {
-		// 喜马拉雅
+		// 网络电台-喜马拉雅
 		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
 		layoutXimalaya.setOnClickListener(new MyOnClickListener());
 		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
 		imageXimalayaState.setOnClickListener(new MyOnClickListener());
+		// 微信助手
+		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
+		layoutWechat.setOnClickListener(new MyOnClickListener());
+		// 翼卡
+		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
+		layoutYiKa.setOnClickListener(new MyOnClickListener());
 		// 天气
 		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 		layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -271,15 +276,12 @@ public class MainActivity extends Activity {
 				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
 		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
 		updateWeatherInfo();
-
-		// 微信助手
-		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
-		layoutWechat.setOnClickListener(new MyOnClickListener());
-		// 微密
-		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
-		layoutYiKa.setOnClickListener(new MyOnClickListener());
+		// 设置
+		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
+		layoutSetting.setOnClickListener(new MyOnClickListener());
 
 		isPagerTwoShowed = true;
+		updateAllInfo();
 	}
 
 	class MyOnClickListener implements View.OnClickListener {
@@ -292,7 +294,12 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.imageRecordState:
-				HintUtil.showToast(MainActivity.this, "Change Record State"); // FIXME
+				if (MyApp.isAccOn) {
+
+				} else {
+					HintUtil.showToast(MainActivity.this, getResources()
+							.getString(R.string.sleeping_now));
+				}
 				break;
 
 			case R.id.layoutNavigation:
@@ -331,10 +338,6 @@ public class MainActivity extends Activity {
 
 			case R.id.layoutFMTransmit:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.FMTRANSMIT);
-				break;
-
-			case R.id.imageFMState:
-				changeFMState();
 				break;
 
 			case R.id.layoutMultimedia:
@@ -648,10 +651,11 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void run() {
-						textFrequency.setText(textFrequencyContent);
-						imageFMState
-								.setImageResource(isImageFMStateOn ? R.drawable.main_item_state_stop
-										: R.drawable.main_item_state_play);
+						// textFrequency.setText(textFrequencyContent);
+						// imageFMState
+						// .setImageResource(isImageFMStateOn ?
+						// R.drawable.main_item_state_stop
+						// : R.drawable.main_item_state_play);
 					}
 				});
 				break;
@@ -687,10 +691,10 @@ public class MainActivity extends Activity {
 				mainHandler.post(new Runnable() {
 					@Override
 					public void run() {
-						imageFMState
-								.setImageResource(!isFmOnNow ? R.drawable.main_item_state_stop
-										: R.drawable.main_item_state_play);
-
+						// imageFMState
+						// .setImageResource(!isFmOnNow ?
+						// R.drawable.main_item_state_stop
+						// : R.drawable.main_item_state_play);
 					}
 				});
 				this.removeMessages(9);

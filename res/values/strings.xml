@@ -49,7 +49,10 @@
 
     <!-- 异常处理 -->
     <string name="app_has_exception">抱歉AutoUI出现异常,即将退出</string>
-    <!-- ViewPager -->
+
+    <!-- 录像 -->
+    <string name="sleeping_now">正在休眠</string>
+    <!-- ViewPager -->
     <string-array name="jazzy_effects">
         <item>Standard</item>
         <item>Tablet</item>

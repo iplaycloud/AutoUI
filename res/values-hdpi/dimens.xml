@@ -7,7 +7,16 @@
     <dimen name="samll_item_total_width">100dp</dimen>
     <dimen name="small_item_total_height">140dp</dimen>
     <dimen name="small_item_title_size">15sp</dimen>
-    <dimen name="small_item_title_margin_top">10dp</dimen>
+    <dimen name="small_item_title_margin_top">25dp</dimen>
+    <dimen name="pager_one_image_length">90dp</dimen>
+    <dimen name="pager_one_image_margin_top">12dp</dimen>
+    <dimen name="layout_big_margin_right">20dp</dimen>
+    <dimen name="pager_two_image_width">214dp</dimen>
+    <dimen name="pager_two_image_height">134dp</dimen>
+    <dimen name="pager_two_image_margin_top">22dp</dimen>
+    <dimen name="pager_two_ripple_width">184dp</dimen>
+    <dimen name="pager_two_ripple_height">90dp</dimen>
+    <dimen name="pager_two_small_title_margin_top">10dp</dimen>
     <!-- 左上角图标 -->
     <dimen name="main_item_icon_height">36dp</dimen>
     <dimen name="main_item_icon_width">36dp</dimen>
@@ -74,12 +83,13 @@
     <dimen name="multimedia_image_margin_left_right">120dp</dimen>
 
     <!-- 天气 -->
-    <dimen name="weather_temp_text_size">21sp</dimen>
     <dimen name="weather_temp_margin_top">21dp</dimen>
-    <dimen name="weather_info_icon_length">80dp</dimen>
+    <dimen name="weather_info_icon_length">60dp</dimen>
     <dimen name="weather_info_icon_margin_top">25dp</dimen>
-    <dimen name="weather_info_text_size">18sp</dimen>
-    <dimen name="weather_city_text_size">18sp</dimen>
+    <dimen name="weather_info_text_size">15sp</dimen>
     <dimen name="weather_city_margin_top">21dp</dimen>
+    <dimen name="weather_info_margin_right">10dp</dimen>
+    <dimen name="weather_info_margin_bottom">8dp</dimen>
+    <dimen name="weather_info_margin_span">3dp</dimen>
 
 </resources>
