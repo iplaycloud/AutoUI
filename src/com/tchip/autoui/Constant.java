@@ -32,6 +32,10 @@ public interface Constant {
 		public static final String ACC_ON = "com.tchip.ACC_ON";
 		/** ACC下电 */
 		public static final String ACC_OFF = "com.tchip.ACC_OFF";
+		/** 执行ACC_ON操作 */
+		public static final String DO_ACC_ON_WORK = "tchip.intent.action.DO_ACC_ON_WORK";
+		/** 执行ACC_OFF操作 */
+		public static final String DO_ACC_OFF_WORK = "tchip.intent.action.DO_ACC_OFF_WORK";
 		/** TTS播报,Extra:content(String) */
 		public static final String TTS_SPEAK = "tchip.intent.action.TTS_SPEAK";
 
@@ -46,10 +50,10 @@ public interface Constant {
 
 		/** 关掉录像：释放预览 */
 		public static final String RELEASE_RECORD = "tchip.intent.action.RELEASE_RECORD";
-		
+
 		/** FM发射开启,通知侧边栏更新 */
 		public static final String FM_ON = "tchip.intent.action.FM_ON";
-		
+
 		/** FM发射关闭,通知侧边栏更新 */
 		public static final String FM_OFF = "tchip.intent.action.FM_OFF";
 
@@ -158,7 +162,10 @@ public interface Constant {
 		public static final String NODE_EDOG_ENABLE = "/sys/bus/i2c/devices/0-007f/EDog_enable";
 
 		/** LED指示灯:0-全灭 1X-红灯 2X-蓝灯 100-都亮 */
-		public static final String NODE_LED_ENABLE = "/sys/bus/i2c/devices/0-007f/LED_ON_OFF";
+		public static final String NODE_LED_CONFIG = "/sys/bus/i2c/devices/0-007f/LED_ON_OFF";
+
+		/** ACC状态 */
+		public static final String NODE_ACC_STATUS = "/sys/bus/i2c/devices/0-007f/ACC_status";
 	}
 
 }

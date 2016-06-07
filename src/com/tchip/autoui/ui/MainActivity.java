@@ -30,6 +30,8 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.database.ContentObserver;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -114,14 +116,26 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		registerReceiver(mainReceiver, mainFilter);
 
+		getContentResolver()
+				.registerContentObserver(
+						Uri.parse("content://com.tchip.provider.AutoProvider/state/name/"),
+						true, new AutoContentObserver(new Handler()));
+
 		// Reset Record State
 		ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
 		ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
 
 		initialNodeState();
 
-		// Start AutoRecord
-		new Thread(new StartRecordWhenOnCreateThread()).start();
+		// 首次启动是否需要自动录像
+		if (1 == SettingUtil.getAccStatus()) {
+			MyApp.isAccOn = true; // 同步ACC状态
+			sendBroadcast(new Intent(Constant.Broadcast.DO_ACC_ON_WORK));
+			new Thread(new StartRecordThread()).start();
+		} else {
+			MyApp.isAccOn = false; // 同步ACC状态
+			sendBroadcast(new Intent(Constant.Broadcast.DO_ACC_OFF_WORK));
+		}
 	}
 
 	@Override
@@ -144,7 +158,6 @@ public class MainActivity extends Activity {
 		if (mainReceiver != null) {
 			unregisterReceiver(mainReceiver);
 		}
-
 		if (textToSpeech != null) { // 关闭TTS引擎
 			textToSpeech.shutdown();
 		}
@@ -160,33 +173,23 @@ public class MainActivity extends Activity {
 
 	/** 启动录像 */
 	private void startAutoRecord(String reason) {
-		ComponentName componentRecord = new ComponentName(
-				"com.tchip.autorecord", "com.tchip.autorecord.ui.MainActivity");
-		Intent intentRecord = new Intent();
-		intentRecord.putExtra("time", System.currentTimeMillis());
-		intentRecord.putExtra("reason", reason);
-		intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intentRecord.setComponent(componentRecord);
-		startActivity(intentRecord);
-	}
-
-	class StartRecordWhenOnCreateThread implements Runnable {
-
-		@Override
-		public void run() {
-			try {
-				Thread.sleep(3000);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
-			if (MyApp.isAccOn) {
-				startAutoRecord("autoui_oncreate");
-			}
+		try {
+			MyLog.v("[AutoUI]startAutoRecord");
+			ComponentName componentRecord = new ComponentName(
+					"com.tchip.autorecord",
+					"com.tchip.autorecord.ui.MainActivity");
+			Intent intentRecord = new Intent();
+			intentRecord.putExtra("time", System.currentTimeMillis());
+			intentRecord.putExtra("reason", reason);
+			intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentRecord.setComponent(componentRecord);
+			startActivity(intentRecord);
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-
 	}
 
-	class StartRecordWhenAccOnThread implements Runnable {
+	class StartRecordThread implements Runnable {
 
 		@Override
 		public void run() {
@@ -198,6 +201,55 @@ public class MainActivity extends Activity {
 			if (MyApp.isAccOn) {
 				startAutoRecord("acc_on");
 			}
+		}
+
+	}
+
+	class CloseRecordThread implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			if (!MyApp.isAccOn) {
+				sendBroadcast(new Intent(Constant.Broadcast.RELEASE_RECORD));
+				sendBroadcast(new Intent(Constant.Broadcast.KILL_APP).putExtra(
+						"name", "com.tchip.autorecord"));
+			}
+		}
+
+	}
+
+	/** ContentProvder监听 */
+	public class AutoContentObserver extends ContentObserver {
+
+		public AutoContentObserver(Handler handler) {
+			super(handler);
+		}
+
+		@Override
+		public void onChange(boolean selfChange, Uri uri) {
+			String name = uri.getLastPathSegment(); // getPathSegments().get(2);
+			if (name.equals("state")) { // insert
+			} else { // update
+				MyLog.v("[ContentObserver]onChange,Name:" + name);
+				if (name.startsWith("weather")) { // 天气
+					updateWeatherInfo();
+				} else if (name.startsWith("rec")) { // 录像
+					updateRecordInfo();
+				} else if (name.startsWith("music")) { // 音乐
+					updateMusicInfo();
+				}
+			}
+			super.onChange(selfChange, uri);
+		}
+
+		@Override
+		public void onChange(boolean selfChange) {
+			super.onChange(selfChange);
 		}
 
 	}
@@ -463,30 +515,34 @@ public class MainActivity extends Activity {
 			String action = intent.getAction();
 			MyLog.v("[AutoUI.Main.MainReceiver]action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
+				MyApp.isAccOn = true;
+				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 				if (!powerManager.isScreenOn()) { // 点亮屏幕
 					SettingUtil.lightScreen(getApplicationContext());
 				}
-				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 				SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 				initialNodeState();
 
-				startAutoRecord("");
-				new Thread(new StartRecordWhenAccOnThread()).start();
 				SettingUtil.setEdogPowerOn(true); // 打开电子狗电源
+				SettingUtil.setLedConfig(21); // 蓝灯亮
+				new Thread(new StartRecordThread()).start();
 
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
+				MyApp.isAccOn = false;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
+				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 
-				sendBroadcast(new Intent(Constant.Broadcast.RELEASE_RECORD));
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
 
 				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
+				SettingUtil.setLedConfig(0); // 关闭LED灯
 
 				// Reset Record State
 				ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
 				ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
+				new Thread(new CloseRecordThread()).start();
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {
@@ -515,7 +571,6 @@ public class MainActivity extends Activity {
 				}
 			}
 		}
-
 	}
 
 	class TaskHandler extends Handler {
@@ -560,7 +615,6 @@ public class MainActivity extends Activity {
 												R.string.rec_state_back_off));
 							}
 						}
-
 					}
 				});
 				this.removeMessages(1);

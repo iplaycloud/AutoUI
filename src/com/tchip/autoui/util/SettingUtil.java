@@ -244,34 +244,8 @@ public class SettingUtil {
 		kl.disableKeyguard();
 	}
 
-	/** Camera自动调节亮度节点，1：开 0：关;默认打开 */
-	public static File fileAutoLightSwitch = new File(
-			"/sys/devices/platform/mt-i2c.1/i2c-1/1-007f/back_car_status");
-
-	/** 设置Camera自动调节亮度开关 */
-	public static void setAutoLight(Context context, boolean isAutoLightOn) {
-		SaveFileToNode(fileAutoLightSwitch, isAutoLightOn ? "1" : "0");
-		MyLog.v("[SettingUtil]setAutoLight:" + isAutoLightOn);
-	}
-
-	/** 停车侦测开关节点，2：打开 3：关闭（默认） */
-	public static File fileParkingMonitor = new File(
-			"/sys/devices/platform/mt-i2c.1/i2c-1/1-007f/back_car_status");
-
-	public static void setParkingMonitor(Context context, boolean isParkingOn) {
-		MyLog.v("[SettingUtil]setParkingMonitor:" + isParkingOn);
-		SaveFileToNode(fileParkingMonitor, isParkingOn ? "2" : "3");
-
-		SharedPreferences sharedPreferences = context.getSharedPreferences(
-				Constant.MySP.NAME, Context.MODE_PRIVATE);
-		// Editor editor = sharedPreferences.edit();
-		// editor.putBoolean(Constant.MySP.STR_PARKING_ON, isParkingOn);
-		// editor.commit();
-	}
-
 	/** ACC状态节点 */
-	public static File fileAccStatus = new File(
-			"/sys/devices/platform/mt-i2c.1/i2c-1/1-007f/acc_car_status");
+	public static File fileAccStatus = new File(Constant.Path.NODE_ACC_STATUS);
 
 	/**
 	 * 获取ACC状态
@@ -336,8 +310,7 @@ public class SettingUtil {
 	}
 
 	/** 电子狗电源开关节点，1-打开 0-关闭 */
-	public static File fileEDogPower = new File(
-			"/sys/devices/platform/mt-i2c.1/i2c-1/1-007f/edog_car_status");
+	public static File fileEDogPower = new File(Constant.Path.NODE_EDOG_ENABLE);
 
 	/**
 	 * 设置电子狗电源开关
@@ -349,61 +322,28 @@ public class SettingUtil {
 		SaveFileToNode(fileEDogPower, isEDogOn ? "1" : "0");
 	}
 
-	/** 初始化节点状态 */
-	public static void initialNodeState(Context context) {
-		SharedPreferences sharedPreferences = context.getSharedPreferences(
-				Constant.MySP.NAME, Context.MODE_PRIVATE);
+	public static File FileLedPower = new File(Constant.Path.NODE_LED_CONFIG);
 
-		// 1.启动时初始化FM发射频率节点,频率范围：7600~10800:8750-10800
-
-		// 2.初始化自动亮度节点
-
-		// 3.初始化停车侦测开关
-
+	/**
+	 * LED指示灯:
+	 * 
+	 * 0-全灭
+	 * 
+	 * 10-红灯灭
+	 * 
+	 * 11-红灯亮
+	 * 
+	 * 20-蓝灯灭
+	 * 
+	 * 21-蓝灯亮
+	 * 
+	 * 100-都亮
+	 * 
+	 * @param ledConfig
+	 */
+	public static void setLedConfig(int ledConfig) {
+		MyLog.v("[SettingUtil]setLedConfig:" + ledConfig);
+		SaveFileToNode(FileLedPower, "" + ledConfig);
 	}
 
-	public static void killApp(Context context, String app) {
-		ActivityManager myActivityManager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
-				.getRunningAppProcesses();
-		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
-			if (amPro.processName.contains(app)) {
-				try {
-					Method forceStopPackage = myActivityManager
-							.getClass()
-							.getDeclaredMethod("forceStopPackage", String.class);
-					forceStopPackage.setAccessible(true);
-					forceStopPackage.invoke(myActivityManager,
-							amPro.processName);
-					MyLog.d("kill kuwo music ok...............");
-				} catch (Exception e) {
-					MyLog.d("kill kuwo music failed..............."
-							+ e.toString());
-				}
-			}
-		}
-	}
-
-	public static void killApp(Context context, String[] app) {
-		ActivityManager myActivityManager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
-				.getRunningAppProcesses();
-		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
-			for (String strApp : app) {
-				if (amPro.processName.contains(strApp)) {
-					try {
-						Method forceStopPackage = myActivityManager.getClass()
-								.getDeclaredMethod("forceStopPackage",
-										String.class);
-						forceStopPackage.setAccessible(true);
-						forceStopPackage.invoke(myActivityManager,
-								amPro.processName);
-					} catch (Exception e) {
-					}
-				}
-			}
-		}
-	}
 }
