@@ -454,12 +454,13 @@ public class OpenUtil {
 					break;
 
 				case YIKA:
-					// activity.sendBroadcast(new Intent(
-					// "tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
-
-					Intent tmpIntent = new Intent("com.android.ecar.recv");
-					tmpIntent.putExtra("ecarSendKey", "StartECar");
-					activity.sendBroadcast(tmpIntent);
+					ComponentName componentYika;
+					componentYika = new ComponentName("com.coagent.ecar",
+							"com.coagent.ecarnet.car.activity.WelcomeActivity");
+					Intent intentYika = new Intent();
+					intentYika.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentYika.setComponent(componentYika);
+					activity.startActivity(intentYika);
 					break;
 
 				case WIFI:
