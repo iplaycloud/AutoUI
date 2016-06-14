@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.ACC_OFF);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
+		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		registerReceiver(mainReceiver, mainFilter);
 
 		getContentResolver()
@@ -584,6 +585,12 @@ public class MainActivity extends Activity {
 									Constant.Broadcast.DEVICE_REBOOT));
 						}
 					}
+				}
+			} else if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
+				String reason = intent.getStringExtra("reason");
+				if ("homekey".equals(reason)) {
+					viewPager.setCurrentItem(0); // 回到第一页
+				} else if ("recentapps".equals(reason)) {
 				}
 			}
 		}

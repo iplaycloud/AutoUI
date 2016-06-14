@@ -3,7 +3,7 @@
     android:id="@+id/layoutOne"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000000"
+    android:background="@drawable/main_background"
     android:gravity="center"
     android:orientation="horizontal" >
 
