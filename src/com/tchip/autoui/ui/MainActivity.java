@@ -400,6 +400,20 @@ public class MainActivity extends Activity {
 
 			case R.id.imageRecordState:
 				if (MyApp.isAccOn) {
+					String strRecordState = ProviderUtil.getValue(context,
+							Name.REC_FRONT_STATE);
+					if (null != strRecordState
+							&& strRecordState.trim().length() > 0) {
+						if ("1".equals(strRecordState)) {
+							sendBroadcast(new Intent(
+									Constant.Broadcast.SPEECH_COMMAND)
+									.putExtra("command", "close_dvr"));
+						} else {
+							sendBroadcast(new Intent(
+									Constant.Broadcast.SPEECH_COMMAND)
+									.putExtra("command", "open_dvr"));
+						}
+					}
 
 				} else {
 					HintUtil.showToast(MainActivity.this, getResources()
@@ -621,10 +635,14 @@ public class MainActivity extends Activity {
 								textRecStateFront
 										.setText(getResources().getString(
 												R.string.rec_state_front_on));
+								imageRecordState
+										.setImageResource(R.drawable.main_item_state_record_stop);
 							} else {
 								textRecStateFront
 										.setText(getResources().getString(
 												R.string.rec_state_front_off));
+								imageRecordState
+										.setImageResource(R.drawable.main_item_state_record_start);
 							}
 						}
 						if (recStateBack != null
