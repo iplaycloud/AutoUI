@@ -144,6 +144,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
 		updateAllInfo();
+		// viewPager.setCurrentItem(0); // 回到第一页
 	}
 
 	@Override
@@ -166,12 +167,13 @@ public class MainActivity extends Activity {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			viewPager.setCurrentItem(0); // 回到第一页
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
 	}
 
-	/** 启动录像 */
+	/** 启动前录 */
 	private void startAutoRecord(String reason) {
 		try {
 			MyLog.v("[AutoUI]startAutoRecord");
@@ -189,10 +191,23 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/** 启动后录 */
+	private void startBackRecord() {
+		try {
+			Intent intentBack = new Intent();
+			intentBack.setClassName("com.tchip.backrecordcvbs",
+					"com.tchip.backrecordcvbs.FloatService");
+			startService(intentBack);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	class StartRecordThread implements Runnable {
 
 		@Override
 		public void run() {
+			startBackRecord();
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -210,7 +225,11 @@ public class MainActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(3000);
+				Thread.sleep(200);
+				if (!MyApp.isAccOn) {
+					SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
+				}
+				Thread.sleep(2300);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -517,9 +536,9 @@ public class MainActivity extends Activity {
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
 				MyApp.isAccOn = true;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
-				if (!powerManager.isScreenOn()) { // 点亮屏幕
-					SettingUtil.lightScreen(getApplicationContext());
-				}
+				// if (!powerManager.isScreenOn()) { // 点亮屏幕
+				// SettingUtil.lightScreen(getApplicationContext());
+				// }
 				SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 				initialNodeState();
 
@@ -530,12 +549,9 @@ public class MainActivity extends Activity {
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
-				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
-				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
-
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
-
+				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
 				SettingUtil.setLedConfig(0); // 关闭LED灯
 
