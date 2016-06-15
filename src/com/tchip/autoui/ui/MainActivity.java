@@ -226,11 +226,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(200);
-				if (!MyApp.isAccOn) {
-					SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
-				}
-				Thread.sleep(2300);
+				Thread.sleep(2500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -569,6 +565,7 @@ public class MainActivity extends Activity {
 				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
 				SettingUtil.setLedConfig(0); // 关闭LED灯
+				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 
 				// Reset Record State
 				ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
