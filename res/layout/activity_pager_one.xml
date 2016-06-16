@@ -322,7 +322,7 @@
                         android:id="@+id/textMusicInfo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="正在播放的歌"
+                        android:text="@string/music_play_now"
                         android:textColor="#ffffff"
                         android:textSize="@dimen/music_play_song_text_size" />
                 </LinearLayout>

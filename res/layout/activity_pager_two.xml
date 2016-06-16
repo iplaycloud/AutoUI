@@ -53,7 +53,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/weather_info_margin_bottom"
                     android:layout_marginRight="@dimen/weather_info_margin_right"
-                    android:text="15~25℃"
+                    android:text="@string/weather_no_temp"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/weather_info_text_size" />
 
@@ -66,7 +66,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/weather_info_margin_span"
                     android:layout_marginRight="@dimen/weather_info_margin_right"
-                    android:text="未知"
+                    android:text="@string/weather_unknown"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/weather_info_text_size" />
 
@@ -80,7 +80,7 @@
                     android:layout_marginBottom="@dimen/weather_info_margin_span"
                     android:layout_marginRight="@dimen/weather_info_margin_right"
                     android:drawableLeft="@drawable/weather_location"
-                    android:text="未定位"
+                    android:text="@string/weather_not_record"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/weather_info_text_size" />
 

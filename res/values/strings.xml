@@ -52,6 +52,9 @@
 
     <!-- 录像 -->
     <string name="sleeping_now">正在休眠</string>
+    <!-- 音乐 -->
+    <string name="music_play_now">正在播放的歌</string>
+    
     <!-- ViewPager -->
     <string-array name="jazzy_effects">
         <item>Standard</item>

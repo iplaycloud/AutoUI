@@ -1,5 +1,6 @@
 package com.tchip.autoui.ui;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -16,6 +17,7 @@ import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
 import com.tchip.autoui.util.ProviderUtil;
 import com.tchip.autoui.util.SettingUtil;
+import com.tchip.autoui.util.TelephonyUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
@@ -25,6 +27,8 @@ import com.tchip.autoui.view.TransitionViewPager.TransitionEffect;
 import com.tchip.autoui.view.TransitionViewPagerContainer;
 
 import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.Instrumentation;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -38,6 +42,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
+import android.os.SystemClock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.view.PagerAdapter;
@@ -131,11 +136,11 @@ public class MainActivity extends Activity {
 		// 首次启动是否需要自动录像
 		if (1 == SettingUtil.getAccStatus()) {
 			MyApp.isAccOn = true; // 同步ACC状态
-			sendBroadcast(new Intent(Constant.Broadcast.DO_ACC_ON_WORK));
+			doAccOnWork();
 			new Thread(new StartRecordThread()).start();
 		} else {
 			MyApp.isAccOn = false; // 同步ACC状态
-			sendBroadcast(new Intent(Constant.Broadcast.DO_ACC_OFF_WORK));
+			doAccOffWork();
 		}
 	}
 
@@ -453,10 +458,6 @@ public class MainActivity extends Activity {
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.FMTRANSMIT);
 				break;
 
-			case R.id.layoutMultimedia:
-				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.MULTIMEDIA);
-				break;
-
 			case R.id.layoutFileManager:
 				OpenUtil.openModule(MainActivity.this,
 						MODULE_TYPE.FILE_MANAGER_MTK);
@@ -536,6 +537,96 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void doAccOnWork() {
+		TelephonyUtil.setAirplaneMode(context, false); // 关闭飞行模式
+		SettingUtil.setGpsOn(context, true); // 打开GPS
+		// android.os.SystemProperties.set("persist.sys.timezone","Asia/Shanghai");
+		context.sendBroadcast(new Intent(Intent.ACTION_TIMEZONE_CHANGED)
+				.putExtra("time-zone", "Asia/Shanghai"));
+	}
+
+	private void doAccOffWork() {
+		sendKeyCode(KeyEvent.KEYCODE_HOME);
+		TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
+		SettingUtil.setGpsOn(context, false); // 关闭GPS
+
+		String[] arrayKillApp = { "cn.kuwo.kwmusiccar", // 酷我音乐
+				"com.android.gallery3d", // 图库
+				"com.autonavi.amapauto", // 高德地图（车机版）
+				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
+				"com.nengzhong.app.activity", // 益途电子狗
+				"com.coagent.ecar", // 翼卡
+				"com.mediatek.filemanager", // 文件管理
+				"com.tchip.autofm", // FM发射
+				"com.tchip.weather" // 天气
+		};
+		killApp(context, arrayKillApp);
+
+		// android.os.SystemProperties.set("persist.sys.timezone","Asia/Shanghai");
+		context.sendBroadcast(new Intent(Intent.ACTION_TIMEZONE_CHANGED)
+				.putExtra("time-zone", "Asia/Shanghai"));
+
+		powerManager.goToSleep(SystemClock.uptimeMillis()); // 熄屏
+	}
+
+	private void sendKeyCode(final int keyCode) {
+		new Thread() {
+			public void run() {
+				try {
+					Instrumentation inst = new Instrumentation();
+					inst.sendKeyDownUpSync(keyCode);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+
+	private static void killApp(Context context, String app) {
+		ActivityManager myActivityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
+				.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
+			if (amPro.processName.contains(app)) {
+				try {
+					Method forceStopPackage = myActivityManager
+							.getClass()
+							.getDeclaredMethod("forceStopPackage", String.class);
+					forceStopPackage.setAccessible(true);
+					forceStopPackage.invoke(myActivityManager,
+							amPro.processName);
+					MyLog.v("Kill App Success:" + app);
+				} catch (Exception e) {
+					MyLog.v("Kill App Fail:" + app);
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private static void killApp(Context context, String[] app) {
+		ActivityManager myActivityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
+				.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
+			for (String strApp : app) {
+				if (amPro.processName.contains(strApp)) {
+					try {
+						Method forceStopPackage = myActivityManager.getClass()
+								.getDeclaredMethod("forceStopPackage",
+										String.class);
+						forceStopPackage.setAccessible(true);
+						forceStopPackage.invoke(myActivityManager,
+								amPro.processName);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+	}
+
 	private MainReceiver mainReceiver;
 
 	private class MainReceiver extends BroadcastReceiver {
@@ -545,12 +636,13 @@ public class MainActivity extends Activity {
 			String action = intent.getAction();
 			MyLog.v("[AutoUI.Main.MainReceiver]action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
+				doAccOnWork();
 				MyApp.isAccOn = true;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 				// if (!powerManager.isScreenOn()) { // 点亮屏幕
 				// SettingUtil.lightScreen(getApplicationContext());
 				// }
-				SettingUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
+				TelephonyUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 				initialNodeState();
 
 				SettingUtil.setEdogPowerOn(true); // 打开电子狗电源
@@ -562,7 +654,7 @@ public class MainActivity extends Activity {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
-				SettingUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
+				TelephonyUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
 				SettingUtil.setLedConfig(0); // 关闭LED灯
 				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
@@ -571,6 +663,8 @@ public class MainActivity extends Activity {
 				ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
 				ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
 				new Thread(new CloseRecordThread()).start();
+
+				doAccOffWork();
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {

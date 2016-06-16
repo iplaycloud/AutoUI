@@ -11,19 +11,15 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
-import java.util.List;
 
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.util.ProviderUtil.Name;
 
-import android.app.ActivityManager;
 import android.app.KeyguardManager;
 import android.app.KeyguardManager.KeyguardLock;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.location.LocationManager;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -40,27 +36,6 @@ public class SettingUtil {
 		} else {
 			return false;
 		}
-	}
-
-	/** 设置飞行模式 */
-	public static void setAirplaneMode(Context context, boolean setAirPlane) {
-		MyLog.v("[SettingUtil]setAirplaneMode:" + setAirPlane);
-		context.sendBroadcast(new Intent(
-				setAirPlane ? Constant.Broadcast.AIRPLANE_ON
-						: Constant.Broadcast.AIRPLANE_OFF));
-	}
-
-	public static void setGpsState(Context context, boolean isGpsOn) {
-		context.sendBroadcast(new Intent(isGpsOn ? Constant.Broadcast.GPS_ON
-				: Constant.Broadcast.GPS_OFF));
-	}
-
-	public static boolean getGpsState(Context context) {
-		ContentResolver resolver = context.getContentResolver();
-		boolean gpsState = Settings.Secure.isLocationProviderEnabled(resolver,
-				LocationManager.GPS_PROVIDER);
-		MyLog.v("[GPS]Now State:" + gpsState);
-		return gpsState;
 	}
 
 	/**
@@ -345,5 +320,40 @@ public class SettingUtil {
 		MyLog.v("[SettingUtil]setLedConfig:" + ledConfig);
 		SaveFileToNode(FileLedPower, "" + ledConfig);
 	}
+	
+	
+
+	/** GPS开关 */
+	public static boolean isGpsOn(Context context) {
+		ContentResolver resolver = context.getContentResolver();
+		boolean gpsState = Settings.Secure.isLocationProviderEnabled(resolver,
+				LocationManager.GPS_PROVIDER);
+		MyLog.v("[GPS]Now State:" + gpsState);
+		return gpsState;
+	}
+
+	/** 设置GPS开关 */
+	public static void setGpsOn(final Context context, final boolean isGpsOn) {
+		ContentResolver resolver = context.getContentResolver();
+		boolean nowState = isGpsOn(context);
+		if (isGpsOn != nowState) {
+			MyLog.v("[GPS]Set State:" + isGpsOn);
+			// Settings.Secure.setLocationProviderEnabled(resolver,
+			// LocationManager.GPS_PROVIDER, isGpsOn);
+			int mCurrentMode = (!isGpsOn) ? Settings.Secure.LOCATION_MODE_HIGH_ACCURACY
+					: Settings.Secure.LOCATION_MODE_OFF;
+			int mode = isGpsOn ? Settings.Secure.LOCATION_MODE_HIGH_ACCURACY
+					: Settings.Secure.LOCATION_MODE_OFF;
+			Intent intent = new Intent(
+					"com.android.settings.location.MODE_CHANGING");
+			intent.putExtra("CURRENT_MODE", mCurrentMode);
+			intent.putExtra("NEW_MODE", mode);
+			context.sendBroadcast(intent,
+					android.Manifest.permission.WRITE_SECURE_SETTINGS);
+			Settings.Secure.putInt(resolver, Settings.Secure.LOCATION_MODE,
+					mode);
+		}
+	}
+
 
 }
