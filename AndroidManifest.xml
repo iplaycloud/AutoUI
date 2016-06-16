@@ -3,7 +3,7 @@
     coreApp="true"
     package="com.tchip.autoui"
     android:versionCode="1"
-    android:versionName="2016.06.15-12:05" >
+    android:versionName="2016.06.16-10:10" >
 
     <uses-sdk
         android:minSdkVersion="21"
