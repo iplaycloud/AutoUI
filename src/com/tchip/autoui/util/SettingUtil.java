@@ -88,14 +88,14 @@ public class SettingUtil {
 				.SaveFileToNode(SettingUtil.nodeFmEnable, (isOn ? "1" : "0"));
 		context.sendBroadcast(new Intent(isOn ? Constant.Broadcast.FM_ON
 				: Constant.Broadcast.FM_OFF));
-		MyLog.v("[AutoUI]setFmTransmitPowerOn:" + isOn);
+		MyLog.v("setFmTransmitPowerOn:" + isOn);
 	}
 
 	public static File nodeEdogPower = new File(Constant.Path.NODE_EDOG_ENABLE);
 
 	public static void setEdogPowerOn(boolean isOn) {
 		SettingUtil.SaveFileToNode(nodeEdogPower, isOn ? "1" : "0");
-		MyLog.v("[AutoUI]setEdogPowerOn:" + isOn);
+		MyLog.v("setEdogPowerOn:" + isOn);
 	}
 
 	/**
@@ -118,17 +118,17 @@ public class SettingUtil {
 				read.close();
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
-				MyLog.e("[SettingUtil]getLCDValue: FileNotFoundException");
+				MyLog.e("SettingUtil.getLCDValue: FileNotFoundException");
 			} catch (IOException e) {
 				e.printStackTrace();
-				MyLog.e("[SettingUtil]getLCDValue: IOException");
+				MyLog.e("SettingUtil.getLCDValue: IOException");
 			}
 		}
 		// ProviderUtil.setValue(context, Name.FM_TRANSMIT_FREQ,
 		// strNodeFmChannel);
 		fmFreqency = Integer.parseInt(strNodeFmChannel);
 
-		MyLog.v("[SettingUtil]getFmFrequcenyNode,fmFreqency:" + fmFreqency);
+		MyLog.v("SettingUtil.getFmFrequcenyNode,fmFreqency:" + fmFreqency);
 		return fmFreqency;
 	}
 
@@ -140,7 +140,7 @@ public class SettingUtil {
 	public static void setFmFrequencyNode(Context context, int frequency) {
 		if (frequency >= 8750 && frequency <= 10800) {
 			SaveFileToNode(nodeFmChannel, String.valueOf(frequency));
-			MyLog.v("[SettingUtil]setFmFrequencyNode success:" + frequency
+			MyLog.v("SettingUtil.setFmFrequencyNode success:" + frequency
 					/ 100.0f + "MHz");
 		}
 	}

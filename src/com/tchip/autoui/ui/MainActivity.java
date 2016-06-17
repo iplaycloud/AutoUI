@@ -93,7 +93,8 @@ public class MainActivity extends Activity {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		context = getApplicationContext();
 
-		powerManager = (PowerManager) getSystemService(Context.POWER_SERVICE);
+		powerManager = (PowerManager) context
+				.getSystemService(Context.POWER_SERVICE);
 		textToSpeech = new TextToSpeech(context, new MyTTSOnInitListener());
 		mainHandler = new Handler(this.getMainLooper());
 		kuwoAPI = KWAPI.createKWAPI(this, "auto");
@@ -131,22 +132,29 @@ public class MainActivity extends Activity {
 		ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
 		ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
 
+		// 设置时区
+		sendBroadcast(new Intent(Intent.ACTION_TIMEZONE_CHANGED).putExtra(
+				"time-zone", "Asia/Shanghai"));
+
 		initialNodeState();
 
 		// 首次启动是否需要自动录像
 		if (1 == SettingUtil.getAccStatus()) {
 			MyApp.isAccOn = true; // 同步ACC状态
+			ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 			doAccOnWork();
 			new Thread(new StartRecordThread()).start();
 		} else {
 			MyApp.isAccOn = false; // 同步ACC状态
+			ProviderUtil.setValue(context, Name.ACC_STATE, "0");
+			sendBroadcast(new Intent("tchip.intent.action.CLOSE_SCREEN"));
 			doAccOffWork();
 		}
 	}
 
 	@Override
 	protected void onResume() {
-		MyLog.i("[PagerActivity]onResume");
+		MyLog.i("onResume");
 		super.onResume();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
 		updateAllInfo();
@@ -180,20 +188,22 @@ public class MainActivity extends Activity {
 	}
 
 	/** 启动前录 */
-	private void startAutoRecord(String reason) {
-		try {
-			MyLog.v("[AutoUI]startAutoRecord");
-			ComponentName componentRecord = new ComponentName(
-					"com.tchip.autorecord",
-					"com.tchip.autorecord.ui.MainActivity");
-			Intent intentRecord = new Intent();
-			intentRecord.putExtra("time", System.currentTimeMillis());
-			intentRecord.putExtra("reason", reason);
-			intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-			intentRecord.setComponent(componentRecord);
-			startActivity(intentRecord);
-		} catch (Exception e) {
-			e.printStackTrace();
+	private void startAutoRecord(long sendTime) {
+		if (MyApp.isAccOn) {
+			try {
+				ComponentName componentRecord = new ComponentName(
+						"com.tchip.autorecord",
+						"com.tchip.autorecord.ui.MainActivity");
+				Intent intentRecord = new Intent();
+				intentRecord.putExtra("time", sendTime);
+				intentRecord.putExtra("reason", "acc_on");
+				intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intentRecord.setComponent(componentRecord);
+				startActivity(intentRecord);
+				MyLog.v("startAutoRecord");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 
@@ -219,9 +229,7 @@ public class MainActivity extends Activity {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (MyApp.isAccOn) {
-				startAutoRecord("acc_on");
-			}
+			startAutoRecord(System.currentTimeMillis());
 		}
 
 	}
@@ -231,7 +239,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(2500);
+				Thread.sleep(1500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -256,7 +264,6 @@ public class MainActivity extends Activity {
 			String name = uri.getLastPathSegment(); // getPathSegments().get(2);
 			if (name.equals("state")) { // insert
 			} else { // update
-				MyLog.v("[ContentObserver]onChange,Name:" + name);
 				if (name.startsWith("weather")) { // 天气
 					updateWeatherInfo();
 				} else if (name.startsWith("rec")) { // 录像
@@ -301,7 +308,7 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void destroyItem(ViewGroup container, int position, Object object) {
-			MyLog.v("[PagerAdapter]destroyItem position" + position);
+			MyLog.v("destroyItem position" + position);
 			container.removeView(viewList.get(position));
 		}
 
@@ -315,7 +322,7 @@ public class MainActivity extends Activity {
 			container.addView(viewList.get(position));
 			viewPager.setObjectForPosition(viewList.get(position), position); // 动画需要
 
-			MyLog.v("[PagerActivity]position:" + position);
+			MyLog.v("position:" + position);
 			if (position == 0)
 				updateLayoutOne();
 			else
@@ -493,7 +500,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void speakVoice(String content) {
-		MyLog.v("[AutoUI]speakVoice:" + content);
+		MyLog.v("speakVoice:" + content);
 		textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, content);
 	}
 
@@ -540,9 +547,6 @@ public class MainActivity extends Activity {
 	private void doAccOnWork() {
 		TelephonyUtil.setAirplaneMode(context, false); // 关闭飞行模式
 		SettingUtil.setGpsOn(context, true); // 打开GPS
-		// android.os.SystemProperties.set("persist.sys.timezone","Asia/Shanghai");
-		context.sendBroadcast(new Intent(Intent.ACTION_TIMEZONE_CHANGED)
-				.putExtra("time-zone", "Asia/Shanghai"));
 	}
 
 	private void doAccOffWork() {
@@ -561,12 +565,6 @@ public class MainActivity extends Activity {
 				"com.tchip.weather" // 天气
 		};
 		killApp(context, arrayKillApp);
-
-		// android.os.SystemProperties.set("persist.sys.timezone","Asia/Shanghai");
-		context.sendBroadcast(new Intent(Intent.ACTION_TIMEZONE_CHANGED)
-				.putExtra("time-zone", "Asia/Shanghai"));
-
-		powerManager.goToSleep(SystemClock.uptimeMillis()); // 熄屏
 	}
 
 	private void sendKeyCode(final int keyCode) {
@@ -634,7 +632,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void onReceive(Context context, Intent intent) {
 			String action = intent.getAction();
-			MyLog.v("[AutoUI.Main.MainReceiver]action:" + action);
+			MyLog.v("MainReceiver.action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
 				doAccOnWork();
 				MyApp.isAccOn = true;
@@ -675,7 +673,7 @@ public class MainActivity extends Activity {
 				int minute = calendar.get(Calendar.MINUTE);
 				if (minute == 0) {
 					int year = calendar.get(Calendar.YEAR);
-					MyLog.v("[TimeTickReceiver]Year:" + year);
+					MyLog.v("TimeTickReceiver.Year:" + year);
 
 					int hour = calendar.get(Calendar.HOUR_OF_DAY);
 					if (MyApp.isAccOn) { // ACC_ON

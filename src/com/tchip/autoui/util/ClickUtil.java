@@ -13,7 +13,7 @@ public class ClickUtil {
 		long time = System.currentTimeMillis();
 		long timeD = time - lastClickTime;
 		if (0 < timeD && timeD < clickMinSpan) {
-			MyLog.v("[ClickUtil]isQuickClick:Click Too Quickly!");
+			MyLog.v("ClickUtil.isQuickClick:Click Too Quickly!");
 			return true;
 		}
 		lastClickTime = time;
@@ -26,7 +26,7 @@ public class ClickUtil {
 		long time = System.currentTimeMillis();
 		long timeD = time - lastSaveLogTime;
 		if (0 < timeD && timeD < runMinSpan) {
-			MyLog.v("[ClickUtil]isSaveLogTooQuick,Run Too Quickly!");
+			MyLog.v("ClickUtil.isSaveLogTooQuick,Run Too Quickly!");
 			return true;
 		}
 		lastSaveLogTime = time;
