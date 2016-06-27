@@ -118,6 +118,8 @@ public class MainActivity extends Activity {
 		IntentFilter mainFilter = new IntentFilter();
 		mainFilter.addAction(Constant.Broadcast.ACC_ON);
 		mainFilter.addAction(Constant.Broadcast.ACC_OFF);
+		mainFilter.addAction(Constant.Broadcast.BACK_CAR_ON);
+		mainFilter.addAction(Constant.Broadcast.BACK_CAR_OFF);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
@@ -158,7 +160,7 @@ public class MainActivity extends Activity {
 		super.onResume();
 		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
 		updateAllInfo();
-		// viewPager.setCurrentItem(0); // 回到第一页
+		syncBackCarStatus();
 	}
 
 	@Override
@@ -207,23 +209,23 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	/** 启动后录 */
-	private void startBackRecord() {
-		try {
-			Intent intentBack = new Intent();
-			intentBack.setClassName("com.tchip.backrecordcvbs",
-					"com.tchip.backrecordcvbs.FloatService");
-			startService(intentBack);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	// /** 启动后录 */
+	// private void startBackRecord() {
+	// try {
+	// Intent intentBack = new Intent();
+	// intentBack.setClassName("com.tchip.backrecordcvbs",
+	// "com.tchip.backrecordcvbs.FloatService");
+	// startService(intentBack);
+	// } catch (Exception e) {
+	// e.printStackTrace();
+	// }
+	// }
 
 	class StartRecordThread implements Runnable {
 
 		@Override
 		public void run() {
-			startBackRecord();
+			// startBackRecord();
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -513,6 +515,15 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	/** 更新天气信息 */
+	private void updateWeatherInfo() {
+		if (isPagerTwoShowed) {
+			Message msgUpdateWeather = new Message();
+			msgUpdateWeather.what = 2;
+			taskHandler.sendMessage(msgUpdateWeather);
+		}
+	}
+
 	/** 更新音乐信息 */
 	private void updateMusicInfo() {
 		if (isPagerOneShowed) {
@@ -520,6 +531,13 @@ public class MainActivity extends Activity {
 			msgUpdateMusic.what = 3;
 			taskHandler.sendMessage(msgUpdateMusic);
 		}
+	}
+
+	/** 同步倒车状态 */
+	private void syncBackCarStatus() {
+		Message msgSyncBackCar = new Message();
+		msgSyncBackCar.what = 6;
+		taskHandler.sendMessage(msgSyncBackCar);
 	}
 
 	/**
@@ -533,15 +551,6 @@ public class MainActivity extends Activity {
 		Message msgInitialNodeState = new Message();
 		msgInitialNodeState.what = 7;
 		taskHandler.sendMessage(msgInitialNodeState);
-	}
-
-	/** 更新天气信息 */
-	private void updateWeatherInfo() {
-		if (isPagerTwoShowed) {
-			Message msgUpdateWeather = new Message();
-			msgUpdateWeather.what = 2;
-			taskHandler.sendMessage(msgUpdateWeather);
-		}
 	}
 
 	private void doAccOnWork() {
@@ -558,7 +567,7 @@ public class MainActivity extends Activity {
 				"com.android.gallery3d", // 图库
 				"com.autonavi.amapauto", // 高德地图（车机版）
 				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
-				"com.nengzhong.app.activity", // 益途电子狗
+				"entry.dsa2014", // 电子狗
 				"com.coagent.ecar", // 翼卡
 				"com.mediatek.filemanager", // 文件管理
 				"com.tchip.autofm", // FM发射
@@ -663,6 +672,12 @@ public class MainActivity extends Activity {
 				new Thread(new CloseRecordThread()).start();
 
 				doAccOffWork();
+			} else if (Constant.Broadcast.BACK_CAR_ON.equals(action)) { // FIXME:开机同步倒车状态
+				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "1");
+				startAutoRecord(SystemClock.currentThreadTimeMillis());
+				speakVoice(getResources().getString(R.string.hint_back_car_now));
+			} else if (Constant.Broadcast.BACK_CAR_OFF.equals(action)) {
+				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "0");
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {
@@ -799,6 +814,13 @@ public class MainActivity extends Activity {
 
 			case 3: // 更新音乐信息
 				this.removeMessages(3);
+				break;
+
+			case 6: // 同步倒车状态
+				this.removeMessages(6);
+				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, ""
+						+ SettingUtil.getBackCarStatus());
+				this.removeMessages(6);
 				break;
 
 			case 7: // 初始化节点

@@ -24,6 +24,12 @@ public interface Constant {
 		public static final String ACC_ON = "com.tchip.ACC_ON";
 		/** ACC下电 */
 		public static final String ACC_OFF = "com.tchip.ACC_OFF";
+
+		/** 倒车开始 */
+		public static final String BACK_CAR_ON = "com.tchip.KEY_BACK_CAR_ON";
+		/** 倒车结束 */
+		public static final String BACK_CAR_OFF = "com.tchip.KEY_BACK_CAR_OFF";
+
 		/** TTS播报,Extra:content(String) */
 		public static final String TTS_SPEAK = "tchip.intent.action.TTS_SPEAK";
 
@@ -154,6 +160,13 @@ public interface Constant {
 
 		/** ACC状态 */
 		public static final String NODE_ACC_STATUS = "/sys/bus/i2c/devices/0-007f/ACC_status";
+
+		/**
+		 * Read: 0-未倒车 1-倒车
+		 * 
+		 * Write：1：自动调节亮度节点开 0：关;默认打开  ；2：停车侦测开关节点打开 3：关闭（默认）
+		 */
+		public static final String NODE_BACK_STATUS = "/sys/bus/i2c/devices/0-007f/back_car_status";
 	}
 
 }

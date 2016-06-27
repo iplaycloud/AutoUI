@@ -231,6 +231,13 @@ public class SettingUtil {
 		return getFileInt(fileAccStatus);
 	}
 
+	/** 倒车状态节点 */
+	public static File fileBackStatus = new File(Constant.Path.NODE_BACK_STATUS);
+
+	public static int getBackCarStatus() {
+		return getFileInt(fileBackStatus);
+	}
+
 	public static int getFileInt(File file) {
 		if (file.exists()) {
 			try {
@@ -320,8 +327,6 @@ public class SettingUtil {
 		MyLog.v("[SettingUtil]setLedConfig:" + ledConfig);
 		SaveFileToNode(FileLedPower, "" + ledConfig);
 	}
-	
-	
 
 	/** GPS开关 */
 	public static boolean isGpsOn(Context context) {
@@ -354,6 +359,5 @@ public class SettingUtil {
 					mode);
 		}
 	}
-
 
 }

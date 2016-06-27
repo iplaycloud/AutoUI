@@ -198,14 +198,17 @@ public class OpenUtil {
 					break;
 
 				case EDOG:
+					// SettingUtil.setEDogEnable(true);
 					activity.sendBroadcast(new Intent(
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
-					// SettingUtil.setEDogEnable(true);
+					// ComponentName componentEDog = new ComponentName(
+					// "com.nengzhong.app.activity",
+					// "com.nengzhong.app.activity.DogActivity");
 					ComponentName componentEDog = new ComponentName(
-							"com.nengzhong.app.activity",
-							"com.nengzhong.app.activity.DogActivity");
+							"entry.dsa2014", "entry.dsa2014.MainActivity");
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
+					intentEDog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentEDog);
 					break;
 
@@ -224,6 +227,7 @@ public class OpenUtil {
 							"com.mediatek.filemanager.FileManagerOperationActivity");
 					Intent intentFileMtk = new Intent();
 					intentFileMtk.setComponent(componentFileMtk);
+					intentFileMtk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentFileMtk);
 					break;
 
@@ -233,6 +237,7 @@ public class OpenUtil {
 							"com.tchip.autofm.ui.MainActivity");
 					Intent intentFM = new Intent();
 					intentFM.setComponent(componentFM);
+					intentFM.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentFM);
 					break;
 
@@ -254,6 +259,7 @@ public class OpenUtil {
 							"com.android.mms.ui.BootActivity");
 					Intent intentMessage = new Intent();
 					intentMessage.setComponent(componentMessage);
+					intentMessage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentMessage);
 					break;
 
@@ -271,6 +277,7 @@ public class OpenUtil {
 							"cn.kuwo.kwmusiccar.WelcomeActivity");
 					Intent intentMusic = new Intent();
 					intentMusic.setComponent(componentMusic);
+					intentMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentMusic);
 					break;
 
@@ -358,6 +365,7 @@ public class OpenUtil {
 							"com.tchip.route.ui.activity.MainActivity");
 					Intent intentRoute = new Intent();
 					intentRoute.setComponent(componentRoute);
+					intentRoute.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentRoute);
 					break;
 
@@ -417,6 +425,7 @@ public class OpenUtil {
 							"com.android.settings.Settings");
 					Intent intentSettingSystem = new Intent();
 					intentSettingSystem.setComponent(componentSettingSystem);
+					intentSettingSystem.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 					activity.startActivity(intentSettingSystem);
 					break;
 

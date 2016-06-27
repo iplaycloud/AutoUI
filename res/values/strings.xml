@@ -6,6 +6,7 @@
     <!-- Hint -->
     <string name="hint_unknown">未知</string>
     <string name="hint_no_network">无网络</string>
+    <string name="hint_back_car_now">倒车</string>
 
     <!-- Title -->
     <string name="title_record">行车记录</string>
