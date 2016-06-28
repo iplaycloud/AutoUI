@@ -17,6 +17,9 @@ public class ProviderUtil {
 
 		/** 倒车状态 */
 		public static final String BACK_CAR_STATE = "back_car_state";
+		
+		/** 倒车前界面包名 */
+		public static final String PKG_WHEN_BACK = "pkg_when_back";
 
 		/** 后录录像状态:0-未录像，1-录像 */
 		public static final String REC_BACK_STATE = "rec_back_state";

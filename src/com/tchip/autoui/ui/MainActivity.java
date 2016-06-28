@@ -193,6 +193,14 @@ public class MainActivity extends Activity {
 	private void startAutoRecord(long sendTime) {
 		if (MyApp.isAccOn) {
 			try {
+				ActivityManager am = (ActivityManager) context
+						.getSystemService(Context.ACTIVITY_SERVICE);
+				ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+				String currentPackageName = cn.getPackageName();
+				MyLog.v("currentPackageName:" + currentPackageName);
+				ProviderUtil.setValue(context, Name.PKG_WHEN_BACK,
+						currentPackageName);
+
 				ComponentName componentRecord = new ComponentName(
 						"com.tchip.autorecord",
 						"com.tchip.autorecord.ui.MainActivity");
@@ -679,6 +687,51 @@ public class MainActivity extends Activity {
 				speakVoice(getResources().getString(R.string.hint_back_car_now));
 			} else if (Constant.Broadcast.BACK_CAR_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "0");
+				// sendKeyCode(KeyEvent.KEYCODE_HOME);
+				// 返回到车前界面
+				String pkgWhenBack = ProviderUtil.getValue(context,
+						Name.PKG_WHEN_BACK);
+				if (null != pkgWhenBack && pkgWhenBack.trim().length() > 0) {
+					if ("com.autonavi.amapauto".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.NAVI_GAODE_CAR);
+					} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.DIALER);
+					} else if ("entry.dsa2014".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.EDOG);
+					} else if ("com.mediatek.filemanager".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.FILE_MANAGER_MTK);
+					} else if ("com.tchip.autofm".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.FMTRANSMIT);
+					} else if ("com.android.gallery3d".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.GALLERY);
+					} else if ("cn.kuwo.kwmusiccar".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.MUSIC);
+					} else if ("com.tchip.autosetting".equals(pkgWhenBack)
+							|| "com.android.settings".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.SETTING);
+					} else if ("com.tchip.weather".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.WEATHER);
+					} else if ("com.txznet.webchat".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.WECHAT);
+					} else if ("com.coagent.ecar".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
+					} else if ("com.ximalaya.ting.android.car"
+							.equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.XIMALAYA);
+					} else {
+						sendKeyCode(KeyEvent.KEYCODE_HOME);
+					}
+				}
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {
