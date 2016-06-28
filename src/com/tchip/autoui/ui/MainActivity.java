@@ -199,7 +199,8 @@ public class MainActivity extends Activity {
 				Intent intentRecord = new Intent();
 				intentRecord.putExtra("time", sendTime);
 				intentRecord.putExtra("reason", "acc_on");
-				intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+				intentRecord.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+						| Intent.FLAG_ACTIVITY_NEW_TASK);
 				intentRecord.setComponent(componentRecord);
 				startActivity(intentRecord);
 				MyLog.v("startAutoRecord");
