@@ -145,7 +145,8 @@ public class OpenUtil {
 							.setClassName(
 									"com.hdsc.monitor.heart.monitorvoice",
 									"com.hdsc.monitor.heart.monitorvoice.CloudCenterActivity");
-					intentCloudCenter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentCloudCenter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentCloudCenter);
 					break;
 
@@ -156,7 +157,8 @@ public class OpenUtil {
 					intentCloudDialer.setClassName(
 							"com.hdsc.monitor.heart.monitorvoice",
 							"com.hdsc.monitor.heart.monitorvoice.MainActivity");
-					intentCloudDialer.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentCloudDialer.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentCloudDialer);
 					break;
 
@@ -167,7 +169,8 @@ public class OpenUtil {
 					intenCloudPick.setClassName(
 							"com.hdsc.monitor.heart.monitorvoice",
 							"com.hdsc.monitor.heart.monitorvoice.JJJRActivity");
-					intenCloudPick.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intenCloudPick.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intenCloudPick);
 					break;
 
@@ -175,7 +178,8 @@ public class OpenUtil {
 					Intent intentDeviceTest = new Intent(Intent.ACTION_VIEW);
 					intentDeviceTest.setClassName("com.DeviceTest",
 							"com.DeviceTest.DeviceTest");
-					intentDeviceTest.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentDeviceTest.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentDeviceTest);
 					break;
 
@@ -185,6 +189,8 @@ public class OpenUtil {
 							"com.tchip.call.MainActivity");
 					Intent intentDialer = new Intent();
 					intentDialer.setComponent(componentDialer);
+					intentDialer.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentDialer);
 					break;
 
@@ -193,7 +199,8 @@ public class OpenUtil {
 					intentEngineerMode.setClassName(
 							"com.mediatek.engineermode",
 							"com.mediatek.engineermode.EngineerMode");
-					intentEngineerMode.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentEngineerMode.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentEngineerMode);
 					break;
 
@@ -208,7 +215,8 @@ public class OpenUtil {
 							"entry.dsa2014", "entry.dsa2014.MainActivity");
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
-					intentEDog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentEDog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentEDog);
 					break;
 
@@ -227,7 +235,8 @@ public class OpenUtil {
 							"com.mediatek.filemanager.FileManagerOperationActivity");
 					Intent intentFileMtk = new Intent();
 					intentFileMtk.setComponent(componentFileMtk);
-					intentFileMtk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentFileMtk.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentFileMtk);
 					break;
 
@@ -237,7 +246,8 @@ public class OpenUtil {
 							"com.tchip.autofm.ui.MainActivity");
 					Intent intentFM = new Intent();
 					intentFM.setComponent(componentFM);
-					intentFM.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentFM.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentFM);
 					break;
 
@@ -249,7 +259,8 @@ public class OpenUtil {
 					Intent intentImage = new Intent();
 					intentImage.setComponent(componentImage);
 					intentImage.addCategory(Intent.CATEGORY_LAUNCHER);
-					intentImage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentImage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentImage);
 					break;
 
@@ -259,7 +270,8 @@ public class OpenUtil {
 							"com.android.mms.ui.BootActivity");
 					Intent intentMessage = new Intent();
 					intentMessage.setComponent(componentMessage);
-					intentMessage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentMessage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentMessage);
 					break;
 
@@ -277,7 +289,8 @@ public class OpenUtil {
 							"cn.kuwo.kwmusiccar.WelcomeActivity");
 					Intent intentMusic = new Intent();
 					intentMusic.setComponent(componentMusic);
-					intentMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentMusic);
 					break;
 
@@ -292,7 +305,8 @@ public class OpenUtil {
 								"com.tchip.baidunavi",
 								"com.tchip.baidunavi.ui.activity.MainActivity");
 						Intent intentBaiduNavi = new Intent();
-						intentBaiduNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+						intentBaiduNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+								| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 						intentBaiduNavi.setComponent(componentBaiduNavi);
 						activity.startActivity(intentBaiduNavi);
 					} else {
@@ -307,7 +321,8 @@ public class OpenUtil {
 							"com.autonavi.minimap",
 							"com.autonavi.map.activity.SplashActivity");
 					Intent intentGaodeMobile = new Intent();
-					intentGaodeMobile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentGaodeMobile.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentGaodeMobile.setComponent(componentGaodeMobile);
 					activity.startActivity(intentGaodeMobile);
 					break;
@@ -320,7 +335,8 @@ public class OpenUtil {
 							"com.autonavi.amapauto",
 							"com.autonavi.auto.MainMapActivity");
 					Intent intentGaodeCar = new Intent();
-					intentGaodeCar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentGaodeCar.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentGaodeCar.setComponent(componentGaodeCar);
 					activity.startActivity(intentGaodeCar);
 					break;
@@ -333,7 +349,8 @@ public class OpenUtil {
 							"com.mapbar.android.carnavi",
 							"com.mapbar.android.carnavi.activity.LoadingActivity");
 					Intent intentTubaNavi = new Intent();
-					intentTubaNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentTubaNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentTubaNavi.setComponent(componentTuba);
 					activity.startActivity(intentTubaNavi);
 					break;
@@ -343,7 +360,8 @@ public class OpenUtil {
 							"com.tchip.autorecord",
 							"com.tchip.autorecord.ui.MainActivity");
 					Intent intentRecord = new Intent();
-					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentRecord.setComponent(componentRecord);
 					activity.startActivity(intentRecord);
 				}
@@ -354,7 +372,8 @@ public class OpenUtil {
 							"com.tchip.autorecordback",
 							"com.tchip.autorecordback.ui.MainActivity");
 					Intent intentRecord = new Intent();
-					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentRecord.setComponent(componentRecord);
 					activity.startActivity(intentRecord);
 					break;
@@ -365,7 +384,8 @@ public class OpenUtil {
 							"com.tchip.route.ui.activity.MainActivity");
 					Intent intentRoute = new Intent();
 					intentRoute.setComponent(componentRoute);
-					intentRoute.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentRoute.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentRoute);
 					break;
 
@@ -374,7 +394,8 @@ public class OpenUtil {
 							"com.tchip.autosetting",
 							"com.tchip.autosetting.ui.MainActivity");
 					Intent intentSetting = new Intent();
-					intentSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentSetting.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentSetting.setComponent(componentSetting);
 					activity.startActivity(intentSetting);
 					break;
@@ -425,7 +446,8 @@ public class OpenUtil {
 							"com.android.settings.Settings");
 					Intent intentSettingSystem = new Intent();
 					intentSettingSystem.setComponent(componentSettingSystem);
-					intentSettingSystem.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentSettingSystem.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentSettingSystem);
 					break;
 
@@ -447,7 +469,8 @@ public class OpenUtil {
 					componentWeather = new ComponentName("com.tchip.weather",
 							"com.tchip.weather.ui.MainActivity");
 					Intent intentWeather = new Intent();
-					intentWeather.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentWeather.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentWeather.setComponent(componentWeather);
 					activity.startActivity(intentWeather);
 					break;
@@ -457,7 +480,8 @@ public class OpenUtil {
 					componentWechat = new ComponentName("com.txznet.webchat",
 							"com.txznet.webchat.ui.AppStartActivity");
 					Intent intentWechat = new Intent();
-					intentWechat.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentWechat.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentWechat.setComponent(componentWechat);
 					activity.startActivity(intentWechat);
 					break;
@@ -467,7 +491,8 @@ public class OpenUtil {
 					componentYika = new ComponentName("com.coagent.ecar",
 							"com.coagent.ecarnet.car.activity.WelcomeActivity");
 					Intent intentYika = new Intent();
-					intentYika.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+					intentYika.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentYika.setComponent(componentYika);
 					activity.startActivity(intentYika);
 					break;
@@ -492,6 +517,8 @@ public class OpenUtil {
 							"com.ximalaya.ting.android.car.activity.WelcomeActivity");
 					intentXimaLaya.setComponent(componentXimalaya);
 					intentXimaLaya.setAction("android.intent.action.VIEW");
+					intentXimaLaya.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentXimaLaya);
 					break;
 
