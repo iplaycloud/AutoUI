@@ -7,9 +7,6 @@ import android.content.Intent;
 public class OpenUtil {
 
 	public enum MODULE_TYPE {
-		/** 语音助手 */
-		CHAT,
-
 		/** 云中心 */
 		CLOUD_CENTER,
 
@@ -31,9 +28,6 @@ public class OpenUtil {
 		/** 工程模式 */
 		ENGINEER_MODE,
 
-		/** 文件管理 */
-		FILE_EXPLORER,
-
 		/** 文件管理(MTK) */
 		FILE_MANAGER_MTK,
 
@@ -52,25 +46,14 @@ public class OpenUtil {
 		/** 在线音乐 */
 		MUSIC,
 
-		/** 导航:百度SDK */
-		NAVI_BAIDU_SDK,
-
 		/** 导航:高德地图 */
 		NAVI_GAODE,
 
 		/** 导航:高德地图车机版 */
 		NAVI_GAODE_CAR,
 
-		/** 导航：图吧 */
-		NAVI_TUBA,
-
 		/** 行车记录 */
 		RECORD,
-
-		RECORD_BACK,
-
-		/** 轨迹 */
-		ROUTE,
 
 		/** 设置 */
 		SETTING,
@@ -134,9 +117,6 @@ public class OpenUtil {
 		if (!ClickUtil.isQuickClick(1000)) {
 			try {
 				switch (moduleTye) {
-				case CHAT:
-					break;
-
 				case CLOUD_CENTER:
 					activity.sendBroadcast(new Intent(
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
@@ -220,15 +200,6 @@ public class OpenUtil {
 					activity.startActivity(intentEDog);
 					break;
 
-				case FILE_EXPLORER:
-					ComponentName componentFileExplorer = new ComponentName(
-							"com.tchip.filemanager",
-							"com.tchip.filemanager.ui.activity.MainActivity");
-					Intent intentFileExplorer = new Intent();
-					intentFileExplorer.setComponent(componentFileExplorer);
-					activity.startActivity(intentFileExplorer);
-					break;
-
 				case FILE_MANAGER_MTK:
 					ComponentName componentFileMtk = new ComponentName(
 							"com.mediatek.filemanager",
@@ -275,12 +246,6 @@ public class OpenUtil {
 					activity.startActivity(intentMessage);
 					break;
 
-				// case MULTIMEDIA:
-				// Intent intentMultimedia = new Intent(activity,
-				// MultimediaActivity.class);
-				// activity.startActivity(intentMultimedia);
-				// break;
-
 				case MUSIC:
 					ComponentName componentMusic;
 					// 普通HD版："cn.kuwo.kwmusichd","cn.kuwo.kwmusichd.WelcomeActivity"
@@ -292,26 +257,6 @@ public class OpenUtil {
 					intentMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentMusic);
-					break;
-
-				case NAVI_BAIDU_SDK:
-					if (TelephonyUtil.isNetworkConnected(activity)) {
-						// 打开GPS
-						activity.sendBroadcast(new Intent(
-								"tchip.intent.action.ACTION_GPS_ON"));
-
-						ComponentName componentBaiduNavi;
-						componentBaiduNavi = new ComponentName(
-								"com.tchip.baidunavi",
-								"com.tchip.baidunavi.ui.activity.MainActivity");
-						Intent intentBaiduNavi = new Intent();
-						intentBaiduNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-								| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-						intentBaiduNavi.setComponent(componentBaiduNavi);
-						activity.startActivity(intentBaiduNavi);
-					} else {
-						// 无网络
-					}
 					break;
 
 				case NAVI_GAODE:
@@ -341,20 +286,6 @@ public class OpenUtil {
 					activity.startActivity(intentGaodeCar);
 					break;
 
-				case NAVI_TUBA:
-					activity.sendBroadcast(new Intent(
-							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
-					ComponentName componentTuba;
-					componentTuba = new ComponentName(
-							"com.mapbar.android.carnavi",
-							"com.mapbar.android.carnavi.activity.LoadingActivity");
-					Intent intentTubaNavi = new Intent();
-					intentTubaNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-					intentTubaNavi.setComponent(componentTuba);
-					activity.startActivity(intentTubaNavi);
-					break;
-
 				case RECORD: {
 					ComponentName componentRecord = new ComponentName(
 							"com.tchip.autorecord",
@@ -365,28 +296,6 @@ public class OpenUtil {
 					intentRecord.setComponent(componentRecord);
 					activity.startActivity(intentRecord);
 				}
-					break;
-
-				case RECORD_BACK:
-					ComponentName componentRecord = new ComponentName(
-							"com.tchip.autorecordback",
-							"com.tchip.autorecordback.ui.MainActivity");
-					Intent intentRecord = new Intent();
-					intentRecord.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-					intentRecord.setComponent(componentRecord);
-					activity.startActivity(intentRecord);
-					break;
-
-				case ROUTE:
-					ComponentName componentRoute = new ComponentName(
-							"com.tchip.route",
-							"com.tchip.route.ui.activity.MainActivity");
-					Intent intentRoute = new Intent();
-					intentRoute.setComponent(componentRoute);
-					intentRoute.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-					activity.startActivity(intentRoute);
 					break;
 
 				case SETTING:

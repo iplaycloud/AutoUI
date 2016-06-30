@@ -218,23 +218,10 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	// /** 启动后录 */
-	// private void startBackRecord() {
-	// try {
-	// Intent intentBack = new Intent();
-	// intentBack.setClassName("com.tchip.backrecordcvbs",
-	// "com.tchip.backrecordcvbs.FloatService");
-	// startService(intentBack);
-	// } catch (Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-
 	class StartRecordThread implements Runnable {
 
 		@Override
 		public void run() {
-			// startBackRecord();
 			try {
 				Thread.sleep(2000);
 			} catch (InterruptedException e) {
@@ -655,16 +642,12 @@ public class MainActivity extends Activity {
 				doAccOnWork();
 				MyApp.isAccOn = true;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
-				// if (!powerManager.isScreenOn()) { // 点亮屏幕
-				// SettingUtil.lightScreen(getApplicationContext());
-				// }
 				TelephonyUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 				initialNodeState();
 
 				SettingUtil.setEdogPowerOn(true); // 打开电子狗电源
 				SettingUtil.setLedConfig(21); // 蓝灯亮
 				new Thread(new StartRecordThread()).start();
-
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
@@ -687,7 +670,6 @@ public class MainActivity extends Activity {
 				speakVoice(getResources().getString(R.string.hint_back_car_now));
 			} else if (Constant.Broadcast.BACK_CAR_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "0");
-				// sendKeyCode(KeyEvent.KEYCODE_HOME);
 				// 返回到车前界面
 				String pkgWhenBack = ProviderUtil.getValue(context,
 						Name.PKG_WHEN_BACK);
@@ -728,6 +710,7 @@ public class MainActivity extends Activity {
 							.equals(pkgWhenBack)) {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.XIMALAYA);
+					} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
 					} else {
 						sendKeyCode(KeyEvent.KEYCODE_HOME);
 					}
