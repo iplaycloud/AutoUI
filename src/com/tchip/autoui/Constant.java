@@ -25,6 +25,9 @@ public interface Constant {
 		/** ACC下电 */
 		public static final String ACC_OFF = "com.tchip.ACC_OFF";
 
+		/** 停车守卫:发生碰撞 */
+		public static final String GSENSOR_CRASH = "com.tchip.GSENSOR_CRASH";
+
 		/** 倒车开始 */
 		public static final String BACK_CAR_ON = "com.tchip.KEY_BACK_CAR_ON";
 		/** 倒车结束 */
@@ -54,38 +57,6 @@ public interface Constant {
 		/** 重启设备 */
 		public static final String DEVICE_REBOOT = "tchip.intent.action.DEVICE_REBOOT";
 
-		/***** Below is OLD *****/
-
-		/** 进入休眠 */
-		public static final String SLEEP_ON = "com.tchip.SLEEP_ON";
-
-		/** 取消休眠 */
-		public static final String SLEEP_OFF = "com.tchip.SLEEP_OFF";
-
-		/** 停车守卫:发生碰撞 */
-		public static final String GSENSOR_CRASH = "com.tchip.GSENSOR_CRASH";
-
-		/** 外置蓝牙连接 */
-		public static final String BT_CONNECTED = "com.tchip.BT_CONNECTED";
-
-		/** 外置蓝牙断开 */
-		public static final String BT_DISCONNECTED = "com.tchip.BT_DISCONNECTED";
-
-		/** 蓝牙音乐播放 */
-		public static final String BT_MUSIC_PLAYING = "com.tchip.BT_MUSIC_PLAYING";
-
-		/** 蓝牙音乐停止 */
-		public static final String BT_MUSIC_STOPED = "com.tchip.BT_MUSIC_STOPED";
-
-		/**
-		 * 设置同步广播,Extra:content
-		 * 
-		 * 1.停车守卫开关：parkOn,parkOff
-		 * 
-		 * 2.碰撞侦测，开关：crashOn,crashOff;灵敏度:crashLow,crashMiddle,crashHigh
-		 */
-		public static final String SETTING_SYNC = "com.tchip.SETTING_SYNC";
-
 		/**
 		 * 语音命令,Extra:command
 		 * 
@@ -96,6 +67,8 @@ public interface Constant {
 		 * 3.语音停止录像：close_dvr
 		 */
 		public static final String SPEECH_COMMAND = "com.tchip.SPEECH_COMMAND";
+
+		/***** Below is OLD *****/
 
 		/**
 		 * 行车记录仪抓拍到图片之后发送以下广播,DSA接收
@@ -136,6 +109,8 @@ public interface Constant {
 
 		public static boolean isIconAtom = false;
 
+		public static final boolean hasYouku = false;
+
 	}
 
 	public static final class Path {
@@ -164,7 +139,7 @@ public interface Constant {
 		/**
 		 * Read: 0-未倒车 1-倒车
 		 * 
-		 * Write：1：自动调节亮度节点开 0：关;默认打开  ；2：停车侦测开关节点打开 3：关闭（默认）
+		 * Write：1：自动调节亮度节点开 0：关;默认打开 ；2：停车侦测开关节点打开 3：关闭（默认）
 		 */
 		public static final String NODE_BACK_STATUS = "/sys/bus/i2c/devices/0-007f/back_car_status";
 	}

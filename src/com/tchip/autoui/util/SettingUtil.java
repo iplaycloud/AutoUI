@@ -360,4 +360,13 @@ public class SettingUtil {
 		}
 	}
 
+	/** 停车侦测开关节点 2：打开(默认) 3：关闭 */
+	public static File fileParkingMonitor = new File(
+			Constant.Path.NODE_BACK_STATUS);
+
+	public static void setParkMonitorNode(boolean isParkingOn) {
+		SaveFileToNode(fileParkingMonitor, isParkingOn ? "2" : "3");
+		MyLog.v("SettingUtil.setParkingMonitorNode:" + isParkingOn);
+	}
+
 }

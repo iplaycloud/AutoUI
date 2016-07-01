@@ -4,7 +4,7 @@
     package="com.tchip.autoui"
     android:sharedUserId="android.uid.system"
     android:versionCode="1"
-    android:versionName="2016.06.30-10:35" >
+    android:versionName="2016.07.01-17:55" >
 
     <uses-sdk
         android:minSdkVersion="21"

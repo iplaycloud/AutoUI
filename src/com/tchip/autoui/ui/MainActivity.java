@@ -122,6 +122,7 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.BACK_CAR_OFF);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
+		mainFilter.addAction(Constant.Broadcast.GSENSOR_CRASH);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		registerReceiver(mainReceiver, mainFilter);
 
@@ -218,6 +219,23 @@ public class MainActivity extends Activity {
 		}
 	}
 
+	private void startParkRecord() {
+		try {
+			ComponentName componentRecord = new ComponentName(
+					"com.tchip.autorecord",
+					"com.tchip.autorecord.ui.MainActivity");
+			Intent intentRecord = new Intent();
+			intentRecord.putExtra("reason", "acc_on");
+			intentRecord.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
+					| Intent.FLAG_ACTIVITY_NEW_TASK);
+			intentRecord.setComponent(componentRecord);
+			startActivity(intentRecord);
+			MyLog.v("startParkRecord");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
 	class StartRecordThread implements Runnable {
 
 		@Override
@@ -268,6 +286,28 @@ public class MainActivity extends Activity {
 					updateRecordInfo();
 				} else if (name.startsWith("music")) { // 音乐
 					updateMusicInfo();
+				} else if (Name.PARK_REC_STATE.equals(name)) {
+					if (!MyApp.isAccOn) {
+						String strParkMonitor = ProviderUtil.getValue(context,
+								Name.PARK_REC_STATE);
+						if (null != strParkMonitor
+								&& strParkMonitor.trim().length() > 0
+								&& "0".equals(strParkMonitor)) {
+							KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
+									MainActivity.this);
+							SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
+							SettingUtil.setLedConfig(0); // 关闭LED灯
+							SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
+
+							// Reset Record State
+							ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
+							ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
+							new Thread(new CloseRecordThread()).start();
+							doAccOffWork();
+							sendBroadcast(new Intent("tchip.intent.action.CLOSE_SCREEN"));
+						}
+					}
+
 				}
 			}
 			super.onChange(selfChange, uri);
@@ -377,6 +417,14 @@ public class MainActivity extends Activity {
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
+		TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
+		textTitleYika.setText(getResources().getString(
+				Constant.Module.hasYouku ? R.string.title_youku
+						: R.string.title_weme));
+		ImageView imageYika = (ImageView) findViewById(R.id.imageYika);
+		imageYika.setImageDrawable(getResources().getDrawable(
+				Constant.Module.hasYouku ? R.drawable.main_item_multimedia
+						: R.drawable.main_item_weme, null));
 		// 天气
 		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 		layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -401,7 +449,12 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.layoutRecord:
-				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.RECORD);
+				if (MyApp.isAccOn) {
+					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.RECORD);
+				} else {
+					HintUtil.showToast(MainActivity.this, getResources()
+							.getString(R.string.sleeping_now));
+				}
 				break;
 
 			case R.id.imageRecordState:
@@ -473,7 +526,10 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutYiKa:
-				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
+				if (Constant.Module.hasYouku) {
+					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YOUKU);
+				} else
+					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
 				break;
 
 			case R.id.layoutSetting:
@@ -565,6 +621,7 @@ public class MainActivity extends Activity {
 				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
 				"entry.dsa2014", // 电子狗
 				"com.coagent.ecar", // 翼卡
+				"com.youku.phone", // 优酷
 				"com.mediatek.filemanager", // 文件管理
 				"com.tchip.autofm", // FM发射
 				"com.tchip.weather" // 天气
@@ -642,6 +699,7 @@ public class MainActivity extends Activity {
 				doAccOnWork();
 				MyApp.isAccOn = true;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
+				ProviderUtil.setValue(context, Name.PARK_REC_STATE, "0");
 				TelephonyUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 				initialNodeState();
 
@@ -653,7 +711,6 @@ public class MainActivity extends Activity {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
-				TelephonyUtil.setAirplaneMode(MainActivity.this, true); // 飞行模式
 				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
 				SettingUtil.setLedConfig(0); // 关闭LED灯
 				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
@@ -664,6 +721,25 @@ public class MainActivity extends Activity {
 				new Thread(new CloseRecordThread()).start();
 
 				doAccOffWork();
+			} else if (Constant.Broadcast.GSENSOR_CRASH.equals(action)) { // 停车守卫
+				if (!MyApp.isAccOn) {
+					String strParkRecord = ProviderUtil.getValue(context,
+							Name.PARK_REC_STATE);
+					String strFrontRecord = ProviderUtil.getValue(context,
+							Name.REC_FRONT_STATE);
+					if (null != strParkRecord
+							&& strParkRecord.trim().length() > 0
+							&& "0".equals(strParkRecord)
+							|| null != strFrontRecord
+							&& strFrontRecord.trim().length() > 0
+							&& "0".equals(strFrontRecord)) {
+						ProviderUtil
+								.setValue(context, Name.PARK_REC_STATE, "1");
+						startParkRecord();
+					} else {
+						MyLog.v("PARK_REC_STATE Already 1");
+					}
+				}
 			} else if (Constant.Broadcast.BACK_CAR_ON.equals(action)) { // FIXME:开机同步倒车状态
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "1");
 				startAutoRecord(SystemClock.currentThreadTimeMillis());
@@ -710,6 +786,9 @@ public class MainActivity extends Activity {
 							.equals(pkgWhenBack)) {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.XIMALAYA);
+					} else if ("com.youku.phone".equals(pkgWhenBack)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.YOUKU);
 					} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
 					} else {
 						sendKeyCode(KeyEvent.KEYCODE_HOME);
@@ -877,6 +956,16 @@ public class MainActivity extends Activity {
 					SettingUtil.setFmTransmitPowerOn(context, true);
 				} else {
 					SettingUtil.setFmTransmitPowerOn(context, false);
+				}
+				// 停车守卫开关
+				String strParkMonitor = ProviderUtil.getValue(context,
+						Name.SET_PARK_MONITOR_STATE);
+				if (null != strParkMonitor
+						&& strParkMonitor.trim().length() > 0
+						&& "1".equals(strParkMonitor)) {
+					SettingUtil.setParkMonitorNode(true);
+				} else {
+					SettingUtil.setParkMonitorNode(false);
 				}
 				this.removeMessages(7);
 				break;

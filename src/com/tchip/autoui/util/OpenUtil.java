@@ -110,7 +110,11 @@ public class OpenUtil {
 		WIFI_AP,
 
 		/** 喜马拉雅 */
-		XIMALAYA
+		XIMALAYA,
+		
+		/** 优酷 */
+		YOUKU
+		
 	}
 
 	public static void openModule(Activity activity, MODULE_TYPE moduleTye) {
@@ -429,6 +433,18 @@ public class OpenUtil {
 					intentXimaLaya.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentXimaLaya);
+					break;
+					
+				case YOUKU:
+					Intent intentYouku = new Intent();
+					ComponentName componentYouku = new ComponentName(
+							"com.youku.phone",
+							"com.youku.phone.ActivityWelcome");
+					intentYouku.setComponent(componentYouku);
+					intentYouku.setAction("android.intent.action.VIEW");
+					intentYouku.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					activity.startActivity(intentYouku);
 					break;
 
 				default:

@@ -228,12 +228,14 @@
             android:layout_marginRight="@dimen/main_item_margin_right" >
 
             <ImageView
+                android:id="@+id/imageYika"
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
                 android:src="@drawable/main_item_weme" />
 
             <TextView
+                android:id="@+id/textTitleYika"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/main_item_title_margin_left"
