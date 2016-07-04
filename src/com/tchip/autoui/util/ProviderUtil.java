@@ -17,7 +17,7 @@ public class ProviderUtil {
 
 		/** 倒车状态 */
 		public static final String BACK_CAR_STATE = "back_car_state";
-		
+
 		/** 倒车前界面包名 */
 		public static final String PKG_WHEN_BACK = "pkg_when_back";
 
@@ -83,7 +83,7 @@ public class ProviderUtil {
 
 		/** 停车守卫开关:0,1 */
 		public static final String SET_PARK_MONITOR_STATE = "set_park_monitor_state";
-		
+
 		/** 停车守卫 */
 		public static final String PARK_REC_STATE = "park_rec_state";
 
@@ -91,16 +91,21 @@ public class ProviderUtil {
 
 	public static String getValue(Context context, String name) {
 		String dbValue = "";
-		Uri uri = Uri
-				.parse("content://com.tchip.provider.AutoProvider/state/name/"
-						+ name);
-		ContentResolver contentResolver = context.getContentResolver();
-		Cursor cursor = contentResolver.query(uri, null, null, null, null);
-		if (cursor != null && cursor.getCount() > 0) {
-			cursor.moveToFirst();
-			dbValue = cursor.getString(cursor.getColumnIndex("value"));
-			cursor.close();
-		} else {
+		try {
+			Uri uri = Uri
+					.parse("content://com.tchip.provider.AutoProvider/state/name/"
+							+ name);
+			ContentResolver contentResolver = context.getContentResolver();
+			Cursor cursor = contentResolver.query(uri, null, null, null, null);
+			if (cursor != null && cursor.getCount() > 0) {
+				cursor.moveToFirst();
+				dbValue = cursor.getString(cursor.getColumnIndex("value"));
+				cursor.close();
+			} else {
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			MyLog.e("ProviderUtil.getValue Exception:" + e.toString());
 		}
 		return dbValue;
 	}

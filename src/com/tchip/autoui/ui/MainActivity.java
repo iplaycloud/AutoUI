@@ -17,6 +17,7 @@ import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
 import com.tchip.autoui.util.ProviderUtil;
 import com.tchip.autoui.util.SettingUtil;
+import com.tchip.autoui.util.StorageUtil;
 import com.tchip.autoui.util.TelephonyUtil;
 import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
@@ -293,18 +294,21 @@ public class MainActivity extends Activity {
 						if (null != strParkMonitor
 								&& strParkMonitor.trim().length() > 0
 								&& "0".equals(strParkMonitor)) {
-							KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
-									MainActivity.this);
+							KWAPI.createKWAPI(MainActivity.this, "auto")
+									.exitAPP(MainActivity.this);
 							SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
 							SettingUtil.setLedConfig(0); // 关闭LED灯
 							SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 
 							// Reset Record State
-							ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
-							ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
+							ProviderUtil.setValue(context,
+									Name.REC_FRONT_STATE, "0");
+							ProviderUtil.setValue(context, Name.REC_BACK_STATE,
+									"0");
 							new Thread(new CloseRecordThread()).start();
 							doAccOffWork();
-							sendBroadcast(new Intent("tchip.intent.action.CLOSE_SCREEN"));
+							sendBroadcast(new Intent(
+									"tchip.intent.action.CLOSE_SCREEN"));
 						}
 					}
 
@@ -722,7 +726,7 @@ public class MainActivity extends Activity {
 
 				doAccOffWork();
 			} else if (Constant.Broadcast.GSENSOR_CRASH.equals(action)) { // 停车守卫
-				if (!MyApp.isAccOn) {
+				if (!MyApp.isAccOn && StorageUtil.isFrontCardExist()) {
 					String strParkRecord = ProviderUtil.getValue(context,
 							Name.PARK_REC_STATE);
 					String strFrontRecord = ProviderUtil.getValue(context,

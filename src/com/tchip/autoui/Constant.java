@@ -142,6 +142,14 @@ public interface Constant {
 		 * Write：1：自动调节亮度节点开 0：关;默认打开 ；2：停车侦测开关节点打开 3：关闭（默认）
 		 */
 		public static final String NODE_BACK_STATUS = "/sys/bus/i2c/devices/0-007f/back_car_status";
+
+		public static String RECORD_DIRECTORY = "/storage/sdcard2/DrivingRecord/";
+		/** 前录存储路径 */
+		public static String RECORD_FRONT = "/storage/sdcard2/DrivingRecord/VideoFront/";
+		public static String IMAGE = "/storage/sdcard2/DrivingRecord/Image/";
+
+		/** 后录存储路径 */
+		public static String RECORD_BACK = "/storage/sdcard2/DrivingRecord/VideoBack/";
 	}
 
 }

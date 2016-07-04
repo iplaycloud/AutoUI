@@ -1,6 +1,9 @@
 package com.tchip.autoui.util;
 
+import java.io.File;
 import java.text.DecimalFormat;
+
+import com.tchip.autoui.Constant;
 
 import android.os.StatFs;
 
@@ -63,6 +66,29 @@ public class StorageUtil {
 		long blockSize = stat.getBlockSize();
 		long availableBlocks = stat.getAvailableBlocks();
 		return blockSize * availableBlocks;
+	}
+	
+	/** 录像SD卡是否存在 */
+	public static boolean isFrontCardExist() {
+		boolean isVideoCardExist = false;
+		try {
+			String pathVideo = Constant.Path.RECORD_FRONT;
+			File fileVideo = new File(pathVideo);
+			boolean isSuccess = fileVideo.mkdirs();
+			MyLog.v("StorageUtil.isVideoCardExists,mkdirs isSuccess:"
+					+ isSuccess);
+			File file = new File(pathVideo);
+			if (!file.exists()) {
+				isVideoCardExist = false;
+			} else {
+				isVideoCardExist = true;
+			}
+		} catch (Exception e) {
+			MyLog.e("StorageUtil.isVideoCardExists:Catch Exception!");
+			isVideoCardExist = false;
+		}
+		MyLog.v("StorageUtil.isVideoCardExists:" + isVideoCardExist);
+		return isVideoCardExist;
 	}
 
 }
