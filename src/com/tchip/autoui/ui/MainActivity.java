@@ -144,8 +144,6 @@ public class MainActivity extends Activity {
 
 		// 首次启动是否需要自动录像
 		if (1 == SettingUtil.getAccStatus()) {
-			MyApp.isAccOn = true; // 同步ACC状态
-			ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 			doAccOnWork();
 			new Thread(new StartRecordThread()).start();
 		} else {
@@ -610,8 +608,13 @@ public class MainActivity extends Activity {
 	}
 
 	private void doAccOnWork() {
+		MyApp.isAccOn = true; // 同步ACC状态
+		ProviderUtil.setValue(context, Name.ACC_STATE, "1");
+		ProviderUtil.setValue(context, Name.PARK_REC_STATE, "0");
 		TelephonyUtil.setAirplaneMode(context, false); // 关闭飞行模式
 		SettingUtil.setGpsOn(context, true); // 打开GPS
+		SettingUtil.setEdogPowerOn(true); // 打开电子狗电源
+		SettingUtil.setLedConfig(21); // 蓝灯亮
 	}
 
 	private void doAccOffWork() {
@@ -701,14 +704,7 @@ public class MainActivity extends Activity {
 			MyLog.v("MainReceiver.action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
 				doAccOnWork();
-				MyApp.isAccOn = true;
-				ProviderUtil.setValue(context, Name.ACC_STATE, "1");
-				ProviderUtil.setValue(context, Name.PARK_REC_STATE, "0");
-				TelephonyUtil.setAirplaneMode(MainActivity.this, false); // 飞行模式
 				initialNodeState();
-
-				SettingUtil.setEdogPowerOn(true); // 打开电子狗电源
-				SettingUtil.setLedConfig(21); // 蓝灯亮
 				new Thread(new StartRecordThread()).start();
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
@@ -794,6 +790,7 @@ public class MainActivity extends Activity {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.YOUKU);
 					} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
+						
 					} else {
 						sendKeyCode(KeyEvent.KEYCODE_HOME);
 					}
@@ -966,10 +963,10 @@ public class MainActivity extends Activity {
 						Name.SET_PARK_MONITOR_STATE);
 				if (null != strParkMonitor
 						&& strParkMonitor.trim().length() > 0
-						&& "1".equals(strParkMonitor)) {
-					SettingUtil.setParkMonitorNode(true);
-				} else {
+						&& "0".equals(strParkMonitor)) {
 					SettingUtil.setParkMonitorNode(false);
+				} else {
+					SettingUtil.setParkMonitorNode(true);
 				}
 				this.removeMessages(7);
 				break;
