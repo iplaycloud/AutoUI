@@ -369,4 +369,32 @@ public class SettingUtil {
 		MyLog.v("SettingUtil.setParkingMonitorNode:" + isParkingOn);
 	}
 
+	/**
+	 * Camera自动调节亮度节点
+	 * 
+	 * 1：开 0：关;默认打开
+	 */
+	public static File fileAutoLightSwitch = new File(
+			Constant.Path.NODE_BACK_STATUS);
+
+	public static void setAutoLight(boolean enable) {
+		if (enable) {
+			SaveFileToNode(fileAutoLightSwitch, "1");
+		} else {
+			SaveFileToNode(fileAutoLightSwitch, "0");
+		}
+		MyLog.v("[SettingUtil]setAutoLight:" + enable);
+	}
+	
+
+	public static File fileAccOffWake = new File(Constant.Path.NODE_ACC_STATUS);
+
+	public static void setAccOffWake(boolean enable) {
+		if (enable) {
+			SaveFileToNode(fileAccOffWake, "1");
+		} else {
+			SaveFileToNode(fileAccOffWake, "0");
+		}
+	}
+
 }

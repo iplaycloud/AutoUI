@@ -143,13 +143,13 @@ public interface Constant {
 		 */
 		public static final String NODE_BACK_STATUS = "/sys/bus/i2c/devices/0-007f/back_car_status";
 
-		public static String RECORD_DIRECTORY = "/storage/sdcard2/DrivingRecord/";
+		public static String RECORD_DIRECTORY = "/storage/sdcard1/DrivingRecord/";
 		/** 前录存储路径 */
-		public static String RECORD_FRONT = "/storage/sdcard2/DrivingRecord/VideoFront/";
-		public static String IMAGE = "/storage/sdcard2/DrivingRecord/Image/";
+		public static String RECORD_FRONT = "/storage/sdcard1/DrivingRecord/VideoFront/";
+		public static String IMAGE = "/storage/sdcard1/DrivingRecord/Image/";
 
 		/** 后录存储路径 */
-		public static String RECORD_BACK = "/storage/sdcard2/DrivingRecord/VideoBack/";
+		public static String RECORD_BACK = "/storage/sdcard1/DrivingRecord/VideoBack/";
 	}
 
 }

@@ -23,6 +23,9 @@ public class ProviderUtil {
 
 		/** 后录录像状态:0-未录像，1-录像 */
 		public static final String REC_BACK_STATE = "rec_back_state";
+		
+		/** ACC下电是否可亮屏 */
+		public static final String DEBUG_ACCOFF_WAKE = "debug_accoff_wake";
 
 		/** 前录录像状态:0-未录像，1-录像 */
 		public static final String REC_FRONT_STATE = "rec_front_state";

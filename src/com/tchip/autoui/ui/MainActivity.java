@@ -790,7 +790,7 @@ public class MainActivity extends Activity {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.YOUKU);
 					} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
-						
+
 					} else {
 						sendKeyCode(KeyEvent.KEYCODE_HOME);
 					}
@@ -967,6 +967,24 @@ public class MainActivity extends Activity {
 					SettingUtil.setParkMonitorNode(false);
 				} else {
 					SettingUtil.setParkMonitorNode(true);
+				}
+				// 自动亮度调节
+				String strAutoLight = ProviderUtil.getValue(context,
+						Name.SET_AUTO_LIGHT_STATE);
+				if (null != strAutoLight && strAutoLight.trim().length() > 0
+						&& "1".equals(strAutoLight)) {
+					SettingUtil.setAutoLight(true);
+				} else {
+					SettingUtil.setAutoLight(false);
+				}
+				// ACC下电唤醒
+				String strAccOffWake = ProviderUtil.getValue(context,
+						Name.DEBUG_ACCOFF_WAKE);
+				if (null != strAccOffWake && strAccOffWake.trim().length() > 0
+						&& "1".equals(strAccOffWake)) {
+					SettingUtil.setAccOffWake(true);
+				} else {
+					SettingUtil.setAccOffWake(false);
 				}
 				this.removeMessages(7);
 				break;
