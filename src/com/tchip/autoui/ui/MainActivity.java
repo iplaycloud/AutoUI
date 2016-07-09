@@ -1,6 +1,5 @@
 package com.tchip.autoui.ui;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -44,6 +43,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.os.PowerManager.WakeLock;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.view.PagerAdapter;
@@ -151,6 +151,7 @@ public class MainActivity extends Activity {
 			ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 			sendBroadcast(new Intent("tchip.intent.action.CLOSE_SCREEN"));
 			doAccOffWork();
+			doSleepWork();
 		}
 	}
 
@@ -609,6 +610,7 @@ public class MainActivity extends Activity {
 
 	private void doAccOnWork() {
 		MyApp.isAccOn = true; // 同步ACC状态
+		MyApp.isSleeping = false; // 取消低功耗待机
 		ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 		ProviderUtil.setValue(context, Name.PARK_REC_STATE, "0");
 		TelephonyUtil.setAirplaneMode(context, false); // 关闭飞行模式
@@ -619,21 +621,13 @@ public class MainActivity extends Activity {
 
 	private void doAccOffWork() {
 		sendKeyCode(KeyEvent.KEYCODE_HOME);
-		TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
 		SettingUtil.setGpsOn(context, false); // 关闭GPS
+		OpenUtil.killAppWhenAccOff(context);
+	}
 
-		String[] arrayKillApp = { "cn.kuwo.kwmusiccar", // 酷我音乐
-				"com.android.gallery3d", // 图库
-				"com.autonavi.amapauto", // 高德地图（车机版）
-				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
-				"entry.dsa2014", // 电子狗
-				"com.coagent.ecar", // 翼卡
-				"com.youku.phone", // 优酷
-				"com.mediatek.filemanager", // 文件管理
-				"com.tchip.autofm", // FM发射
-				"com.tchip.weather" // 天气
-		};
-		killApp(context, arrayKillApp);
+	private void doSleepWork() {
+		MyApp.isSleeping = true;
+		TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
 	}
 
 	private void sendKeyCode(final int keyCode) {
@@ -649,51 +643,6 @@ public class MainActivity extends Activity {
 		}.start();
 	}
 
-	private static void killApp(Context context, String app) {
-		ActivityManager myActivityManager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
-				.getRunningAppProcesses();
-		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
-			if (amPro.processName.contains(app)) {
-				try {
-					Method forceStopPackage = myActivityManager
-							.getClass()
-							.getDeclaredMethod("forceStopPackage", String.class);
-					forceStopPackage.setAccessible(true);
-					forceStopPackage.invoke(myActivityManager,
-							amPro.processName);
-					MyLog.v("Kill App Success:" + app);
-				} catch (Exception e) {
-					MyLog.v("Kill App Fail:" + app);
-					e.printStackTrace();
-				}
-			}
-		}
-	}
-
-	private static void killApp(Context context, String[] app) {
-		ActivityManager myActivityManager = (ActivityManager) context
-				.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
-				.getRunningAppProcesses();
-		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
-			for (String strApp : app) {
-				if (amPro.processName.contains(strApp)) {
-					try {
-						Method forceStopPackage = myActivityManager.getClass()
-								.getDeclaredMethod("forceStopPackage",
-										String.class);
-						forceStopPackage.setAccessible(true);
-						forceStopPackage.invoke(myActivityManager,
-								amPro.processName);
-					} catch (Exception e) {
-					}
-				}
-			}
-		}
-	}
-
 	private MainReceiver mainReceiver;
 
 	private class MainReceiver extends BroadcastReceiver {
@@ -706,6 +655,9 @@ public class MainActivity extends Activity {
 				doAccOnWork();
 				initialNodeState();
 				new Thread(new StartRecordThread()).start();
+
+				preSleepCount = 0;
+				MyApp.isSleepConfirm = false;
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
@@ -716,13 +668,31 @@ public class MainActivity extends Activity {
 				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 
 				// Reset Record State
+				sendBroadcast(new Intent(Constant.Broadcast.SPEECH_COMMAND)
+						.putExtra("command", "take_park_photo"));
 				ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
 				ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
 				new Thread(new CloseRecordThread()).start();
 
+				String strParkMonitorState = ProviderUtil.getValue(context,
+						Name.SET_PARK_MONITOR_STATE);
+				if (null != strParkMonitorState
+						&& strParkMonitorState.trim().length() > 0
+						&& "1".equals(strParkMonitorState)) {
+					String strStartPark90s = getResources().getString(
+							R.string.hint_start_park_monitor_after_90);
+					HintUtil.showToast(context, strStartPark90s);
+					speakVoice(strStartPark90s);
+				}
+
 				doAccOffWork();
+
+				preSleepCount = 0;
+				MyApp.isSleepConfirm = true;
+				new Thread(new PreSleepThread()).start();
 			} else if (Constant.Broadcast.GSENSOR_CRASH.equals(action)) { // 停车守卫
-				if (!MyApp.isAccOn && StorageUtil.isFrontCardExist()) {
+				if (MyApp.isSleeping && !MyApp.isAccOn
+						&& StorageUtil.isFrontCardExist()) {
 					String strParkRecord = ProviderUtil.getValue(context,
 							Name.PARK_REC_STATE);
 					String strFrontRecord = ProviderUtil.getValue(context,
@@ -740,61 +710,13 @@ public class MainActivity extends Activity {
 						MyLog.v("PARK_REC_STATE Already 1");
 					}
 				}
-			} else if (Constant.Broadcast.BACK_CAR_ON.equals(action)) { // FIXME:开机同步倒车状态
+			} else if (Constant.Broadcast.BACK_CAR_ON.equals(action)) {
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "1");
 				startAutoRecord(SystemClock.currentThreadTimeMillis());
 				speakVoice(getResources().getString(R.string.hint_back_car_now));
 			} else if (Constant.Broadcast.BACK_CAR_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "0");
-				// 返回到车前界面
-				String pkgWhenBack = ProviderUtil.getValue(context,
-						Name.PKG_WHEN_BACK);
-				if (null != pkgWhenBack && pkgWhenBack.trim().length() > 0) {
-					if ("com.autonavi.amapauto".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.NAVI_GAODE_CAR);
-					} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.DIALER);
-					} else if ("entry.dsa2014".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.EDOG);
-					} else if ("com.mediatek.filemanager".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.FILE_MANAGER_MTK);
-					} else if ("com.tchip.autofm".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.FMTRANSMIT);
-					} else if ("com.android.gallery3d".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.GALLERY);
-					} else if ("cn.kuwo.kwmusiccar".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.MUSIC);
-					} else if ("com.tchip.autosetting".equals(pkgWhenBack)
-							|| "com.android.settings".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.SETTING);
-					} else if ("com.tchip.weather".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.WEATHER);
-					} else if ("com.txznet.webchat".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.WECHAT);
-					} else if ("com.coagent.ecar".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
-					} else if ("com.ximalaya.ting.android.car"
-							.equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.XIMALAYA);
-					} else if ("com.youku.phone".equals(pkgWhenBack)) {
-						OpenUtil.openModule(MainActivity.this,
-								MODULE_TYPE.YOUKU);
-					} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
-
-					} else {
-						sendKeyCode(KeyEvent.KEYCODE_HOME);
-					}
-				}
+				OpenUtil.returnWhenBackOver(MainActivity.this);
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {
@@ -830,6 +752,140 @@ public class MainActivity extends Activity {
 			}
 		}
 	}
+
+	private WakeLock partialWakeLock;
+
+	/**
+	 * 获取休眠锁
+	 * 
+	 * PARTIAL_WAKE_LOCK
+	 * 
+	 * SCREEN_DIM_WAKE_LOCK
+	 * 
+	 * FULL_WAKE_LOCK
+	 * 
+	 * ON_AFTER_RELEASE
+	 */
+	private void acquirePartialWakeLock(long timeout) {
+		partialWakeLock = powerManager.newWakeLock(
+				PowerManager.PARTIAL_WAKE_LOCK, this.getClass()
+						.getCanonicalName());
+		partialWakeLock.acquire(timeout);
+	}
+
+	/** ACC断开进入预备模式的时间:秒 **/
+	private int preSleepCount = 0;
+
+	/** 预备睡眠模式的时间:秒 **/
+	private final int TIME_SLEEP_CONFIRM = 2;
+
+	/** 预备唤醒模式的时间:秒 **/
+	private final int TIME_WAKE_CONFIRM = 1;
+
+	/** ACC断开的时间:秒 **/
+	private int accOffCount = 0;
+
+	/** ACC断开进入深度休眠之前的时间:秒 **/
+	private final int TIME_SLEEP_GOING = 85;
+
+	/**
+	 * 90s后进入停车侦测守卫模式，期间如果ACC上电则取消
+	 */
+	public class GoingParkMonitorThread implements Runnable {
+
+		@Override
+		public void run() {
+			synchronized (goingParkMonitorHandler) {
+				/** 激发条件:1.ACC下电 2.未进入休眠 **/
+				while (!MyApp.isAccOn && !MyApp.isSleeping) {
+					try {
+						Thread.sleep(1000);
+						Message message = new Message();
+						message.what = 1;
+						goingParkMonitorHandler.sendMessage(message);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+	}
+
+	final Handler goingParkMonitorHandler = new Handler() {
+		public void handleMessage(android.os.Message msg) {
+			switch (msg.what) {
+			case 1:
+				if (!MyApp.isAccOn) {
+					accOffCount++;
+					acquirePartialWakeLock(2 * 1000);
+				} else {
+					accOffCount = 0;
+				}
+
+				MyLog.v("[ParkingMonitor]accOffCount:" + accOffCount);
+
+				if (accOffCount >= TIME_SLEEP_GOING && !MyApp.isAccOn
+						&& !MyApp.isSleeping) {
+					doSleepWork();
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+	};
+
+	/** 预备休眠线程 **/
+	public class PreSleepThread implements Runnable {
+
+		@Override
+		public void run() {
+			synchronized (preSleepHandler) {
+				/** 激发条件:1.ACC下电 2.未进入休眠 **/
+				while (MyApp.isSleepConfirm && !MyApp.isAccOn
+						&& !MyApp.isSleeping) {
+					try {
+						Thread.sleep(1000);
+						Message message = new Message();
+						message.what = 1;
+						preSleepHandler.sendMessage(message);
+					} catch (InterruptedException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+
+	}
+
+	final Handler preSleepHandler = new Handler() {
+
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case 1:
+				if (!MyApp.isAccOn) {
+					preSleepCount++;
+				} else {
+					preSleepCount = 0;
+				}
+				MyLog.v("[ParkingMonitor]preSleepCount:" + preSleepCount);
+
+				if (preSleepCount == TIME_SLEEP_CONFIRM && !MyApp.isAccOn
+						&& !MyApp.isSleeping) {
+					MyApp.isSleepConfirm = false;
+					preSleepCount = 0;
+					doAccOffWork();
+					new Thread(new GoingParkMonitorThread()).start();
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+
+	};
 
 	class TaskHandler extends Handler {
 

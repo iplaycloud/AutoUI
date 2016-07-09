@@ -7,6 +7,7 @@
     <string name="hint_unknown">未知</string>
     <string name="hint_no_network">无网络</string>
     <string name="hint_back_car_now">倒车</string>
+    <string name="hint_start_park_monitor_after_90">九十秒后启动停车守卫</string>
 
     <!-- Title -->
     <string name="title_record">行车记录</string>
@@ -56,7 +57,7 @@
     <string name="sleeping_now">正在休眠</string>
     <!-- 音乐 -->
     <string name="music_play_now">正在播放的歌</string>
-    
+
     <!-- ViewPager -->
     <string-array name="jazzy_effects">
         <item>Standard</item>

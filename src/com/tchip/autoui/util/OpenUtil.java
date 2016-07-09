@@ -1,8 +1,17 @@
 package com.tchip.autoui.util;
 
+import java.lang.reflect.Method;
+import java.util.List;
+
+import com.tchip.autoui.ui.MainActivity;
+import com.tchip.autoui.util.ProviderUtil.Name;
+
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.view.KeyEvent;
 
 public class OpenUtil {
 
@@ -111,10 +120,10 @@ public class OpenUtil {
 
 		/** 喜马拉雅 */
 		XIMALAYA,
-		
+
 		/** 优酷 */
 		YOUKU
-		
+
 	}
 
 	public static void openModule(Activity activity, MODULE_TYPE moduleTye) {
@@ -434,7 +443,7 @@ public class OpenUtil {
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentXimaLaya);
 					break;
-					
+
 				case YOUKU:
 					Intent intentYouku = new Intent();
 					ComponentName componentYouku = new ComponentName(
@@ -457,6 +466,106 @@ public class OpenUtil {
 				e.printStackTrace();
 			}
 		}
-
 	}
+
+	private static void killApp(Context context, String app) {
+		ActivityManager myActivityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
+				.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
+			if (amPro.processName.contains(app)) {
+				try {
+					Method forceStopPackage = myActivityManager
+							.getClass()
+							.getDeclaredMethod("forceStopPackage", String.class);
+					forceStopPackage.setAccessible(true);
+					forceStopPackage.invoke(myActivityManager,
+							amPro.processName);
+					MyLog.v("Kill App Success:" + app);
+				} catch (Exception e) {
+					MyLog.v("Kill App Fail:" + app);
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
+	private static void killApp(Context context, String[] app) {
+		ActivityManager myActivityManager = (ActivityManager) context
+				.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager
+				.getRunningAppProcesses();
+		for (ActivityManager.RunningAppProcessInfo amPro : mRunningPros) {
+			for (String strApp : app) {
+				if (amPro.processName.contains(strApp)) {
+					try {
+						Method forceStopPackage = myActivityManager.getClass()
+								.getDeclaredMethod("forceStopPackage",
+										String.class);
+						forceStopPackage.setAccessible(true);
+						forceStopPackage.invoke(myActivityManager,
+								amPro.processName);
+					} catch (Exception e) {
+					}
+				}
+			}
+		}
+	}
+
+	public static void killAppWhenAccOff(Context context) {
+		String[] arrayKillApp = { "cn.kuwo.kwmusiccar", // 酷我音乐
+				"com.android.gallery3d", // 图库
+				"com.autonavi.amapauto", // 高德地图（车机版）
+				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
+				"entry.dsa2014", // 电子狗
+				"com.coagent.ecar", // 翼卡
+				"com.youku.phone", // 优酷
+				"com.mediatek.filemanager", // 文件管理
+				"com.tchip.autofm", // FM发射
+				"com.tchip.weather" // 天气
+		};
+		killApp(context, arrayKillApp);
+	}
+
+	/** 返回到车前界面 */
+	public static void returnWhenBackOver(Activity activity) {
+		String pkgWhenBack = ProviderUtil
+				.getValue(activity, Name.PKG_WHEN_BACK);
+		if (null != pkgWhenBack && pkgWhenBack.trim().length() > 0) {
+			if ("com.autonavi.amapauto".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR);
+			} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.DIALER);
+			} else if ("entry.dsa2014".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.EDOG);
+			} else if ("com.mediatek.filemanager".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.FILE_MANAGER_MTK);
+			} else if ("com.tchip.autofm".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.FMTRANSMIT);
+			} else if ("com.android.gallery3d".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.GALLERY);
+			} else if ("cn.kuwo.kwmusiccar".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.MUSIC);
+			} else if ("com.tchip.autosetting".equals(pkgWhenBack)
+					|| "com.android.settings".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.SETTING);
+			} else if ("com.tchip.weather".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.WEATHER);
+			} else if ("com.txznet.webchat".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.WECHAT);
+			} else if ("com.coagent.ecar".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.YIKA);
+			} else if ("com.ximalaya.ting.android.car".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.XIMALAYA);
+			} else if ("com.youku.phone".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.YOUKU);
+			} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
+
+			} else {
+				// sendKeyCode(KeyEvent.KEYCODE_HOME);
+			}
+		}
+	}
+	
 }

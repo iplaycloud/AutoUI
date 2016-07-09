@@ -65,6 +65,8 @@ public interface Constant {
 		 * 2.语音开始录像：open_dvr
 		 * 
 		 * 3.语音停止录像：close_dvr
+		 * 
+		 * 4.停车拍照：take_park_photo
 		 */
 		public static final String SPEECH_COMMAND = "com.tchip.SPEECH_COMMAND";
 
