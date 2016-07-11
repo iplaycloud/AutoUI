@@ -3,11 +3,11 @@ package com.tchip.autoui.util;
 import java.lang.reflect.Method;
 import java.util.List;
 
-import com.tchip.autoui.ui.MainActivity;
 import com.tchip.autoui.util.ProviderUtil.Name;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -544,7 +544,9 @@ public class OpenUtil {
 			} else if ("com.tchip.autofm".equals(pkgWhenBack)) {
 				openModule(activity, MODULE_TYPE.FMTRANSMIT);
 			} else if ("com.android.gallery3d".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.GALLERY);
+				// FIXME:视频回放界面倒车回到图库
+				// openModule(activity, MODULE_TYPE.GALLERY);
+				sendKeyCode(KeyEvent.KEYCODE_HOME);
 			} else if ("cn.kuwo.kwmusiccar".equals(pkgWhenBack)) {
 				openModule(activity, MODULE_TYPE.MUSIC);
 			} else if ("com.tchip.autosetting".equals(pkgWhenBack)
@@ -563,9 +565,22 @@ public class OpenUtil {
 			} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
 
 			} else {
-				// sendKeyCode(KeyEvent.KEYCODE_HOME);
+				sendKeyCode(KeyEvent.KEYCODE_HOME);
 			}
 		}
 	}
-	
+
+	private static void sendKeyCode(final int keyCode) {
+		new Thread() {
+			public void run() {
+				try {
+					Instrumentation inst = new Instrumentation();
+					inst.sendKeyDownUpSync(keyCode);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}.start();
+	}
+
 }
