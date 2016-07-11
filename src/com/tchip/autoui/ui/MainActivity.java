@@ -611,6 +611,9 @@ public class MainActivity extends Activity {
 	private void doAccOnWork() {
 		MyApp.isAccOn = true; // 同步ACC状态
 		MyApp.isSleeping = false; // 取消低功耗待机
+		MyApp.isSleepConfirm = false;
+		accOffCount = 0;
+		preSleepCount = 0;
 		ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 		ProviderUtil.setValue(context, Name.PARK_REC_STATE, "0");
 		TelephonyUtil.setAirplaneMode(context, false); // 关闭飞行模式
@@ -656,8 +659,6 @@ public class MainActivity extends Activity {
 				initialNodeState();
 				new Thread(new StartRecordThread()).start();
 
-				preSleepCount = 0;
-				MyApp.isSleepConfirm = false;
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
