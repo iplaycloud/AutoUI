@@ -76,15 +76,6 @@ public class MainActivity extends Activity {
 	/** UI主线程Handler */
 	private Handler mainHandler;
 
-	/** 非UI任务线程 */
-	private static final HandlerThread taskHandlerThread = new HandlerThread(
-			"ui-task-thread");
-	static {
-		taskHandlerThread.start();
-	}
-	private final Handler taskHandler = new TaskHandler(
-			taskHandlerThread.getLooper());
-
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
 
@@ -295,10 +286,6 @@ public class MainActivity extends Activity {
 								&& "0".equals(strParkMonitor)) {
 							KWAPI.createKWAPI(MainActivity.this, "auto")
 									.exitAPP(MainActivity.this);
-							SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
-							SettingUtil.setLedConfig(0); // 关闭LED灯
-							SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
-
 							// Reset Record State
 							ProviderUtil.setValue(context,
 									Name.REC_FRONT_STATE, "0");
@@ -306,6 +293,7 @@ public class MainActivity extends Activity {
 									"0");
 							new Thread(new CloseRecordThread()).start();
 							doAccOffWork();
+							doSleepWork();
 							sendBroadcast(new Intent(
 									"tchip.intent.action.CLOSE_SCREEN"));
 						}
@@ -625,11 +613,14 @@ public class MainActivity extends Activity {
 	private void doAccOffWork() {
 		sendKeyCode(KeyEvent.KEYCODE_HOME);
 		SettingUtil.setGpsOn(context, false); // 关闭GPS
+		SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
+		SettingUtil.setLedConfig(0); // 关闭LED灯
 		OpenUtil.killAppWhenAccOff(context);
 	}
 
 	private void doSleepWork() {
 		MyApp.isSleeping = true;
+		SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 		TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
 	}
 
@@ -664,9 +655,6 @@ public class MainActivity extends Activity {
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
-				SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
-				SettingUtil.setLedConfig(0); // 关闭LED灯
-				SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 
 				// Reset Record State
 				sendBroadcast(new Intent(Constant.Broadcast.SPEECH_COMMAND)
@@ -685,8 +673,6 @@ public class MainActivity extends Activity {
 					HintUtil.showToast(context, strStartPark90s);
 					speakVoice(strStartPark90s);
 				}
-
-				doAccOffWork();
 
 				preSleepCount = 0;
 				MyApp.isSleepConfirm = true;
@@ -887,6 +873,22 @@ public class MainActivity extends Activity {
 		}
 
 	};
+
+	/** 非UI任务线程 */
+	private static final HandlerThread taskHandlerThread = new HandlerThread(
+			"ui-task-thread");
+	static {
+		taskHandlerThread.start();
+	}
+	/**
+	 * @param 1 更新录制信息
+	 * @param 2 更新天气信息
+	 * @param 3 更新音乐信息 ToDo
+	 * @param 6 同步倒车状态
+	 * @param 7 初始化节点
+	 */
+	private final Handler taskHandler = new TaskHandler(
+			taskHandlerThread.getLooper());
 
 	class TaskHandler extends Handler {
 

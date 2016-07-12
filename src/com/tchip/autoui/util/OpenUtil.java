@@ -11,6 +11,7 @@ import android.app.Instrumentation;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.view.KeyEvent;
 
 public class OpenUtil {
@@ -60,6 +61,9 @@ public class OpenUtil {
 
 		/** 导航:高德地图车机版 */
 		NAVI_GAODE_CAR,
+
+		/** 系统升级 */
+		OTA,
 
 		/** 行车记录 */
 		RECORD,
@@ -297,6 +301,15 @@ public class OpenUtil {
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					intentGaodeCar.setComponent(componentGaodeCar);
 					activity.startActivity(intentGaodeCar);
+					break;
+
+				case OTA:
+					Intent intentSettingOTA = new Intent(Intent.ACTION_VIEW);
+					intentSettingOTA.setClassName("com.tchipota",
+							"com.tchipota.MainActivity");
+					intentSettingOTA.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					activity.startActivity(intentSettingOTA);
 					break;
 
 				case RECORD: {
@@ -562,12 +575,24 @@ public class OpenUtil {
 				openModule(activity, MODULE_TYPE.XIMALAYA);
 			} else if ("com.youku.phone".equals(pkgWhenBack)) {
 				openModule(activity, MODULE_TYPE.YOUKU);
+			} else if ("com.tchipota".equals(pkgWhenBack)) {
+				openModule(activity, MODULE_TYPE.OTA);
 			} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
 
-			} else {
+			} else if ("com.tchip.autoui".equals(pkgWhenBack)) {
 				sendKeyCode(KeyEvent.KEYCODE_HOME);
+			} else {
+				startAppbyPackage(activity, pkgWhenBack);
 			}
 		}
+	}
+
+	private static void startAppbyPackage(Context context, String packageName) {
+		PackageManager packageManager = context.getPackageManager();
+		Intent intent = packageManager.getLaunchIntentForPackage(packageName);
+		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+		context.startActivity(intent);
 	}
 
 	private static void sendKeyCode(final int keyCode) {
