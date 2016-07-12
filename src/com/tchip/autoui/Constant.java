@@ -57,6 +57,9 @@ public interface Constant {
 		/** 重启设备 */
 		public static final String DEVICE_REBOOT = "tchip.intent.action.DEVICE_REBOOT";
 
+		/** 熄屏 */
+		public static final String CLOSE_SCREEN = "tchip.intent.action.CLOSE_SCREEN";
+
 		/**
 		 * 语音命令,Extra:command
 		 * 

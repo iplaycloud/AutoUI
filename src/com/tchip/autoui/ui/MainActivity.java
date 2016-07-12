@@ -551,8 +551,21 @@ public class MainActivity extends Activity {
 	}
 
 	private void speakVoice(String content) {
-		MyLog.v("speakVoice:" + content);
-		textToSpeech.speak(content, TextToSpeech.QUEUE_FLUSH, null, content);
+		if (MyApp.isAccOn) {
+			MyLog.v("speakVoice:" + content);
+			textToSpeech
+					.speak(content, TextToSpeech.QUEUE_FLUSH, null, content);
+		}
+	}
+
+	private void speakParkVoice() {
+		if (!MyApp.isAccOn) {
+			String strStartPark90s = getResources().getString(
+					R.string.hint_start_park_monitor_after_90);
+			HintUtil.showToast(context, strStartPark90s);
+			textToSpeech.speak(strStartPark90s, TextToSpeech.QUEUE_FLUSH, null,
+					strStartPark90s);
+		}
 	}
 
 	/** 更新录制信息 */
@@ -625,9 +638,13 @@ public class MainActivity extends Activity {
 	}
 
 	private void doSleepWork() {
-		MyApp.isSleeping = true;
-		SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
-		TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
+		if (!MyApp.isAccOn) {
+			acquirePartialWakeLock(1 * 1000);
+			MyApp.isSleeping = true;
+			SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
+			TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
+			sendBroadcast(new Intent(Constant.Broadcast.CLOSE_SCREEN)); // 熄屏
+		}
 	}
 
 	private void sendKeyCode(final int keyCode) {
@@ -674,14 +691,13 @@ public class MainActivity extends Activity {
 				if (null != strParkMonitorState
 						&& strParkMonitorState.trim().length() > 0
 						&& "1".equals(strParkMonitorState)) {
-					String strStartPark90s = getResources().getString(
-							R.string.hint_start_park_monitor_after_90);
-					HintUtil.showToast(context, strStartPark90s);
-					speakVoice(strStartPark90s);
+					speakParkVoice();
 				}
 
 				preSleepCount = 0;
+				accOffCount = 0;
 				MyApp.isSleepConfirm = true;
+				MyApp.isSleeping = false;
 				new Thread(new PreSleepThread()).start();
 			} else if (Constant.Broadcast.GSENSOR_CRASH.equals(action)) { // 停车守卫
 				if (MyApp.isSleeping && !MyApp.isAccOn
@@ -814,9 +830,7 @@ public class MainActivity extends Activity {
 				} else {
 					accOffCount = 0;
 				}
-
 				MyLog.v("[ParkingMonitor]accOffCount:" + accOffCount);
-
 				if (accOffCount >= TIME_SLEEP_GOING && !MyApp.isAccOn
 						&& !MyApp.isSleeping) {
 					doSleepWork();
@@ -869,6 +883,8 @@ public class MainActivity extends Activity {
 					MyApp.isSleepConfirm = false;
 					preSleepCount = 0;
 					doAccOffWork();
+					accOffCount = 0;
+					MyApp.isSleeping = false;
 					new Thread(new GoingParkMonitorThread()).start();
 				}
 				break;
