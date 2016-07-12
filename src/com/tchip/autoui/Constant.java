@@ -109,9 +109,10 @@ public interface Constant {
 		/** 是否是公版软件 */
 		public static final boolean isPublic = true;
 
-		public static boolean isIconAtom = false;
-
 		public static final boolean hasYouku = false;
+
+		/** 是否使用善领UI */
+		public static final boolean zenlaneUI = true;
 
 	}
 

@@ -94,9 +94,13 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_pager);
 
 		LayoutInflater inflater = LayoutInflater.from(this);
-		viewMain = inflater.inflate(R.layout.activity_pager_one, null);
-		viewVice = inflater.inflate(R.layout.activity_pager_two, null);
-
+		if (Constant.Module.zenlaneUI) {
+			viewMain = inflater.inflate(R.layout.activity_zenlane_one, null);
+			viewVice = inflater.inflate(R.layout.activity_zenlane_two, null);
+		} else {
+			viewMain = inflater.inflate(R.layout.activity_default_one, null);
+			viewVice = inflater.inflate(R.layout.activity_default_two, null);
+		}
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
 		viewList.add(viewVice);
@@ -408,14 +412,16 @@ public class MainActivity extends Activity {
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
-		TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
-		textTitleYika.setText(getResources().getString(
-				Constant.Module.hasYouku ? R.string.title_youku
-						: R.string.title_weme));
-		ImageView imageYika = (ImageView) findViewById(R.id.imageYika);
-		imageYika.setImageDrawable(getResources().getDrawable(
-				Constant.Module.hasYouku ? R.drawable.main_item_multimedia
-						: R.drawable.main_item_weme, null));
+		if (!Constant.Module.zenlaneUI) {
+			TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
+			textTitleYika.setText(getResources().getString(
+					Constant.Module.hasYouku ? R.string.title_youku
+							: R.string.title_weme));
+			ImageView imageYika = (ImageView) findViewById(R.id.imageYika);
+			imageYika.setImageDrawable(getResources().getDrawable(
+					Constant.Module.hasYouku ? R.drawable.main_item_multimedia
+							: R.drawable.main_item_weme, null));
+		}
 		// 天气
 		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 		layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -916,13 +922,15 @@ public class MainActivity extends Activity {
 										.setText(getResources().getString(
 												R.string.rec_state_front_on));
 								imageRecordState
-										.setImageResource(R.drawable.main_item_state_record_stop);
+										.setImageResource(Constant.Module.zenlaneUI ? R.drawable.main_item_record_stop_normal_sl
+												: R.drawable.main_item_state_record_stop);
 							} else {
 								textRecStateFront
 										.setText(getResources().getString(
 												R.string.rec_state_front_off));
 								imageRecordState
-										.setImageResource(R.drawable.main_item_state_record_start);
+										.setImageResource(Constant.Module.zenlaneUI ? R.drawable.main_item_record_start_normal_sl
+												: R.drawable.main_item_state_record_start);
 							}
 						}
 						if (recStateBack != null

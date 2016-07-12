@@ -92,4 +92,14 @@
     <dimen name="weather_info_margin_bottom">8dp</dimen>
     <dimen name="weather_info_margin_span">3dp</dimen>
 
+    <!-- 善领UI -->
+    <dimen name="zl_pager_big_margin_top">26dp</dimen>
+    <dimen name="zl_pager_big_margin_bottom">12dp</dimen>
+    <dimen name="zl_pager_big_margin_right">9dp</dimen>
+    <dimen name="zl_pager_two_small_margin_top">26dp</dimen>
+    <dimen name="zl_record_btn_edge">33dp</dimen>
+    <dimen name="zl_record_btn_margin_bottom">20dp</dimen>
+    <dimen name="zl_record_text_margin_bottom">20dp</dimen>
+    <dimen name="zl_layout_big_margin_right">18dp</dimen>
+
 </resources>

@@ -13,7 +13,7 @@
     <string name="title_record">行车记录</string>
     <string name="title_navigation">导航</string>
     <string name="title_weather">天气</string>
-    <string name="title_music">音乐</string>
+    <string name="title_music">在线音乐</string>
     <string name="title_cloudpick">一键接人</string>
     <string name="title_music_online">在线音乐</string>
     <string name="title_edog">电子狗</string>
@@ -23,7 +23,7 @@
     <string name="title_file_manager">文件管理</string>
     <string name="title_message">短信</string>
     <string name="title_fm_transmit">FM发射</string>
-    <string name="title_phone">电话</string>
+    <string name="title_phone">蓝牙电话</string>
     <string name="title_clouddialer">云电话</string>
     <string name="title_setting">设置</string>
     <string name="title_wechat">微信助手</string>
