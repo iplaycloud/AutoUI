@@ -36,6 +36,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.ContentObserver;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -75,7 +76,8 @@ public class MainActivity extends Activity {
 
 	/** UI主线程Handler */
 	private Handler mainHandler;
-
+	/** UI配置：TQ-公版 SL-善领 */
+	private String brand = "TQ";
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
 
@@ -94,7 +96,9 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.activity_pager);
 
 		LayoutInflater inflater = LayoutInflater.from(this);
-		if (Constant.Module.zenlaneUI) {
+		brand = Build.BRAND;
+		MyLog.d("BRAND:" + brand);
+		if ("SL".equals(brand)) {
 			viewMain = inflater.inflate(R.layout.activity_zenlane_one, null);
 			viewVice = inflater.inflate(R.layout.activity_zenlane_two, null);
 		} else {
@@ -147,6 +151,7 @@ public class MainActivity extends Activity {
 			sendBroadcast(new Intent("tchip.intent.action.CLOSE_SCREEN"));
 			doAccOffWork();
 			doSleepWork();
+			MyApp.isSleeping = true;
 		}
 	}
 
@@ -284,10 +289,8 @@ public class MainActivity extends Activity {
 				} else if (Name.PARK_REC_STATE.equals(name)) {
 					if (!MyApp.isAccOn) {
 						String strParkMonitor = ProviderUtil.getValue(context,
-								Name.PARK_REC_STATE);
-						if (null != strParkMonitor
-								&& strParkMonitor.trim().length() > 0
-								&& "0".equals(strParkMonitor)) {
+								Name.PARK_REC_STATE, "0");
+						if ("0".equals(strParkMonitor)) {
 							KWAPI.createKWAPI(MainActivity.this, "auto")
 									.exitAPP(MainActivity.this);
 							// Reset Record State
@@ -412,7 +415,7 @@ public class MainActivity extends Activity {
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
-		if (!Constant.Module.zenlaneUI) {
+		if (!"SL".equals(brand)) {
 			TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
 			textTitleYika.setText(getResources().getString(
 					Constant.Module.hasYouku ? R.string.title_youku
@@ -457,20 +460,16 @@ public class MainActivity extends Activity {
 			case R.id.imageRecordState:
 				if (MyApp.isAccOn) {
 					String strRecordState = ProviderUtil.getValue(context,
-							Name.REC_FRONT_STATE);
-					if (null != strRecordState
-							&& strRecordState.trim().length() > 0) {
-						if ("1".equals(strRecordState)) {
-							sendBroadcast(new Intent(
-									Constant.Broadcast.SPEECH_COMMAND)
-									.putExtra("command", "close_dvr"));
-						} else {
-							sendBroadcast(new Intent(
-									Constant.Broadcast.SPEECH_COMMAND)
-									.putExtra("command", "open_dvr"));
-						}
+							Name.REC_FRONT_STATE, "0");
+					if ("1".equals(strRecordState)) {
+						sendBroadcast(new Intent(
+								Constant.Broadcast.SPEECH_COMMAND).putExtra(
+								"command", "close_dvr"));
+					} else {
+						sendBroadcast(new Intent(
+								Constant.Broadcast.SPEECH_COMMAND).putExtra(
+								"command", "open_dvr"));
 					}
-
 				} else {
 					HintUtil.showToast(MainActivity.this, getResources()
 							.getString(R.string.sleeping_now));
@@ -618,9 +617,7 @@ public class MainActivity extends Activity {
 	private void doAccOnWork() {
 		MyApp.isAccOn = true; // 同步ACC状态
 		MyApp.isSleeping = false; // 取消低功耗待机
-		MyApp.isSleepConfirm = false;
 		accOffCount = 0;
-		preSleepCount = 0;
 		ProviderUtil.setValue(context, Name.ACC_STATE, "1");
 		ProviderUtil.setValue(context, Name.PARK_REC_STATE, "0");
 		TelephonyUtil.setAirplaneMode(context, false); // 关闭飞行模式
@@ -630,6 +627,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void doAccOffWork() {
+		accOffCount = 0;
 		sendKeyCode(KeyEvent.KEYCODE_HOME);
 		SettingUtil.setGpsOn(context, false); // 关闭GPS
 		SettingUtil.setEdogPowerOn(false); // 关闭电子狗电源
@@ -640,7 +638,6 @@ public class MainActivity extends Activity {
 	private void doSleepWork() {
 		if (!MyApp.isAccOn) {
 			acquirePartialWakeLock(1 * 1000);
-			MyApp.isSleeping = true;
 			SettingUtil.setFmTransmitPowerOn(context, false); // 关闭FM发射
 			TelephonyUtil.setAirplaneMode(context, true); // 打开飞行模式
 			sendBroadcast(new Intent(Constant.Broadcast.CLOSE_SCREEN)); // 熄屏
@@ -687,31 +684,25 @@ public class MainActivity extends Activity {
 				new Thread(new CloseRecordThread()).start();
 
 				String strParkMonitorState = ProviderUtil.getValue(context,
-						Name.SET_PARK_MONITOR_STATE);
-				if (null != strParkMonitorState
-						&& strParkMonitorState.trim().length() > 0
-						&& "1".equals(strParkMonitorState)) {
+						Name.SET_PARK_MONITOR_STATE, "1");
+				if ("1".equals(strParkMonitorState)) {
 					speakParkVoice();
 				}
 
-				preSleepCount = 0;
-				accOffCount = 0;
-				MyApp.isSleepConfirm = true;
-				MyApp.isSleeping = false;
-				new Thread(new PreSleepThread()).start();
+				if (!MyApp.isAccOn) {
+					doAccOffWork();
+					MyApp.isSleeping = false;
+					new Thread(new GoingParkMonitorThread()).start();
+				}
 			} else if (Constant.Broadcast.GSENSOR_CRASH.equals(action)) { // 停车守卫
+				MyLog.v("MyApp.isSleeping:" + MyApp.isSleeping);
 				if (MyApp.isSleeping && !MyApp.isAccOn
 						&& StorageUtil.isFrontCardExist()) {
 					String strParkRecord = ProviderUtil.getValue(context,
-							Name.PARK_REC_STATE);
+							Name.PARK_REC_STATE, "0");
 					String strFrontRecord = ProviderUtil.getValue(context,
-							Name.REC_FRONT_STATE);
-					if (null != strParkRecord
-							&& strParkRecord.trim().length() > 0
-							&& "0".equals(strParkRecord)
-							|| null != strFrontRecord
-							&& strFrontRecord.trim().length() > 0
-							&& "0".equals(strFrontRecord)) {
+							Name.REC_FRONT_STATE, "0");
+					if ("0".equals(strParkRecord) || "0".equals(strFrontRecord)) {
 						ProviderUtil
 								.setValue(context, Name.PARK_REC_STATE, "1");
 						startParkRecord();
@@ -737,13 +728,10 @@ public class MainActivity extends Activity {
 				if (minute == 0) {
 					int year = calendar.get(Calendar.YEAR);
 					MyLog.v("TimeTickReceiver.Year:" + year);
-
 					int hour = calendar.get(Calendar.HOUR_OF_DAY);
 					if (MyApp.isAccOn) { // ACC_ON
 						if (year >= 2016) {
-							if (1 == SettingUtil.getAccStatus()) { // 再次确认
-								speakVoice("整点报时:" + hour + "点整");
-							}
+							speakVoice("整点报时:" + hour + "点整");
 						}
 					} else { // ACC_OFF
 						if (hour == 3) { // 凌晨3点重启机器
@@ -781,15 +769,6 @@ public class MainActivity extends Activity {
 						.getCanonicalName());
 		partialWakeLock.acquire(timeout);
 	}
-
-	/** ACC断开进入预备模式的时间:秒 **/
-	private int preSleepCount = 0;
-
-	/** 预备睡眠模式的时间:秒 **/
-	private final int TIME_SLEEP_CONFIRM = 2;
-
-	/** 预备唤醒模式的时间:秒 **/
-	private final int TIME_WAKE_CONFIRM = 1;
 
 	/** ACC断开的时间:秒 **/
 	private int accOffCount = 0;
@@ -830,10 +809,13 @@ public class MainActivity extends Activity {
 				} else {
 					accOffCount = 0;
 				}
-				MyLog.v("[ParkingMonitor]accOffCount:" + accOffCount);
-				if (accOffCount >= TIME_SLEEP_GOING && !MyApp.isAccOn
+				MyLog.d("[ParkingMonitorHandler]accOffCount:" + accOffCount
+						+ ",isAccOn:" + MyApp.isAccOn + ",isSleeping:"
+						+ MyApp.isSleeping);
+				if ((accOffCount >= TIME_SLEEP_GOING) && !MyApp.isAccOn
 						&& !MyApp.isSleeping) {
 					doSleepWork();
+					MyApp.isSleeping = true;
 				}
 				break;
 
@@ -841,59 +823,6 @@ public class MainActivity extends Activity {
 				break;
 			}
 		}
-	};
-
-	/** 预备休眠线程 **/
-	public class PreSleepThread implements Runnable {
-
-		@Override
-		public void run() {
-			synchronized (preSleepHandler) {
-				/** 激发条件:1.ACC下电 2.未进入休眠 **/
-				while (MyApp.isSleepConfirm && !MyApp.isAccOn
-						&& !MyApp.isSleeping) {
-					try {
-						Thread.sleep(1000);
-						Message message = new Message();
-						message.what = 1;
-						preSleepHandler.sendMessage(message);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		}
-
-	}
-
-	final Handler preSleepHandler = new Handler() {
-
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-			case 1:
-				if (!MyApp.isAccOn) {
-					preSleepCount++;
-				} else {
-					preSleepCount = 0;
-				}
-				MyLog.v("[ParkingMonitor]preSleepCount:" + preSleepCount);
-
-				if (preSleepCount == TIME_SLEEP_CONFIRM && !MyApp.isAccOn
-						&& !MyApp.isSleeping) {
-					MyApp.isSleepConfirm = false;
-					preSleepCount = 0;
-					doAccOffWork();
-					accOffCount = 0;
-					MyApp.isSleeping = false;
-					new Thread(new GoingParkMonitorThread()).start();
-				}
-				break;
-
-			default:
-				break;
-			}
-		}
-
 	};
 
 	/** 非UI任务线程 */
@@ -924,41 +853,32 @@ public class MainActivity extends Activity {
 			case 1: // 更新录制信息
 				this.removeMessages(1);
 				final String recStateFront = ProviderUtil.getValue(context,
-						Name.REC_FRONT_STATE);
+						Name.REC_FRONT_STATE, "0");
 				final String recStateBack = ProviderUtil.getValue(context,
-						Name.REC_BACK_STATE);
+						Name.REC_BACK_STATE, "0");
 				mainHandler.post(new Runnable() {
 
 					@Override
 					public void run() {
-						if (recStateFront != null
-								&& recStateFront.trim().length() > 0) {
-							if ("1".equals(recStateFront)) {
-								textRecStateFront
-										.setText(getResources().getString(
-												R.string.rec_state_front_on));
-								imageRecordState
-										.setImageResource(Constant.Module.zenlaneUI ? R.drawable.main_item_record_stop_normal_sl
-												: R.drawable.main_item_state_record_stop);
-							} else {
-								textRecStateFront
-										.setText(getResources().getString(
-												R.string.rec_state_front_off));
-								imageRecordState
-										.setImageResource(Constant.Module.zenlaneUI ? R.drawable.main_item_record_start_normal_sl
-												: R.drawable.main_item_state_record_start);
-							}
+						if ("1".equals(recStateFront)) {
+							textRecStateFront.setText(getResources().getString(
+									R.string.rec_state_front_on));
+							imageRecordState.setImageResource("SL"
+									.equals(brand) ? R.drawable.main_item_record_stop_normal_sl
+									: R.drawable.main_item_state_record_stop);
+						} else {
+							textRecStateFront.setText(getResources().getString(
+									R.string.rec_state_front_off));
+							imageRecordState.setImageResource("SL"
+									.equals(brand) ? R.drawable.main_item_record_start_normal_sl
+									: R.drawable.main_item_state_record_start);
 						}
-						if (recStateBack != null
-								&& recStateBack.trim().length() > 0) {
-							if ("1".equals(recStateBack)) {
-								textRecStateBack.setText(getResources()
-										.getString(R.string.rec_state_back_on));
-							} else {
-								textRecStateBack
-										.setText(getResources().getString(
-												R.string.rec_state_back_off));
-							}
+						if ("1".equals(recStateBack)) {
+							textRecStateBack.setText(getResources().getString(
+									R.string.rec_state_back_on));
+						} else {
+							textRecStateBack.setText(getResources().getString(
+									R.string.rec_state_back_off));
 						}
 					}
 				});
@@ -968,44 +888,26 @@ public class MainActivity extends Activity {
 			case 2: // 更新天气信息
 				this.removeMessages(2);
 				final String weatherInfo = ProviderUtil.getValue(context,
-						Name.WEATHER_INFO);
+						Name.WEATHER_INFO,
+						getResources().getString(R.string.weather_unknown));
 				final String weatherTempLow = ProviderUtil.getValue(context,
-						Name.WEATHER_TEMP_LOW);
+						Name.WEATHER_TEMP_LOW, "-");
 				final String weatherTempHigh = ProviderUtil.getValue(context,
-						Name.WEATHER_TEMP_HIGH);
+						Name.WEATHER_TEMP_HIGH, "-");
 				final String weatherCity = ProviderUtil.getValue(context,
-						Name.WEATHER_LOC_CITY);
+						Name.WEATHER_LOC_CITY,
+						getResources().getString(R.string.weather_not_record));
 				mainHandler.post(new Runnable() {
 
 					@Override
 					public void run() {
-						if (weatherInfo != null
-								&& weatherInfo.trim().length() > 0) {
-							imageWeatherInfo.setImageResource(WeatherUtil
-									.getWeatherDrawable(WeatherUtil
-											.getTypeByStr(weatherInfo)));
-							textWeatherInfo.setText(weatherInfo);
-						} else {
-							textWeatherInfo.setText(getResources().getString(
-									R.string.weather_unknown));
-						}
-						if (weatherTempLow != null
-								&& weatherTempLow.trim().length() > 0
-								&& weatherTempHigh != null
-								&& weatherTempHigh.trim().length() > 0) {
-							textWeatherTmpRange.setText(weatherTempLow + "~"
-									+ weatherTempHigh + "℃");
-						} else {
-							textWeatherTmpRange.setText(getResources()
-									.getString(R.string.weather_no_temp));
-						}
-						if (weatherCity != null
-								&& weatherCity.trim().length() > 0) {
-							textWeatherCity.setText(weatherCity);
-						} else {
-							textWeatherCity.setText(getResources().getString(
-									R.string.weather_not_record));
-						}
+						imageWeatherInfo.setImageResource(WeatherUtil
+								.getWeatherDrawable(WeatherUtil
+										.getTypeByStr(weatherInfo)));
+						textWeatherInfo.setText(weatherInfo);
+						textWeatherTmpRange.setText(weatherTempLow + "~"
+								+ weatherTempHigh + "℃");
+						textWeatherCity.setText(weatherCity);
 
 					}
 				});
@@ -1027,44 +929,36 @@ public class MainActivity extends Activity {
 				this.removeMessages(7);
 				// FM发射开关/频率
 				String fmFrequencyConfig = ProviderUtil.getValue(context,
-						Name.FM_TRANSMIT_FREQ);
-				if (null != fmFrequencyConfig
-						&& fmFrequencyConfig.trim().length() > 0) {
-					SettingUtil.setFmFrequencyNode(context,
-							Integer.parseInt(fmFrequencyConfig));
-				}
+						Name.FM_TRANSMIT_FREQ, "9600");
+				SettingUtil.setFmFrequencyNode(context,
+						Integer.parseInt(fmFrequencyConfig));
 				String fmStateConfig = ProviderUtil.getValue(context,
-						Name.FM_TRANSMIT_STATE);
-				if (null != fmStateConfig && fmStateConfig.trim().length() > 0
-						&& "1".equals(fmStateConfig)) {
+						Name.FM_TRANSMIT_STATE, "0");
+				if ("1".equals(fmStateConfig)) {
 					SettingUtil.setFmTransmitPowerOn(context, true);
 				} else {
 					SettingUtil.setFmTransmitPowerOn(context, false);
 				}
 				// 停车守卫开关
 				String strParkMonitor = ProviderUtil.getValue(context,
-						Name.SET_PARK_MONITOR_STATE);
-				if (null != strParkMonitor
-						&& strParkMonitor.trim().length() > 0
-						&& "0".equals(strParkMonitor)) {
+						Name.SET_PARK_MONITOR_STATE, "1");
+				if ("0".equals(strParkMonitor)) {
 					SettingUtil.setParkMonitorNode(false);
 				} else {
 					SettingUtil.setParkMonitorNode(true);
 				}
 				// 自动亮度调节
 				String strAutoLight = ProviderUtil.getValue(context,
-						Name.SET_AUTO_LIGHT_STATE);
-				if (null != strAutoLight && strAutoLight.trim().length() > 0
-						&& "1".equals(strAutoLight)) {
+						Name.SET_AUTO_LIGHT_STATE, "0");
+				if ("1".equals(strAutoLight)) {
 					SettingUtil.setAutoLight(true);
 				} else {
 					SettingUtil.setAutoLight(false);
 				}
 				// ACC下电唤醒
 				String strAccOffWake = ProviderUtil.getValue(context,
-						Name.DEBUG_ACCOFF_WAKE);
-				if (null != strAccOffWake && strAccOffWake.trim().length() > 0
-						&& "1".equals(strAccOffWake)) {
+						Name.DEBUG_ACCOFF_WAKE, "0");
+				if ("1".equals(strAccOffWake)) {
 					SettingUtil.setAccOffWake(true);
 				} else {
 					SettingUtil.setAccOffWake(false);

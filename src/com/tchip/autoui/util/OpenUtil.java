@@ -543,47 +543,45 @@ public class OpenUtil {
 
 	/** 返回到车前界面 */
 	public static void returnWhenBackOver(Activity activity) {
-		String pkgWhenBack = ProviderUtil
-				.getValue(activity, Name.PKG_WHEN_BACK);
-		if (null != pkgWhenBack && pkgWhenBack.trim().length() > 0) {
-			if ("com.autonavi.amapauto".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR);
-			} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.DIALER);
-			} else if ("entry.dsa2014".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.EDOG);
-			} else if ("com.mediatek.filemanager".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.FILE_MANAGER_MTK);
-			} else if ("com.tchip.autofm".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.FMTRANSMIT);
-			} else if ("com.android.gallery3d".equals(pkgWhenBack)) {
-				// FIXME:视频回放界面倒车回到图库
-				// openModule(activity, MODULE_TYPE.GALLERY);
-				sendKeyCode(KeyEvent.KEYCODE_HOME);
-			} else if ("cn.kuwo.kwmusiccar".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.MUSIC);
-			} else if ("com.tchip.autosetting".equals(pkgWhenBack)
-					|| "com.android.settings".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.SETTING);
-			} else if ("com.tchip.weather".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.WEATHER);
-			} else if ("com.txznet.webchat".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.WECHAT);
-			} else if ("com.coagent.ecar".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.YIKA);
-			} else if ("com.ximalaya.ting.android.car".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.XIMALAYA);
-			} else if ("com.youku.phone".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.YOUKU);
-			} else if ("com.tchipota".equals(pkgWhenBack)) {
-				openModule(activity, MODULE_TYPE.OTA);
-			} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
+		String pkgWhenBack = ProviderUtil.getValue(activity,
+				Name.PKG_WHEN_BACK, "com.xxx.xxx");
+		if ("com.autonavi.amapauto".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR);
+		} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.DIALER);
+		} else if ("entry.dsa2014".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.EDOG);
+		} else if ("com.mediatek.filemanager".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.FILE_MANAGER_MTK);
+		} else if ("com.tchip.autofm".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.FMTRANSMIT);
+		} else if ("com.android.gallery3d".equals(pkgWhenBack)) {
+			// FIXME:视频回放界面倒车回到图库
+			// openModule(activity, MODULE_TYPE.GALLERY);
+			sendKeyCode(KeyEvent.KEYCODE_HOME);
+		} else if ("cn.kuwo.kwmusiccar".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.MUSIC);
+		} else if ("com.tchip.autosetting".equals(pkgWhenBack)
+				|| "com.android.settings".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.SETTING);
+		} else if ("com.tchip.weather".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.WEATHER);
+		} else if ("com.txznet.webchat".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.WECHAT);
+		} else if ("com.coagent.ecar".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.YIKA);
+		} else if ("com.ximalaya.ting.android.car".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.XIMALAYA);
+		} else if ("com.youku.phone".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.YOUKU);
+		} else if ("com.tchipota".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.OTA);
+		} else if ("com.tchip.autorecord".equals(pkgWhenBack)) {
 
-			} else if ("com.tchip.autoui".equals(pkgWhenBack)) {
-				sendKeyCode(KeyEvent.KEYCODE_HOME);
-			} else {
-				startAppbyPackage(activity, pkgWhenBack);
-			}
+		} else if ("com.tchip.autoui".equals(pkgWhenBack)) {
+			sendKeyCode(KeyEvent.KEYCODE_HOME);
+		} else {
+			startAppbyPackage(activity, pkgWhenBack);
 		}
 	}
 

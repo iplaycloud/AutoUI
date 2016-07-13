@@ -113,10 +113,6 @@ public interface Constant {
 		public static final boolean isPublic = true;
 
 		public static final boolean hasYouku = false;
-
-		/** 是否使用善领UI */
-		public static final boolean zenlaneUI = true;
-
 	}
 
 	public static final class Path {

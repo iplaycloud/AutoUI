@@ -29,13 +29,8 @@ public class SettingUtil {
 
 	/** ACC 是否在 */
 	public static boolean isAccOn(Context context) {
-		String accState = ProviderUtil.getValue(context, Name.ACC_STATE);
-		if (null != accState && accState.trim().length() > 0
-				&& "1".equals(accState)) {
-			return true;
-		} else {
-			return false;
-		}
+		String accState = ProviderUtil.getValue(context, Name.ACC_STATE, "0");
+		return "1".equals(accState);
 	}
 
 	/**
@@ -60,13 +55,8 @@ public class SettingUtil {
 	 */
 	public static boolean isFmTransmitConfigOn(Context context) {
 		String strFmEnable = ProviderUtil.getValue(context,
-				Name.FM_TRANSMIT_STATE);
-		if (null != strFmEnable && strFmEnable.trim().length() > 0
-				&& "1".equals(strFmEnable)) {
-			return true;
-		} else {
-			return false;
-		}
+				Name.FM_TRANSMIT_STATE, "0");
+		return "1".equals(strFmEnable);
 	}
 
 	public static void setFmTransmitConfigOn(Context context, boolean isOn) {
@@ -152,11 +142,8 @@ public class SettingUtil {
 	 */
 	public static int getFmFrequencyConfig(Context context) {
 		String strFrequency = ProviderUtil.getValue(context,
-				Name.FM_TRANSMIT_FREQ);
-		if (null != strFrequency && strFrequency.trim().length() > 0) {
-			return Integer.parseInt(strFrequency);
-		} else
-			return 8800;
+				Name.FM_TRANSMIT_FREQ, "9600");
+		return Integer.parseInt(strFrequency);
 	}
 
 	/**
@@ -385,7 +372,6 @@ public class SettingUtil {
 		}
 		MyLog.v("[SettingUtil]setAutoLight:" + enable);
 	}
-	
 
 	public static File fileAccOffWake = new File(Constant.Path.NODE_ACC_STATUS);
 
