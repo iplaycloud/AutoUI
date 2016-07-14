@@ -522,10 +522,16 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutYiKa:
-				if (Constant.Module.hasYouku) {
-					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YOUKU);
-				} else
-					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
+				if ("SL".equals(brand)) {
+					OpenUtil.openModule(MainActivity.this,
+							MODULE_TYPE.CLOUD_CENTER);
+				} else {
+					if (Constant.Module.hasYouku) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.YOUKU);
+					} else
+						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
+				}
 				break;
 
 			case R.id.layoutSetting:

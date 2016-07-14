@@ -533,6 +533,7 @@ public class OpenUtil {
 				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
 				"entry.dsa2014", // 电子狗
 				"com.coagent.ecar", // 翼卡
+				"com.hdsc.monitor.heart.monitorvoice", // 汇德思创
 				"com.youku.phone", // 优酷
 				"com.mediatek.filemanager", // 文件管理
 				"com.tchip.autofm", // FM发射
@@ -570,6 +571,8 @@ public class OpenUtil {
 			openModule(activity, MODULE_TYPE.WECHAT);
 		} else if ("com.coagent.ecar".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.YIKA);
+		} else if ("com.hdsc.monitor.heart.monitorvoice".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.CLOUD_CENTER);
 		} else if ("com.ximalaya.ting.android.car".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.XIMALAYA);
 		} else if ("com.youku.phone".equals(pkgWhenBack)) {
