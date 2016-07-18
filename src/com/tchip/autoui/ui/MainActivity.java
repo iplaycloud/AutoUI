@@ -464,11 +464,11 @@ public class MainActivity extends Activity {
 					if ("1".equals(strRecordState)) {
 						sendBroadcast(new Intent(
 								Constant.Broadcast.SPEECH_COMMAND).putExtra(
-								"command", "close_dvr"));
+								"command", "stop_dvr"));
 					} else {
 						sendBroadcast(new Intent(
 								Constant.Broadcast.SPEECH_COMMAND).putExtra(
-								"command", "open_dvr"));
+								"command", "start_dvr"));
 					}
 				} else {
 					HintUtil.showToast(MainActivity.this, getResources()
