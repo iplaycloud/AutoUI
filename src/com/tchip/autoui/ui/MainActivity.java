@@ -147,6 +147,7 @@ public class MainActivity extends Activity {
 		if (1 == SettingUtil.getAccStatus()) {
 			doAccOnWork();
 			new Thread(new StartRecordThread()).start();
+			startWeatherService();
 		} else {
 			MyApp.isAccOn = false; // 同步ACC状态
 			ProviderUtil.setValue(context, Name.ACC_STATE, "0");
@@ -677,7 +678,7 @@ public class MainActivity extends Activity {
 				doAccOnWork();
 				initialNodeState();
 				new Thread(new StartRecordThread()).start();
-
+				startWeatherService();
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
@@ -741,6 +742,7 @@ public class MainActivity extends Activity {
 						if (year >= 2016) {
 							speakVoice("整点报时:" + hour + "点整");
 						}
+						startWeatherService();
 					} else { // ACC_OFF
 						if (hour == 3) { // 凌晨3点重启机器
 							context.sendBroadcast(new Intent(
@@ -758,6 +760,14 @@ public class MainActivity extends Activity {
 				ClickUtil.lastFromatTime = System.currentTimeMillis();
 			}
 		}
+	}
+
+	/** 更新天气 */
+	private void startWeatherService() {
+		Intent intentRoute = new Intent();
+		intentRoute.setClassName("com.tchip.weather",
+				"com.tchip.weather.service.UpdateWeatherService");
+		startService(intentRoute);
 	}
 
 	private WakeLock partialWakeLock;
