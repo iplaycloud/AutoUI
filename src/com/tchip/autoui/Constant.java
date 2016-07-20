@@ -32,6 +32,9 @@ public interface Constant {
 		public static final String BACK_CAR_ON = "com.tchip.KEY_BACK_CAR_ON";
 		/** 倒车结束 */
 		public static final String BACK_CAR_OFF = "com.tchip.KEY_BACK_CAR_OFF";
+		
+		/** 隐藏格式化对话框 */
+		public static final String HIDE_FORMAT_DIALOG = "com.tchip.HIDE_FORMAT_DIALOG";
 
 		/** TTS播报,Extra:content(String) */
 		public static final String TTS_SPEAK = "tchip.intent.action.TTS_SPEAK";

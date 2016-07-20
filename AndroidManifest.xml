@@ -4,7 +4,7 @@
     package="com.tchip.autoui"
     android:sharedUserId="android.uid.system"
     android:versionCode="1"
-    android:versionName="2016.07.20-17:00" >
+    android:versionName="2016.07.20-20:00" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -102,6 +102,11 @@
         <receiver android:name="com.tchip.autoui.receiver.CardMountReceiver" >
             <intent-filter android:priority="2147483646" >
                 <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.MEDIA_EJECT" />
+                <action android:name="android.intent.action.MEDIA_BAD_REMOVAL" />
+                <action android:name="android.intent.action.MEDIA_REMOVED" />
+                <action android:name="android.intent.action.MEDIA_UNMOUNTED" />
+                <action android:name="android.intent.action.MEDIA_NOFS" />
 
                 <data android:scheme="file" />
             </intent-filter>

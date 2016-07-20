@@ -1,10 +1,15 @@
 package com.tchip.autoui.view;
 
+import com.tchip.autoui.Constant;
 import com.tchip.autoui.R;
+import com.tchip.autoui.util.MyLog;
 
 import android.app.Dialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -14,10 +19,7 @@ import android.view.ViewGroup.LayoutParams;
 
 public class FormatDialog extends Dialog {
 
-	protected FormatDialog(Context context, boolean cancelable,
-			OnCancelListener cancelListener) {
-		super(context, cancelable, cancelListener);
-	}
+	private FormatDialogReceiver formatDialogReceiver;
 
 	public FormatDialog(Context context) {
 		super(context, 0);
@@ -25,6 +27,27 @@ public class FormatDialog extends Dialog {
 
 	public FormatDialog(Context context, int theme) {
 		super(context, theme);
+
+		formatDialogReceiver = new FormatDialogReceiver();
+		IntentFilter intentFilter = new IntentFilter();
+		intentFilter.addAction(Constant.Broadcast.BACK_CAR_ON);
+		intentFilter.addAction(Constant.Broadcast.HIDE_FORMAT_DIALOG);
+		context.registerReceiver(formatDialogReceiver, intentFilter);
+	}
+
+	public class FormatDialogReceiver extends BroadcastReceiver {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String action = intent.getAction();
+			MyLog.v("FormatDialogReceiver.action:" + action);
+			if (Constant.Broadcast.BACK_CAR_ON.equals(action)
+					|| Constant.Broadcast.HIDE_FORMAT_DIALOG.equals(action)) {
+				if (isShowing()) {
+					dismiss();
+				}
+			}
+		}
 	}
 
 	public static class Builder {
