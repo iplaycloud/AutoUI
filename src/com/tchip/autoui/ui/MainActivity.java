@@ -11,6 +11,7 @@ import cn.kuwo.autosdk.api.PlayState;
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
+import com.tchip.autoui.util.ClickUtil;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
@@ -120,9 +121,10 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.ACC_OFF);
 		mainFilter.addAction(Constant.Broadcast.BACK_CAR_ON);
 		mainFilter.addAction(Constant.Broadcast.BACK_CAR_OFF);
+		mainFilter.addAction(Constant.Broadcast.GSENSOR_CRASH);
+		mainFilter.addAction(Constant.Broadcast.MEDIA_FORMAT);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
-		mainFilter.addAction(Constant.Broadcast.GSENSOR_CRASH);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		registerReceiver(mainReceiver, mainFilter);
 
@@ -752,6 +754,8 @@ public class MainActivity extends Activity {
 					viewPager.setCurrentItem(0); // 回到第一页
 				} else if ("recentapps".equals(reason)) {
 				}
+			} else if (Constant.Broadcast.MEDIA_FORMAT.equals(action)) {
+				ClickUtil.lastFromatTime = System.currentTimeMillis();
 			}
 		}
 	}

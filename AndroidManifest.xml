@@ -4,7 +4,7 @@
     package="com.tchip.autoui"
     android:sharedUserId="android.uid.system"
     android:versionCode="1"
-    android:versionName="2016.07.18-11:00" >
+    android:versionName="2016.07.20-11:00" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -59,6 +59,7 @@
     <uses-permission android:name="android.permission.SET_TIME" />
     <uses-permission android:name="android.permission.STATUS_BAR" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+    <uses-permission android:name="android.permission.SYSTEM_OVERLAY_WINDOW" />
     <uses-permission android:name="android.permission.USE_CREDENTIALS" />
     <uses-permission android:name="android.permission.WRITE_CONTACTS" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
@@ -97,6 +98,14 @@
             </intent-filter>
         </activity>
         <activity android:name="com.tchip.autoui.ui.MultimediaActivity" />
+
+        <receiver android:name="com.tchip.autoui.receiver.CardMountReceiver" >
+            <intent-filter android:priority="2147483646" >
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+
+                <data android:scheme="file" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

@@ -32,4 +32,22 @@ public class ClickUtil {
 		lastSaveLogTime = time;
 		return false;
 	}
+	
+
+	public static long lastFromatTime;
+
+	/**
+	 * @param clickMinSpan
+	 *            两次点击至少间隔时间,单位:ms
+	 * @return
+	 */
+	public static boolean isQuickFromat(int clickMinSpan) {
+		long time = System.currentTimeMillis();
+		long timeD = time - lastFromatTime;
+		if (0 < timeD && timeD < clickMinSpan) {
+			return true;
+		}
+		lastFromatTime = time;
+		return false;
+	}
 }

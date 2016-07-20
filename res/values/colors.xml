@@ -13,5 +13,9 @@
     <!-- 多媒体 -->
     <color name="ui_setting_top_bar_bg">#29292d</color>
     <color name="holo_blue">#FF33E5B5</color>
+    <!-- FormatDialog -->
+    <color name="dialog_format_title">#eeeeee</color>
+    <color name="dialog_format_message">#ffffff</color>
+    <color name="dialog_format_button">#17ddcd</color>
 
 </resources>
