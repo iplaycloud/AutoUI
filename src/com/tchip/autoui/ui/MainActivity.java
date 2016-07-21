@@ -126,6 +126,7 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
+		mainFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		registerReceiver(mainReceiver, mainFilter);
 
 		getContentResolver()
@@ -162,7 +163,7 @@ public class MainActivity extends Activity {
 	protected void onResume() {
 		MyLog.i("onResume");
 		super.onResume();
-		sendBroadcast(new Intent(Constant.Broadcast.STATUS_SHOW)); // 显示状态栏
+		setStatusBarVisible(true);
 		updateAllInfo();
 		syncBackCarStatus();
 	}
@@ -170,7 +171,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onPause() {
 		super.onPause();
-		sendBroadcast(new Intent(Constant.Broadcast.STATUS_HIDE)); // 隐藏状态栏
+		setStatusBarVisible(false);
 	}
 
 	@Override
@@ -461,6 +462,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.imageRecordState:
+				setStatusBarVisible(true);
 				if (MyApp.isAccOn) {
 					String strRecordState = ProviderUtil.getValue(context,
 							Name.REC_FRONT_STATE, "0");
@@ -754,20 +756,31 @@ public class MainActivity extends Activity {
 				String reason = intent.getStringExtra("reason");
 				if ("homekey".equals(reason)) {
 					viewPager.setCurrentItem(0); // 回到第一页
+					setStatusBarVisible(true);
 				} else if ("recentapps".equals(reason)) {
 				}
 			} else if (Constant.Broadcast.MEDIA_FORMAT.equals(action)) {
 				ClickUtil.lastFromatTime = System.currentTimeMillis();
+			} else if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {
+				startWeatherService();
 			}
 		}
 	}
 
+	/** 设置状态栏 */
+	private void setStatusBarVisible(boolean isVisible) {
+		sendBroadcast(new Intent(isVisible ? Constant.Broadcast.STATUS_SHOW
+				: Constant.Broadcast.STATUS_HIDE));
+	}
+
 	/** 更新天气 */
 	private void startWeatherService() {
-		Intent intentRoute = new Intent();
-		intentRoute.setClassName("com.tchip.weather",
-				"com.tchip.weather.service.UpdateWeatherService");
-		startService(intentRoute);
+		if (MyApp.isAccOn && TelephonyUtil.isNetworkConnected(context)) {
+			Intent intentWeather = new Intent();
+			intentWeather.setClassName("com.tchip.weather",
+					"com.tchip.weather.service.UpdateWeatherService");
+			startService(intentWeather);
+		}
 	}
 
 	private WakeLock partialWakeLock;

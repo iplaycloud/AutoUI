@@ -32,7 +32,7 @@ public interface Constant {
 		public static final String BACK_CAR_ON = "com.tchip.KEY_BACK_CAR_ON";
 		/** 倒车结束 */
 		public static final String BACK_CAR_OFF = "com.tchip.KEY_BACK_CAR_OFF";
-		
+
 		/** 隐藏格式化对话框 */
 		public static final String HIDE_FORMAT_DIALOG = "com.tchip.HIDE_FORMAT_DIALOG";
 
@@ -140,6 +140,9 @@ public interface Constant {
 
 		/** ACC状态 */
 		public static final String NODE_ACC_STATUS = "/sys/bus/i2c/devices/0-007f/ACC_status";
+
+		/** SD卡插入标志:0-未插入 1-插入 */
+		public static final String NODE_SD_STATUS = "/sys/bus/i2c/devices/0-007f/tf1_status";
 
 		/**
 		 * Read: 0-未倒车 1-倒车

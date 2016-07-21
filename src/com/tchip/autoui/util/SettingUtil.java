@@ -239,12 +239,11 @@ public class SettingUtil {
 					inputStreamReader.close();
 				}
 			} catch (FileNotFoundException e) {
-				MyLog.e("[AutoUI.SettintUtil.getFileInt] FileNotFoundException:"
+				MyLog.e("SettintUtil.getFileInt FileNotFoundException:"
 						+ e.toString());
 				e.printStackTrace();
 			} catch (IOException e) {
-				MyLog.e("[AutoUI.SettintUtil.getFileInt] IOException:"
-						+ e.toString());
+				MyLog.e("SettintUtil.getFileInt IOException:" + e.toString());
 				e.printStackTrace();
 			}
 		}
@@ -373,7 +372,7 @@ public class SettingUtil {
 		MyLog.v("[SettingUtil]setAutoLight:" + enable);
 	}
 
-	public static File fileAccOffWake = new File(Constant.Path.NODE_ACC_STATUS);
+	private static File fileAccOffWake = new File(Constant.Path.NODE_ACC_STATUS);
 
 	public static void setAccOffWake(boolean enable) {
 		if (enable) {
@@ -381,6 +380,18 @@ public class SettingUtil {
 		} else {
 			SaveFileToNode(fileAccOffWake, "0");
 		}
+	}
+
+	private static File fileSDStatus = new File(Constant.Path.NODE_SD_STATUS);
+
+	/** 是否有SD1卡插入动作 */
+	public static boolean isSDInsert() {
+		return 1 == getFileInt(fileSDStatus);
+	}
+
+	/** 重置SD1插入标志 */
+	public static void clearSDStatus() {
+		SaveFileToNode(fileSDStatus, "0");
 	}
 
 }

@@ -3,6 +3,7 @@ package com.tchip.autoui.receiver;
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.util.ClickUtil;
 import com.tchip.autoui.util.MyLog;
+import com.tchip.autoui.util.SettingUtil;
 import com.tchip.autoui.view.FormatDialog;
 
 import android.content.BroadcastReceiver;
@@ -23,10 +24,11 @@ public class CardMountReceiver extends BroadcastReceiver {
 		MyLog.i("CardMountReceiver.action:" + action);
 		if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
 			if ("/storage/sdcard1".equals(intent.getData().getPath())) { // 是否需要格式化录像卡？
-				if (!ClickUtil.isQuickFromat(30 * 1000)) {
+				if (SettingUtil.isSDInsert()) {
+					SettingUtil.clearSDStatus();
 					builder = new FormatDialog.Builder(
 							context.getApplicationContext());
-					builder.setMessage("定期格式化录像卡以保障系统流畅运行，是否格式化?");
+					builder.setMessage("是否需要格式化录像卡?");
 					builder.setTitle("提示");
 					builder.setPositiveButton("确认", new OnClickListener() {
 						@Override
@@ -54,7 +56,7 @@ public class CardMountReceiver extends BroadcastReceiver {
 						alertDialog.show();
 					}
 				} else {
-					MyLog.e("Format too quick!");
+					MyLog.e("This mount action is not insert.");
 				}
 			}
 		} else if (action.equals(Intent.ACTION_MEDIA_EJECT)
