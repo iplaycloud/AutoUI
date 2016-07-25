@@ -62,6 +62,9 @@ public class OpenUtil {
 		/** 导航:高德地图车机版 */
 		NAVI_GAODE_CAR,
 
+		/** 导航:高德地图车镜版 */
+		NAVI_GAODE_CAR_MIRROR,
+
 		/** 系统升级 */
 		OTA,
 
@@ -303,6 +306,20 @@ public class OpenUtil {
 					activity.startActivity(intentGaodeCar);
 					break;
 
+				case NAVI_GAODE_CAR_MIRROR:
+					activity.sendBroadcast(new Intent(
+							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
+					ComponentName componentGaodeCarMirror;
+					componentGaodeCarMirror = new ComponentName(
+							"com.autonavi.amapautolite",
+							"com.autonavi.auto.remote.fill.UsbFillActivity");
+					Intent intentGaodeCarMirror = new Intent();
+					intentGaodeCarMirror.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					intentGaodeCarMirror.setComponent(componentGaodeCarMirror);
+					activity.startActivity(intentGaodeCarMirror);
+					break;
+
 				case OTA:
 					Intent intentSettingOTA = new Intent(Intent.ACTION_VIEW);
 					intentSettingOTA.setClassName("com.tchipota",
@@ -530,6 +547,7 @@ public class OpenUtil {
 		String[] arrayKillApp = { "cn.kuwo.kwmusiccar", // 酷我音乐
 				"com.android.gallery3d", // 图库
 				"com.autonavi.amapauto", // 高德地图（车机版）
+				"com.autonavi.amapautolite", // 高德地图（车镜版）
 				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
 				"entry.dsa2014", // 电子狗
 				"com.coagent.ecar", // 翼卡
@@ -548,6 +566,8 @@ public class OpenUtil {
 				Name.PKG_WHEN_BACK, "com.xxx.xxx");
 		if ("com.autonavi.amapauto".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR);
+		} else if ("com.autonavi.amapautolite".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
 		} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.DIALER);
 		} else if ("entry.dsa2014".equals(pkgWhenBack)) {
