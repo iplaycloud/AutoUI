@@ -3,6 +3,7 @@
     <dimen name="main_item_total_height">280dp</dimen>
     <dimen name="main_item_total_width">180dp</dimen>
     <dimen name="main_item_margin_right">0dp</dimen>
+    <dimen name="main_margin_left">96px</dimen>
     <!-- ViewPager -->
     <dimen name="samll_item_total_width">100dp</dimen>
     <dimen name="small_item_total_height">140dp</dimen>

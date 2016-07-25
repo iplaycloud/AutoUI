@@ -769,8 +769,8 @@ public class MainActivity extends Activity {
 
 	/** 设置状态栏 */
 	private void setStatusBarVisible(boolean isVisible) {
-		sendBroadcast(new Intent(isVisible ? Constant.Broadcast.STATUS_SHOW
-				: Constant.Broadcast.STATUS_HIDE));
+		// sendBroadcast(new Intent(isVisible ? Constant.Broadcast.STATUS_SHOW
+		// : Constant.Broadcast.STATUS_HIDE));
 	}
 
 	/** 更新天气 */
