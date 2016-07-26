@@ -122,7 +122,6 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.BACK_CAR_ON);
 		mainFilter.addAction(Constant.Broadcast.BACK_CAR_OFF);
 		mainFilter.addAction(Constant.Broadcast.GSENSOR_CRASH);
-		mainFilter.addAction(Constant.Broadcast.MEDIA_FORMAT);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
@@ -761,8 +760,6 @@ public class MainActivity extends Activity {
 					setStatusBarVisible(true);
 				} else if ("recentapps".equals(reason)) {
 				}
-			} else if (Constant.Broadcast.MEDIA_FORMAT.equals(action)) {
-				ClickUtil.lastFromatTime = System.currentTimeMillis();
 			} else if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {
 				startWeatherService();
 			}
