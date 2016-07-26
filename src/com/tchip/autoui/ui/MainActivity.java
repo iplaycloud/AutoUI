@@ -627,6 +627,7 @@ public class MainActivity extends Activity {
 
 	private void doAccOnWork() {
 		MyApp.isAccOn = true; // 同步ACC状态
+		MyApp.isAccOn = (1 == SettingUtil.getAccStatus());
 		MyApp.isSleeping = false; // 取消低功耗待机
 		accOffCount = 0;
 		ProviderUtil.setValue(context, Name.ACC_STATE, "1");
@@ -683,6 +684,7 @@ public class MainActivity extends Activity {
 				startWeatherService();
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
+				MyApp.isAccOn = (1 == SettingUtil.getAccStatus());
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
