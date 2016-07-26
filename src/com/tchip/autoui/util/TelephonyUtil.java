@@ -69,7 +69,7 @@ public class TelephonyUtil {
 		}
 		return null;
 	}
-	
+
 	/**
 	 * 飞行模式是否打开
 	 * 
@@ -81,7 +81,7 @@ public class TelephonyUtil {
 				context.getContentResolver(),
 				android.provider.Settings.Global.AIRPLANE_MODE_ON, 0) == 1;
 	}
-	
+
 	/** 设置飞行模式开关 */
 	public static void setAirplaneMode(Context context, boolean enable) {
 		Settings.Global.putInt(context.getContentResolver(),
@@ -90,6 +90,7 @@ public class TelephonyUtil {
 				Intent.ACTION_AIRPLANE_MODE_CHANGED);
 		intentAirplaneOn.putExtra("state", enable);
 		context.sendBroadcast(intentAirplaneOn);
+		MyLog.w("TelephonyUtil.setAirplaneMode:" + enable);
 	}
 
 }

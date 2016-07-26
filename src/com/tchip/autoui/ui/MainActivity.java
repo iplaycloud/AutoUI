@@ -303,12 +303,10 @@ public class MainActivity extends Activity {
 									"0");
 							new Thread(new CloseRecordThread()).start();
 							doAccOffWork();
-							doSleepWork();
 							sendBroadcast(new Intent(
 									"tchip.intent.action.CLOSE_SCREEN"));
 						}
 					}
-
 				}
 			}
 			super.onChange(selfChange, uri);
@@ -452,7 +450,7 @@ public class MainActivity extends Activity {
 		public void onClick(View v) {
 			switch (v.getId()) {
 			case R.id.layoutRecord:
-				if (MyApp.isAccOn) {
+				if (1 == SettingUtil.getAccStatus()) {
 					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.RECORD);
 				} else {
 					HintUtil.showToast(MainActivity.this, getResources()
@@ -462,7 +460,7 @@ public class MainActivity extends Activity {
 
 			case R.id.imageRecordState:
 				setStatusBarVisible(true);
-				if (MyApp.isAccOn) {
+				if (1 == SettingUtil.getAccStatus()) {
 					String strRecordState = ProviderUtil.getValue(context,
 							Name.REC_FRONT_STATE, "0");
 					if ("1".equals(strRecordState)) {
@@ -626,7 +624,6 @@ public class MainActivity extends Activity {
 
 	private void doAccOnWork() {
 		MyApp.isAccOn = true; // 同步ACC状态
-		MyApp.isAccOn = (1 == SettingUtil.getAccStatus());
 		MyApp.isSleeping = false; // 取消低功耗待机
 		accOffCount = 0;
 		ProviderUtil.setValue(context, Name.ACC_STATE, "1");
