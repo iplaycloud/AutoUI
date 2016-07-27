@@ -686,8 +686,6 @@ public class MainActivity extends Activity {
 						MainActivity.this);
 
 				// Reset Record State
-				sendBroadcast(new Intent(Constant.Broadcast.SPEECH_COMMAND)
-						.putExtra("command", "take_park_photo"));
 				ProviderUtil.setValue(context, Name.REC_FRONT_STATE, "0");
 				ProviderUtil.setValue(context, Name.REC_BACK_STATE, "0");
 				new Thread(new CloseRecordThread()).start();
