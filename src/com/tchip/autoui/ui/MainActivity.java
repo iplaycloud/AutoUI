@@ -228,6 +228,7 @@ public class MainActivity extends Activity {
 					"com.tchip.autorecord.ui.MainActivity");
 			Intent intentRecord = new Intent();
 			intentRecord.putExtra("reason", "acc_on");
+			intentRecord.putExtra("time", System.currentTimeMillis());
 			intentRecord.setFlags(Intent.FLAG_ACTIVITY_EXCLUDE_FROM_RECENTS
 					| Intent.FLAG_ACTIVITY_NEW_TASK);
 			intentRecord.setComponent(componentRecord);
@@ -673,9 +674,18 @@ public class MainActivity extends Activity {
 			String action = intent.getAction();
 			MyLog.v("MainReceiver.action:" + action);
 			if (Constant.Broadcast.ACC_ON.equals(action)) {
+				if (ProviderUtil.getValue(context, Name.PARK_REC_STATE, "0")
+						.equals("1")
+						&& (ProviderUtil.getValue(context,
+								Name.REC_FRONT_STATE, "0").equals("1") || ProviderUtil
+								.getValue(context, Name.REC_BACK_STATE, "0")
+								.equals("1"))) {
+					MyLog.v("AutoRecord is ParkRecording, do not restart.");
+				} else {
+					new Thread(new StartRecordThread()).start();
+				}
 				doAccOnWork();
 				initialNodeState();
-				new Thread(new StartRecordThread()).start();
 				startWeatherService();
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
