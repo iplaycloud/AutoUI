@@ -11,7 +11,6 @@ import cn.kuwo.autosdk.api.PlayState;
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
-import com.tchip.autoui.util.ClickUtil;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;

@@ -549,7 +549,7 @@ public class OpenUtil {
 				"com.autonavi.amapauto", // 高德地图（车机版）
 				"com.autonavi.amapautolite", // 高德地图（车镜版）
 				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
-				"entry.dsa2014", // 电子狗
+				// "entry.dsa2014", // 电子狗
 				"com.coagent.ecar", // 翼卡
 				"com.hdsc.monitor.heart.monitorvoice", // 汇德思创
 				"com.youku.phone", // 优酷
