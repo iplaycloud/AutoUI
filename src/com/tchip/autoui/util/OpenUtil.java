@@ -140,14 +140,8 @@ public class OpenUtil {
 				case CLOUD_CENTER:
 					activity.sendBroadcast(new Intent(
 							"tchip.intent.action.ACTION_GPS_ON")); // 打开GPS
-					Intent intentCloudCenter = new Intent(Intent.ACTION_VIEW);
-					intentCloudCenter
-							.setClassName(
-									"com.hdsc.monitor.heart.monitorvoice",
-									"com.hdsc.monitor.heart.monitorvoice.CloudCenterActivity");
-					intentCloudCenter.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-					activity.startActivity(intentCloudCenter);
+					startAppbyPackage(activity,
+							"com.hdsc.monitor.heart.monitorvoice");
 					break;
 
 				case CLOUD_DIALER:
@@ -460,18 +454,7 @@ public class OpenUtil {
 					break;
 
 				case XIMALAYA:
-					Intent intentXimaLaya = new Intent();
-					// ComponentName comp = new ComponentName(
-					// "com.ximalaya.ting.android",
-					// "com.ximalaya.ting.android.activity.login.WelcomeActivity");
-					ComponentName componentXimalaya = new ComponentName(
-							"com.ximalaya.ting.android.car",
-							"com.ximalaya.ting.android.car.activity.WelcomeActivity");
-					intentXimaLaya.setComponent(componentXimalaya);
-					intentXimaLaya.setAction("android.intent.action.VIEW");
-					intentXimaLaya.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-					activity.startActivity(intentXimaLaya);
+					startAppbyPackage(activity, "com.ximalaya.ting.android.car");
 					break;
 
 				case YOUKU:
