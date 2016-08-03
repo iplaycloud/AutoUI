@@ -117,6 +117,7 @@ public interface Constant {
 
 		public static final boolean hasYouku = false;
 		
+		/** ACC不在时凌晨3点是否重启机器 */
 		public static final boolean rebootAt3 = false;
 	}
 
