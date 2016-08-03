@@ -4,7 +4,7 @@
     package="com.tchip.autoui"
     android:sharedUserId="android.uid.system"
     android:versionCode="1"
-    android:versionName="2016.07.27-12:00" >
+    android:versionName="2016.08.03-16:00" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -111,6 +111,9 @@
                 <data android:scheme="file" />
             </intent-filter>
         </receiver>
+        <receiver
+            android:name="com.tchip.autoui.receiver.RebootReceiver"
+            android:process=":remote" />
     </application>
 
 </manifest>

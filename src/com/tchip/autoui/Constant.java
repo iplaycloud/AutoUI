@@ -116,6 +116,8 @@ public interface Constant {
 		public static final boolean isPublic = true;
 
 		public static final boolean hasYouku = false;
+		
+		public static final boolean rebootAt3 = false;
 	}
 
 	public static final class Path {

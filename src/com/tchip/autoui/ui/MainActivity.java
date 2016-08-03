@@ -11,6 +11,7 @@ import cn.kuwo.autosdk.api.PlayState;
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
+import com.tchip.autoui.receiver.RebootReceiver;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
@@ -28,7 +29,9 @@ import com.tchip.autoui.view.TransitionViewPagerContainer;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.Instrumentation;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -73,6 +76,7 @@ public class MainActivity extends Activity {
 
 	private TextToSpeech textToSpeech;
 	private PowerManager powerManager;
+	private AlarmManager alarmManager;
 
 	/** UI主线程Handler */
 	private Handler mainHandler;
@@ -89,6 +93,8 @@ public class MainActivity extends Activity {
 
 		powerManager = (PowerManager) context
 				.getSystemService(Context.POWER_SERVICE);
+		alarmManager = (AlarmManager) context
+				.getSystemService(Context.ALARM_SERVICE);
 		textToSpeech = new TextToSpeech(context, new MyTTSOnInitListener());
 		mainHandler = new Handler(this.getMainLooper());
 		kuwoAPI = KWAPI.createKWAPI(this, "auto");
@@ -751,11 +757,27 @@ public class MainActivity extends Activity {
 						}
 						startWeatherService();
 					} else { // ACC_OFF
-						if (hour == 3) { // 凌晨3点重启机器
-							context.sendBroadcast(new Intent(
-									Constant.Broadcast.DEVICE_REBOOT));
+						if (hour == 3) {
+							SettingUtil.normalReboot(context);
 						}
 					}
+				}
+
+				if (Constant.Module.rebootAt3) { // 凌晨3:00重启闹钟
+					Calendar calendarAlarm = Calendar.getInstance();
+					calendarAlarm.setTimeInMillis(System.currentTimeMillis());
+					calendarAlarm.set(Calendar.HOUR_OF_DAY, 3);
+					calendarAlarm.set(Calendar.MINUTE, 0);
+					calendarAlarm.set(Calendar.SECOND, 10);
+					calendarAlarm.set(Calendar.MILLISECOND, 0);
+
+					Intent intentAlarm = new Intent(context,
+							RebootReceiver.class);
+					PendingIntent sender = PendingIntent.getBroadcast(context,
+							0, intentAlarm, PendingIntent.FLAG_UPDATE_CURRENT); // FLAG_CANCEL_CURRENT
+					alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,
+							calendarAlarm.getTimeInMillis(),
+							1000 * 60 * 60 * 24, sender);
 				}
 			} else if (action.equals(Intent.ACTION_CLOSE_SYSTEM_DIALOGS)) {
 				String reason = intent.getStringExtra("reason");

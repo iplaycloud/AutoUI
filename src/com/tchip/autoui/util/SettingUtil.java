@@ -394,4 +394,17 @@ public class SettingUtil {
 		SaveFileToNode(fileSDStatus, "0");
 	}
 
+	public static void normalReboot(Context context) {
+		if (Constant.Module.rebootAt3) {
+			try {
+				Intent intent = new Intent(Intent.ACTION_REBOOT);
+				intent.putExtra("nowait", 1);
+				intent.putExtra("interval", 1);
+				intent.putExtra("window", 0);
+				context.sendBroadcast(intent);
+			} catch (Exception e) {
+			}
+		}
+	}
+
 }
