@@ -80,8 +80,8 @@ public class MainActivity extends Activity {
 
 	/** UI主线程Handler */
 	private Handler mainHandler;
-	/** UI配置：TQ-公版 SL-善领 */
-	private String brand = "TQ";
+
+	private String brand = Constant.UI.TQ6;
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
 
@@ -104,12 +104,12 @@ public class MainActivity extends Activity {
 		LayoutInflater inflater = LayoutInflater.from(this);
 		brand = Build.BRAND;
 		MyLog.d("BRAND:" + brand);
-		if ("SL".equals(brand)) {
-			viewMain = inflater.inflate(R.layout.activity_zenlane_one, null);
-			viewVice = inflater.inflate(R.layout.activity_zenlane_two, null);
-		} else {
-			viewMain = inflater.inflate(R.layout.activity_default_one, null);
-			viewVice = inflater.inflate(R.layout.activity_default_two, null);
+		if (Constant.UI.SL6.equals(brand)) { // SL 6.86
+			viewMain = inflater.inflate(R.layout.activity_zenlane_6_one, null);
+			viewVice = inflater.inflate(R.layout.activity_zenlane_6_two, null);
+		} else { // TQ 6.86
+			viewMain = inflater.inflate(R.layout.activity_default_6_one, null);
+			viewVice = inflater.inflate(R.layout.activity_default_6_two, null);
 		}
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
@@ -422,15 +422,15 @@ public class MainActivity extends Activity {
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
-		if (!"SL".equals(brand)) {
+		if (Constant.UI.TQ6.equals(brand)) {
 			TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
 			textTitleYika.setText(getResources().getString(
 					Constant.Module.hasYouku ? R.string.title_youku
 							: R.string.title_weme));
 			ImageView imageYika = (ImageView) findViewById(R.id.imageYika);
 			imageYika.setImageDrawable(getResources().getDrawable(
-					Constant.Module.hasYouku ? R.drawable.main_item_multimedia
-							: R.drawable.main_item_weme, null));
+					Constant.Module.hasYouku ? R.drawable.multimedia_big_tq_6
+							: R.drawable.weme_tq_6, null));
 		}
 		// 天气
 		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
@@ -530,10 +530,10 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutYiKa:
-				if ("SL".equals(brand)) {
+				if (Constant.UI.SL6.equals(brand)) { // SL 6.86
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.CLOUD_CENTER);
-				} else {
+				} else { // TQ 6.86
 					if (Constant.Module.hasYouku) {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.YOUKU);
@@ -918,26 +918,52 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void run() {
-						if ("1".equals(recStateFront)) {
-							textRecStateFront.setText(getResources().getString(
-									R.string.rec_state_front_on));
-							imageRecordState.setImageResource("SL"
-									.equals(brand) ? R.drawable.main_item_record_stop_normal_sl
-									: R.drawable.main_item_state_record_stop);
-						} else {
-							textRecStateFront.setText(getResources().getString(
-									R.string.rec_state_front_off));
-							imageRecordState.setImageResource("SL"
-									.equals(brand) ? R.drawable.main_item_record_start_normal_sl
-									: R.drawable.main_item_state_record_start);
+						if (Constant.UI.SL6.equals(brand)) { // SL 6.86
+							if ("1".equals(recStateFront)) {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_on));
+								imageRecordState
+										.setImageResource(R.drawable.record_stop_normal_sl_6);
+							} else {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_off));
+								imageRecordState
+										.setImageResource(R.drawable.record_start_normal_sl_6);
+							}
+							if ("1".equals(recStateBack)) {
+								textRecStateBack.setText(getResources()
+										.getString(R.string.rec_state_back_on));
+							} else {
+								textRecStateBack
+										.setText(getResources().getString(
+												R.string.rec_state_back_off));
+							}
+						} else { // TQ 6.86
+							if ("1".equals(recStateFront)) {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_on));
+								imageRecordState
+										.setImageResource(R.drawable.state_record_stop_tq_6);
+							} else {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_off));
+								imageRecordState
+										.setImageResource(R.drawable.state_record_start_tq_6);
+							}
+							if ("1".equals(recStateBack)) {
+								textRecStateBack.setText(getResources()
+										.getString(R.string.rec_state_back_on));
+							} else {
+								textRecStateBack
+										.setText(getResources().getString(
+												R.string.rec_state_back_off));
+							}
 						}
-						if ("1".equals(recStateBack)) {
-							textRecStateBack.setText(getResources().getString(
-									R.string.rec_state_back_on));
-						} else {
-							textRecStateBack.setText(getResources().getString(
-									R.string.rec_state_back_off));
-						}
+
 					}
 				});
 				this.removeMessages(1);

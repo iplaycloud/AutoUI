@@ -3,7 +3,7 @@
     android:id="@+id/layoutTwo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background_reverse"
+    android:background="@drawable/background_reverse_tq_6"
     android:gravity="center"
     android:orientation="horizontal" >
 
@@ -35,7 +35,7 @@
                 android:layout_width="@dimen/pager_two_image_width"
                 android:layout_height="@dimen/pager_two_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_weather_small" />
+                android:src="@drawable/weather_small_tq_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_two_ripple_width"
@@ -79,7 +79,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginBottom="@dimen/weather_info_margin_span"
                     android:layout_marginRight="@dimen/weather_info_margin_right"
-                    android:drawableLeft="@drawable/weather_location"
+                    android:drawableLeft="@drawable/weather_location_tq_6"
                     android:text="@string/weather_not_record"
                     android:textColor="#ffffff"
                     android:textSize="@dimen/weather_info_text_size" />
@@ -93,7 +93,7 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="@dimen/weather_info_icon_margin_top"
                     android:contentDescription="@null"
-                    android:src="@drawable/weather_sun" />
+                    android:src="@drawable/weather_sun_tq_6" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -121,7 +121,7 @@
                 android:layout_width="@dimen/pager_two_image_width"
                 android:layout_height="@dimen/pager_two_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_setting_small" />
+                android:src="@drawable/setting_small_tq_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_two_ripple_width"
@@ -151,7 +151,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_ximalaya" />
+                android:src="@drawable/ximalaya_tq_6" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -180,7 +180,7 @@
                     android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_state_play"
+                    android:src="@drawable/state_play_tq_6"
                     android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
@@ -197,7 +197,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_wechat" />
+                android:src="@drawable/wechat_tq_6" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_weme" />
+                android:src="@drawable/weme_tq_6" />
 
             <TextView
                 android:id="@+id/textTitleYika"

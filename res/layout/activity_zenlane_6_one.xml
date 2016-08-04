@@ -3,7 +3,7 @@
     android:id="@+id/layoutOne"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background"
+    android:background="@drawable/background_tq_6"
     android:gravity="center"
     android:orientation="horizontal" >
 
@@ -37,7 +37,7 @@
                 android:layout_below="@id/textPhone"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_phone_sl" />
+                android:src="@drawable/phone_sl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -71,7 +71,7 @@
                 android:layout_below="@id/textMusic"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_music_sl" />
+                android:src="@drawable/music_sl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -105,7 +105,7 @@
                 android:layout_below="@id/textFmTransmit"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_fmtransmit_zl" />
+                android:src="@drawable/fmtransmit_zl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -139,7 +139,7 @@
                 android:layout_below="@id/textFileManager"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_filemanager_zl" />
+                android:src="@drawable/filemanager_zl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -171,7 +171,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_record_zl" />
+                android:src="@drawable/record_zl_6" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -198,7 +198,7 @@
                     android:layout_marginBottom="@dimen/zl_record_btn_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_record_start_normal_sl" />
+                    android:src="@drawable/record_start_normal_sl_6" />
 
                 <TextView
                     android:id="@+id/textRecStateBack"
@@ -235,7 +235,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_navigation_zl" />
+                android:src="@drawable/navigation_zl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -259,7 +259,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_edog_zl" />
+                android:src="@drawable/edog_zl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -278,7 +278,7 @@
                     android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_state_play"
+                    android:src="@drawable/state_play_tq_6"
                     android:visibility="gone" />
 
                 <LinearLayout
@@ -293,7 +293,7 @@
                         android:layout_width="@dimen/music_play_song_icon_edge"
                         android:layout_height="@dimen/music_play_song_icon_edge"
                         android:contentDescription="@null"
-                        android:src="@drawable/main_item_music_song_icon" />
+                        android:src="@drawable/music_song_icon_tq_6" />
 
                     <TextView
                         android:id="@+id/textMusicInfo"

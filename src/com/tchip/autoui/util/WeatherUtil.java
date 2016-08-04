@@ -42,28 +42,28 @@ public class WeatherUtil {
 
 		switch (type) {
 		case SUN:
-			return R.drawable.weather_sun;
+			return R.drawable.weather_sun_tq_6;
 
 		case CLOUD:
-			return R.drawable.weather_cloud;
+			return R.drawable.weather_cloud_tq_6;
 
 		case RAIN:
-			return R.drawable.weather_rain;
+			return R.drawable.weather_rain_tq_6;
 
 		case SNOW:
-			return R.drawable.weather_snow;
+			return R.drawable.weather_snow_tq_6;
 
 		case HAIL:
-			return R.drawable.weather_hail;
+			return R.drawable.weather_hail_tq_6;
 
 		case RAIN_SNOW:
-			return R.drawable.weather_rain_snow;
+			return R.drawable.weather_rain_snow_tq_6;
 
 		case FOG:
-			return R.drawable.weather_fog;
+			return R.drawable.weather_fog_tq_6;
 
 		default:
-			return R.drawable.weather_sun;
+			return R.drawable.weather_sun_tq_6;
 		}
 	}
 }

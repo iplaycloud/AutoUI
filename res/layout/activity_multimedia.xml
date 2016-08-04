@@ -35,7 +35,7 @@
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="@dimen/multimedia_image_margin_left_right"
             android:layout_marginTop="@dimen/multimedia_image_margin_top"
-            android:background="@drawable/ui_multimedia_video"
+            android:background="@drawable/multimedia_video_tq_6"
             android:contentDescription="@null" />
 
         <TextView
@@ -58,7 +58,7 @@
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/multimedia_image_margin_left_right"
             android:layout_marginTop="@dimen/multimedia_image_margin_top"
-            android:background="@drawable/ui_multimedia_image"
+            android:background="@drawable/multimedia_image_tq_6"
             android:contentDescription="@null" />
 
         <TextView

@@ -3,7 +3,7 @@
     android:id="@+id/layoutTwo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_background_reverse"
+    android:background="@drawable/background_reverse_tq_6"
     android:gravity="center"
     android:orientation="horizontal" >
 
@@ -25,7 +25,7 @@
                 android:layout_width="@dimen/pager_two_image_width"
                 android:layout_height="@dimen/pager_two_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_weather_sl" />
+                android:src="@drawable/weather_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -40,7 +40,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="10dp"
-                    android:drawableLeft="@drawable/weather_location"
+                    android:drawableLeft="@drawable/weather_location_tq_6"
                     android:text="@string/weather_not_record"
                     android:textColor="#ffffff"
                     android:textSize="18sp" />
@@ -53,7 +53,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginLeft="12dp"
                     android:contentDescription="@null"
-                    android:src="@drawable/weather_sun" />
+                    android:src="@drawable/weather_sun_tq_6" />
 
                 <TextView
                     android:id="@+id/textWeatherTmpRange"
@@ -132,7 +132,7 @@
                 android:layout_width="@dimen/pager_two_image_width"
                 android:layout_height="@dimen/pager_two_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_setting_sl" />
+                android:src="@drawable/setting_small_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -163,7 +163,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_weme_sl" />
+                android:src="@drawable/weme_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -187,7 +187,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_ximalaya_sl" />
+                android:src="@drawable/ximalaya_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -206,7 +206,7 @@
                     android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/main_item_state_play"
+                    android:src="@drawable/state_play_tq_6"
                     android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
@@ -223,7 +223,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/main_item_wechat_sl" />
+                android:src="@drawable/wechat_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
