@@ -12,6 +12,7 @@ import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
 import com.tchip.autoui.receiver.RebootReceiver;
+import com.tchip.autoui.util.ClickUtil;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
 import com.tchip.autoui.util.OpenUtil;
@@ -787,7 +788,9 @@ public class MainActivity extends Activity {
 				} else if ("recentapps".equals(reason)) {
 				}
 			} else if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {
-				startWeatherService();
+				if (!ClickUtil.isUpdateWeatherQuick(10 * 1000)) {
+					startWeatherService();
+				}
 			}
 		}
 	}

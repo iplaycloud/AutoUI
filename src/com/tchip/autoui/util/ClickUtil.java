@@ -32,5 +32,18 @@ public class ClickUtil {
 		lastSaveLogTime = time;
 		return false;
 	}
-	
+
+	private static long lastUpdateWeatherTime;
+
+	public static boolean isUpdateWeatherQuick(int runMinSpan) {
+		long time = System.currentTimeMillis();
+		long timeD = time - lastUpdateWeatherTime;
+		if (0 < timeD && timeD < runMinSpan) {
+			MyLog.v("[ClickUtil]isUpdateWeatherQuick,Run Too Quickly!");
+			return true;
+		}
+		lastUpdateWeatherTime = time;
+		return false;
+	}
+
 }

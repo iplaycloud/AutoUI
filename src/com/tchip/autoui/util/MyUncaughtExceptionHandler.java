@@ -97,18 +97,6 @@ public class MyUncaughtExceptionHandler implements UncaughtExceptionHandler {
 		if (ex == null) {
 			return false;
 		}
-		// 使用Toast来显示异常信息
-		new Thread() {
-			@Override
-			public void run() {
-				Looper.prepare();
-				HintUtil.showToast(
-						context,
-						context.getResources().getString(
-								R.string.app_has_exception));
-				Looper.loop();
-			}
-		}.start();
 		collectDeviceInfo(context); // 收集设备参数信息
 		saveCrashInfo2File(ex); // 保存日志文件
 

@@ -56,6 +56,9 @@ public class OpenUtil {
 		/** 在线音乐 */
 		MUSIC,
 
+		/** MTKLogger */
+		MTK_LOGGER,
+
 		/** 导航:高德地图 */
 		NAVI_GAODE,
 
@@ -127,6 +130,8 @@ public class OpenUtil {
 
 		/** 喜马拉雅 */
 		XIMALAYA,
+
+		MTK_YGPS,
 
 		/** 优酷 */
 		YOUKU
@@ -271,6 +276,15 @@ public class OpenUtil {
 					intentMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentMusic);
+					break;
+
+				case MTK_LOGGER:
+					Intent intentMtkLogger = new Intent(Intent.ACTION_VIEW);
+					intentMtkLogger.setClassName("com.mediatek.mtklogger",
+							"com.mediatek.mtklogger.MainActivity");
+					intentMtkLogger.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					activity.startActivity(intentMtkLogger);
 					break;
 
 				case NAVI_GAODE:
@@ -457,6 +471,17 @@ public class OpenUtil {
 					startAppbyPackage(activity, "com.ximalaya.ting.android.car");
 					break;
 
+				case MTK_YGPS:
+					ComponentName componentYGPS;
+					componentYGPS = new ComponentName("com.mediatek.ygps",
+							"com.mediatek.ygps.YgpsActivity");
+					Intent intentYGPS = new Intent();
+					intentYGPS.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					intentYGPS.setComponent(componentYGPS);
+					activity.startActivity(intentYGPS);
+					break;
+
 				case YOUKU:
 					Intent intentYouku = new Intent();
 					ComponentName componentYouku = new ComponentName(
@@ -586,6 +611,12 @@ public class OpenUtil {
 
 		} else if ("com.tchip.autoui".equals(pkgWhenBack)) {
 			sendKeyCode(KeyEvent.KEYCODE_HOME);
+		} else if ("com.mediatek.engineermode".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.ENGINEER_MODE);
+		} else if ("com.mediatek.mtklogger".endsWith(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.MTK_LOGGER);
+		} else if ("com.mediatek.ygps".endsWith(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.MTK_YGPS);
 		} else {
 			startAppbyPackage(activity, pkgWhenBack);
 		}
@@ -594,9 +625,15 @@ public class OpenUtil {
 	private static void startAppbyPackage(Context context, String packageName) {
 		PackageManager packageManager = context.getPackageManager();
 		Intent intent = packageManager.getLaunchIntentForPackage(packageName);
-		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-				| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
-		context.startActivity(intent);
+		if (intent != null) {
+			intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+					| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+			context.startActivity(intent);
+		} else {
+			sendKeyCode(KeyEvent.KEYCODE_HOME);
+			MyLog.e("OpenUtil.startAppbyPackage: LaunchIntent is null,pkg:"
+					+ packageName);
+		}
 	}
 
 	private static void sendKeyCode(final int keyCode) {
