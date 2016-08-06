@@ -93,14 +93,24 @@
     <dimen name="weather_info_margin_bottom">8dp</dimen>
     <dimen name="weather_info_margin_span">3dp</dimen>
 
-    <!-- 善领UI -->
-    <dimen name="zl_pager_big_margin_top">26dp</dimen>
-    <dimen name="zl_pager_big_margin_bottom">12dp</dimen>
-    <dimen name="zl_pager_big_margin_right">9dp</dimen>
-    <dimen name="zl_pager_two_small_margin_top">26dp</dimen>
-    <dimen name="zl_record_btn_edge">33dp</dimen>
-    <dimen name="zl_record_btn_margin_bottom">20dp</dimen>
-    <dimen name="zl_record_text_margin_bottom">20dp</dimen>
-    <dimen name="zl_layout_big_margin_right">18dp</dimen>
+    <!-- 善领UI6 -->
+    <dimen name="sl6_pager_big_margin_top">26dp</dimen>
+    <dimen name="sl6_pager_big_margin_bottom">12dp</dimen>
+    <dimen name="sl6_pager_big_margin_right">9dp</dimen>
+    <dimen name="sl6_pager_two_small_margin_top">26dp</dimen>
+    <dimen name="sl6_record_btn_edge">33dp</dimen>
+    <dimen name="sl6_record_btn_margin_bottom">20dp</dimen>
+    <dimen name="sl6_record_text_margin_bottom">20dp</dimen>
+    <dimen name="sl6_layout_big_margin_right">18dp</dimen>
+
+    <!-- 善领UI9 -->
+    <dimen name="sl9_main_item_margin_right">14dp</dimen>
+    <dimen name="sl9_pager_big_margin_top">20dp</dimen>
+    <dimen name="sl9_pager_big_margin_bottom">14dp</dimen>
+    <dimen name="sl9_pager_big_margin_right">8dp</dimen>
+    <dimen name="sl9_big_item_image_height">260dp</dimen>
+    <dimen name="sl9_big_item_image_width">154.6dp</dimen>
+    <dimen name="sl9_small_item_image_height">120dp</dimen>
+    <dimen name="sl9_small_item_image_width">@dimen/sl9_big_item_image_width</dimen>
 
 </resources>

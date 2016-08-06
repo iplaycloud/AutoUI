@@ -121,17 +121,6 @@ public interface Constant {
 		public static final boolean rebootAt3 = false;
 	}
 
-	public static final class UI {
-		/** 公版6.86 */
-		public static final String TQ6 = "TQ";
-		/** 善领6.86 */
-		public static final String SL6 = "SL";
-		/** 公版9.76 */
-		public static final String TQ9 = "TQ9";
-		/** 善领9.76 */
-		public static final String SL9 = "SL9";
-	}
-
 	public static final class Path {
 
 		/** 字体目录 **/

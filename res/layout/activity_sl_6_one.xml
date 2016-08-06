@@ -37,7 +37,7 @@
                 android:layout_below="@id/textPhone"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/phone_tq_6" />
+                android:src="@drawable/phone_sl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -50,33 +50,33 @@
         <!-- 电子狗 -->
 
         <RelativeLayout
-            android:id="@+id/layoutEDog"
+            android:id="@+id/layoutMusic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="@dimen/main_item_margin_right" >
 
             <TextView
-                android:id="@+id/textEDog"
+                android:id="@+id/textMusic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:text="@string/title_edog"
+                android:text="@string/title_music"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
             <ImageView
                 android:layout_width="@dimen/pager_one_image_length"
                 android:layout_height="@dimen/pager_one_image_length"
-                android:layout_below="@id/textEDog"
+                android:layout_below="@id/textMusic"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/edog_small_tq_6" />
+                android:src="@drawable/music_sl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
                 android:layout_height="@dimen/pager_one_image_length"
-                android:layout_below="@id/textEDog"
+                android:layout_below="@id/textMusic"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:background="?android:attr/selectableItemBackground" />
         </RelativeLayout>
@@ -105,7 +105,7 @@
                 android:layout_below="@id/textFmTransmit"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/fmtransmit_small_tq_6" />
+                android:src="@drawable/fmtransmit_sl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -121,7 +121,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_below="@id/layoutEDog"
+            android:layout_below="@id/layoutMusic"
             android:layout_marginRight="@dimen/main_item_margin_right" >
 
             <TextView
@@ -139,7 +139,7 @@
                 android:layout_below="@id/textFileManager"
                 android:layout_marginTop="@dimen/pager_one_image_margin_top"
                 android:contentDescription="@null"
-                android:src="@drawable/filemanager_small_tq_6" />
+                android:src="@drawable/filemanager_sl_6" />
 
             <RelativeLayout
                 android:layout_width="@dimen/pager_one_image_length"
@@ -154,7 +154,7 @@
         android:id="@+id/layoutBottomBig"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:layout_marginRight="@dimen/layout_big_margin_right"
+        android:layout_marginRight="@dimen/sl6_layout_big_margin_right"
         android:layout_toLeftOf="@id/layoutBottomSmall"
         android:orientation="horizontal" >
 
@@ -171,57 +171,54 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/record_tq_6" />
+                android:src="@drawable/record_sl_6" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/main_item_title_margin_left"
                 android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:text="@string/title_record"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                android:layout_marginTop="@dimen/main_item_center_point_margin_top"
+                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
 
                 <ImageView
                     android:id="@+id/imageRecordState"
-                    android:layout_width="@dimen/record_state_edge_length"
-                    android:layout_height="@dimen/record_state_edge_length"
+                    android:layout_width="@dimen/sl6_record_btn_edge"
+                    android:layout_height="@dimen/sl6_record_btn_edge"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/edog_state_margin_bottom"
+                    android:layout_marginBottom="@dimen/sl6_record_btn_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
-                    android:src="@drawable/state_record_start_tq_6" />
-
-                <TextView
-                    android:id="@+id/textRecStateFront"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/record_screen_margin_right"
-                    android:layout_marginTop="@dimen/record_front_margin_top"
-                    android:text="@string/rec_state_front_off"
-                    android:textColor="@color/record_screen_text_color"
-                    android:textSize="@dimen/record_screen_text_size" />
+                    android:src="@drawable/record_start_normal_sl_6" />
 
                 <TextView
                     android:id="@+id/textRecStateBack"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:layout_marginRight="@dimen/record_screen_margin_right"
-                    android:layout_marginTop="@dimen/record_back_margin_top"
+                    android:layout_above="@id/imageRecordState"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/sl6_record_text_margin_bottom"
                     android:text="@string/rec_state_back_off"
-                    android:textColor="@color/record_screen_text_color"
+                    android:textColor="@color/zl_record_screen_text_color"
+                    android:textSize="@dimen/record_screen_text_size" />
+
+                <TextView
+                    android:id="@+id/textRecStateFront"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textRecStateBack"
+                    android:layout_centerHorizontal="true"
+                    android:text="@string/rec_state_front_off"
+                    android:textColor="@color/zl_record_screen_text_color"
                     android:textSize="@dimen/record_screen_text_size" />
             </RelativeLayout>
         </RelativeLayout>
@@ -238,24 +235,14 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/navigation_tq_6" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:text="@string/title_navigation"
-                android:textColor="@color/main_item_title_color"
-                android:textSize="@dimen/main_item_title_size" />
+                android:src="@drawable/navigation_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                android:layout_marginTop="@dimen/main_item_center_point_margin_top"
+                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
             </RelativeLayout>
         </RelativeLayout>
@@ -263,7 +250,7 @@
         <!-- 音乐 -->
 
         <RelativeLayout
-            android:id="@+id/layoutMusic"
+            android:id="@+id/layoutEDog"
             android:layout_width="@dimen/main_item_total_width"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/main_item_margin_right" >
@@ -272,60 +259,16 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/music_big_tq_6" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:text="@string/title_music"
-                android:textColor="@color/main_item_title_color"
-                android:textSize="@dimen/main_item_title_size" />
+                android:src="@drawable/edog_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/main_item_center_point_margin_bottom"
-                android:layout_marginLeft="@dimen/main_item_center_point_margin_left"
-                android:layout_marginRight="@dimen/main_item_center_point_margin_right"
-                android:layout_marginTop="@dimen/main_item_center_point_margin_top"
+                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
-
-                <ImageView
-                    android:id="@+id/imageMusicState"
-                    android:layout_width="@dimen/fmtransmit_state_width"
-                    android:layout_height="@dimen/fmtransmit_state_height"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@null"
-                    android:src="@drawable/state_play_tq_6"
-                    android:visibility="gone" />
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/imageMusicState"
-                    android:layout_centerHorizontal="true"
-                    android:orientation="horizontal"
-                    android:visibility="gone" >
-
-                    <ImageView
-                        android:layout_width="@dimen/music_play_song_icon_edge"
-                        android:layout_height="@dimen/music_play_song_icon_edge"
-                        android:contentDescription="@null"
-                        android:src="@drawable/music_song_icon_tq_6" />
-
-                    <TextView
-                        android:id="@+id/textMusicInfo"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/music_play_now"
-                        android:textColor="#ffffff"
-                        android:textSize="@dimen/music_play_song_text_size" />
-                </LinearLayout>
+            
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

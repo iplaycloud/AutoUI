@@ -170,18 +170,6 @@
                 android:layout_marginRight="@dimen/main_item_center_point_margin_right"
                 android:layout_marginTop="@dimen/main_item_center_point_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
-
-                <ImageView
-                    android:id="@+id/imageXimalayaState"
-                    android:layout_width="@dimen/fmtransmit_state_width"
-                    android:layout_height="@dimen/fmtransmit_state_height"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@null"
-                    android:src="@drawable/state_play_tq_6"
-                    android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
 

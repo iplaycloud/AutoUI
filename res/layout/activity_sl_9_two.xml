@@ -3,16 +3,130 @@
     android:id="@+id/layoutTwo"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background_reverse_tq_6"
+    android:background="#000000"
     android:gravity="center"
     android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/layoutNineTwo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sl9_big_item_image_height"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <!-- 微信助手 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutWechat"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/wechat_sl_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 喜马拉雅 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutXimalaya"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/ximalaya_sl_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 云服务 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutService"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/service_sl_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- FM发射 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutFMTransmit"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/fmtransmit_sl_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 设置 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutSetting"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/setting_sl_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
     <RelativeLayout
         android:id="@+id/layoutBottomSmall"
         android:layout_width="@dimen/pager_two_image_width"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:layout_marginTop="@dimen/zl_pager_two_small_margin_top" >
+        android:visibility="gone" >
 
         <!-- 天气 -->
 
@@ -107,40 +221,6 @@
                     android:visibility="gone" />
             </RelativeLayout>
         </RelativeLayout>
-
-        <!-- 设置 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutSetting"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/pager_two_image_height"
-            android:layout_below="@id/layoutWeather"
-            android:layout_marginRight="@dimen/main_item_margin_right"
-            android:layout_marginTop="13dp" >
-
-            <TextView
-                android:id="@+id/textSetting"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                android:layout_marginTop="@dimen/pager_two_small_title_margin_top"
-                android:text="@string/title_setting"
-                android:textColor="@color/main_item_title_color"
-                android:textSize="@dimen/main_item_title_size" />
-
-            <ImageView
-                android:layout_width="@dimen/pager_two_image_width"
-                android:layout_height="@dimen/pager_two_image_height"
-                android:contentDescription="@null"
-                android:src="@drawable/setting_small_sl_6" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentRight="true"
-                android:background="?android:attr/selectableItemBackground" />
-        </RelativeLayout>
     </RelativeLayout>
 
     <LinearLayout
@@ -148,7 +228,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_toLeftOf="@id/layoutBottomSmall"
-        android:orientation="horizontal" >
+        android:orientation="horizontal"
+        android:visibility="gone" >
 
         <!-- 云服务 -->
 
@@ -156,81 +237,21 @@
             android:id="@+id/layoutYiKa"
             android:layout_width="@dimen/main_item_total_width"
             android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/main_item_margin_right" >
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
 
             <ImageView
                 android:id="@+id/imageYika"
-                android:layout_width="@dimen/main_item_image_width"
-                android:layout_height="@dimen/main_item_image_height"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:contentDescription="@null"
                 android:src="@drawable/weme_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/zl_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/zl_pager_big_margin_right"
-                android:layout_marginTop="@dimen/zl_pager_big_margin_top"
-                android:background="?android:attr/selectableItemBackground" >
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!-- 喜马拉雅 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutXimalaya"
-            android:layout_width="@dimen/main_item_total_width"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="@dimen/main_item_image_width"
-                android:layout_height="@dimen/main_item_image_height"
-                android:contentDescription="@null"
-                android:src="@drawable/ximalaya_sl_6" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/zl_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/zl_pager_big_margin_right"
-                android:layout_marginTop="@dimen/zl_pager_big_margin_top"
-                android:background="?android:attr/selectableItemBackground" >
-
-                <ImageView
-                    android:id="@+id/imageXimalayaState"
-                    android:layout_width="@dimen/fmtransmit_state_width"
-                    android:layout_height="@dimen/fmtransmit_state_height"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/fmtransmit_state_margin_bottom"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@null"
-                    android:src="@drawable/state_play_tq_6"
-                    android:visibility="gone" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!-- 微信助手 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutWechat"
-            android:layout_width="@dimen/main_item_total_width"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="@dimen/main_item_image_width"
-                android:layout_height="@dimen/main_item_image_height"
-                android:contentDescription="@null"
-                android:src="@drawable/wechat_sl_6" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/zl_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/zl_pager_big_margin_right"
-                android:layout_marginTop="@dimen/zl_pager_big_margin_top"
+                android:layout_marginBottom="@dimen/sl9_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl9_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl9_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
             </RelativeLayout>
         </RelativeLayout>

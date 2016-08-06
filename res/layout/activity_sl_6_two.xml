@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutTwo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_reverse_tq_6"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <RelativeLayout
+        android:id="@+id/layoutBottomSmall"
+        android:layout_width="@dimen/pager_two_image_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="@dimen/sl6_pager_two_small_margin_top" >
+
+        <!-- 天气 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutWeather"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pager_two_image_height" >
+
+            <ImageView
+                android:layout_width="@dimen/pager_two_image_width"
+                android:layout_height="@dimen/pager_two_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/weather_sl_6" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="?android:attr/selectableItemBackground" >
+
+                <TextView
+                    android:id="@+id/textWeatherCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/weather_location_tq_6"
+                    android:text="@string/weather_not_record"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/imageWeatherInfo"
+                    android:layout_width="@dimen/weather_info_icon_length"
+                    android:layout_height="@dimen/weather_info_icon_length"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/weather_sun_tq_6" />
+
+                <TextView
+                    android:id="@+id/textWeatherTmpRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageWeatherInfo"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/weather_no_temp"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextClock
+                    android:id="@+id/textDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:format12Hour="yy/MM/dd"
+                    android:format24Hour="yy/MM/dd"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <TextClock
+                    android:id="@+id/textClock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:format12Hour="HH:mm"
+                    android:format24Hour="HH:mm"
+                    android:textColor="#ffffff"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/textWeatherInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textWeatherTmpRange"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/weather_info_margin_span"
+                    android:layout_marginRight="@dimen/weather_info_margin_right"
+                    android:text="@string/weather_unknown"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/weather_info_text_size"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 设置 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutSetting"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pager_two_image_height"
+            android:layout_below="@id/layoutWeather"
+            android:layout_marginRight="@dimen/main_item_margin_right"
+            android:layout_marginTop="13dp" >
+
+            <TextView
+                android:id="@+id/textSetting"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/main_item_title_margin_left"
+                android:layout_marginTop="@dimen/pager_two_small_title_margin_top"
+                android:text="@string/title_setting"
+                android:textColor="@color/main_item_title_color"
+                android:textSize="@dimen/main_item_title_size" />
+
+            <ImageView
+                android:layout_width="@dimen/pager_two_image_width"
+                android:layout_height="@dimen/pager_two_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/setting_small_sl_6" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="?android:attr/selectableItemBackground" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/layoutBottomBig"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/layoutBottomSmall"
+        android:orientation="horizontal" >
+
+        <!-- 云服务 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutYiKa"
+            android:layout_width="@dimen/main_item_total_width"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <ImageView
+                android:id="@+id/imageYika"
+                android:layout_width="@dimen/main_item_image_width"
+                android:layout_height="@dimen/main_item_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/weme_sl_6" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 喜马拉雅 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutXimalaya"
+            android:layout_width="@dimen/main_item_total_width"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="@dimen/main_item_image_width"
+                android:layout_height="@dimen/main_item_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/ximalaya_sl_6" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 微信助手 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutWechat"
+            android:layout_width="@dimen/main_item_total_width"
+            android:layout_height="match_parent"
+            android:layout_marginRight="@dimen/main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="@dimen/main_item_image_width"
+                android:layout_height="@dimen/main_item_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/wechat_sl_6" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
+                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

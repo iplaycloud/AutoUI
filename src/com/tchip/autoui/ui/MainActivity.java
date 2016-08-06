@@ -82,9 +82,23 @@ public class MainActivity extends Activity {
 	/** UI主线程Handler */
 	private Handler mainHandler;
 
-	private String brand = Constant.UI.TQ6;
+	private String brand = "TQ";
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
+
+	private enum UIConfig {
+		/** 公版 6.86 */
+		TQ6,
+		/** 善领 6.86 */
+		SL6,
+		/** 公版 9.76 */
+		TQ9,
+		/** 善领 9.76 */
+		SL9
+	}
+
+	/** UI配置 */
+	private UIConfig uiConfig = UIConfig.TQ6;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -104,13 +118,27 @@ public class MainActivity extends Activity {
 
 		LayoutInflater inflater = LayoutInflater.from(this);
 		brand = Build.BRAND;
-		MyLog.d("BRAND:" + brand);
-		if (Constant.UI.SL6.equals(brand)) { // SL 6.86
-			viewMain = inflater.inflate(R.layout.activity_zenlane_6_one, null);
-			viewVice = inflater.inflate(R.layout.activity_zenlane_6_two, null);
+		if ("SL9".equals(brand)) {
+			uiConfig = UIConfig.SL9;
+		} else if ("TQ9".equals(brand)) {
+			uiConfig = UIConfig.TQ9;
+		} else if ("SL6".equals(brand)) {
+			uiConfig = UIConfig.SL6;
+		} else {
+			uiConfig = UIConfig.TQ6;
+		}
+		uiConfig = UIConfig.SL9; // FIXME:Delete this line
+		MyLog.d("BRAND:" + brand + ",UIConfig:" + uiConfig);
+
+		if (UIConfig.SL9 == uiConfig) {// SL 9.76
+			viewMain = inflater.inflate(R.layout.activity_sl_9_one, null);
+			viewVice = inflater.inflate(R.layout.activity_sl_9_two, null);
+		} else if (UIConfig.SL6 == uiConfig) { // SL 6.86
+			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
+			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
 		} else { // TQ 6.86
-			viewMain = inflater.inflate(R.layout.activity_default_6_one, null);
-			viewVice = inflater.inflate(R.layout.activity_default_6_two, null);
+			viewMain = inflater.inflate(R.layout.activity_tq_6_one, null);
+			viewVice = inflater.inflate(R.layout.activity_tq_6_two, null);
 		}
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
@@ -295,7 +323,6 @@ public class MainActivity extends Activity {
 				} else if (name.startsWith("rec")) { // 录像
 					updateRecordInfo();
 				} else if (name.startsWith("music")) { // 音乐
-					updateMusicInfo();
 				} else if (Name.PARK_REC_STATE.equals(name)) {
 					if (!MyApp.isAccOn) {
 						String strParkMonitor = ProviderUtil.getValue(context,
@@ -329,7 +356,6 @@ public class MainActivity extends Activity {
 	private void updateAllInfo() {
 		// Page 1
 		updateRecordInfo();
-		updateMusicInfo();
 		// Page 2
 		updateWeatherInfo();
 	}
@@ -391,8 +417,6 @@ public class MainActivity extends Activity {
 		// 音乐
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(new MyOnClickListener());
-		ImageView imageMusicState = (ImageView) findViewById(R.id.imageMusicState);
-		imageMusicState.setOnClickListener(new MyOnClickListener());
 
 		// 蓝牙通话
 		RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
@@ -401,8 +425,10 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
 		layoutEDog.setOnClickListener(new MyOnClickListener());
 		// FM发射
-		RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
-		layoutFMTransmit.setOnClickListener(new MyOnClickListener());
+		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
+			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
+		}
 		// 文件管理
 		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
 		layoutFileManager.setOnClickListener(new MyOnClickListener());
@@ -415,15 +441,13 @@ public class MainActivity extends Activity {
 		// 网络电台-喜马拉雅
 		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
 		layoutXimalaya.setOnClickListener(new MyOnClickListener());
-		ImageView imageXimalayaState = (ImageView) findViewById(R.id.imageXimalayaState);
-		imageXimalayaState.setOnClickListener(new MyOnClickListener());
 		// 微信助手
 		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
 		layoutWechat.setOnClickListener(new MyOnClickListener());
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
-		if (Constant.UI.TQ6.equals(brand)) {
+		if (UIConfig.TQ6 == uiConfig) { // TQ 6.86
 			TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
 			textTitleYika.setText(getResources().getString(
 					Constant.Module.hasYouku ? R.string.title_youku
@@ -433,16 +457,24 @@ public class MainActivity extends Activity {
 					Constant.Module.hasYouku ? R.drawable.multimedia_big_tq_6
 							: R.drawable.weme_tq_6, null));
 		}
-		// 天气
-		RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
-		layoutWeather.setOnClickListener(new MyOnClickListener());
-		imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
-		textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
-		textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
-		textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
-				Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
-		textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
-		updateWeatherInfo();
+
+		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+			// 天气
+			RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
+			layoutWeather.setOnClickListener(new MyOnClickListener());
+			imageWeatherInfo = (ImageView) findViewById(R.id.imageWeatherInfo);
+			textWeatherInfo = (TextView) findViewById(R.id.textWeatherInfo);
+			textWeatherTmpRange = (TextView) findViewById(R.id.textWeatherTmpRange);
+			textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
+					Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
+			textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
+			updateWeatherInfo();
+		} else if (UIConfig.SL9 == uiConfig) {
+			// FM发射
+			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
+			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
+		}
+
 		// 设置
 		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
 		layoutSetting.setOnClickListener(new MyOnClickListener());
@@ -498,15 +530,8 @@ public class MainActivity extends Activity {
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.MUSIC);
 				break;
 
-			case R.id.imageMusicState:
-				kuwoAPI.setPlayState(MainActivity.this, PlayState.STATE_PLAY);
-				break;
-
 			case R.id.layoutXimalaya:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.XIMALAYA);
-				break;
-
-			case R.id.imageXimalayaState:
 				break;
 
 			case R.id.layoutEDog:
@@ -531,10 +556,10 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutYiKa:
-				if (Constant.UI.SL6.equals(brand)) { // SL 6.86
+				if (UIConfig.SL6 == uiConfig) { // SL 6.86
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.CLOUD_CENTER);
-				} else { // TQ 6.86
+				} else if (UIConfig.TQ6 == uiConfig) { // TQ 6.86
 					if (Constant.Module.hasYouku) {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.YOUKU);
@@ -593,14 +618,18 @@ public class MainActivity extends Activity {
 
 	/** 更新天气信息 */
 	private void updateWeatherInfo() {
-		if (isPagerTwoShowed) {
-			Message msgUpdateWeather = new Message();
-			msgUpdateWeather.what = 2;
-			taskHandler.sendMessage(msgUpdateWeather);
+		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+			if (isPagerTwoShowed) {
+				Message msgUpdateWeather = new Message();
+				msgUpdateWeather.what = 2;
+				taskHandler.sendMessage(msgUpdateWeather);
+			}
 		}
 	}
 
-	/** 更新音乐信息 */
+	/**
+	 * @deprecated 更新音乐信息
+	 */
 	private void updateMusicInfo() {
 		if (isPagerOneShowed) {
 			Message msgUpdateMusic = new Message();
@@ -921,7 +950,8 @@ public class MainActivity extends Activity {
 
 					@Override
 					public void run() {
-						if (Constant.UI.SL6.equals(brand)) { // SL 6.86
+						if (UIConfig.SL6 == uiConfig
+								|| UIConfig.SL9 == uiConfig) { // SL6 + SL9
 							if ("1".equals(recStateFront)) {
 								textRecStateFront
 										.setText(getResources().getString(
@@ -943,7 +973,7 @@ public class MainActivity extends Activity {
 										.setText(getResources().getString(
 												R.string.rec_state_back_off));
 							}
-						} else { // TQ 6.86
+						} else if (UIConfig.TQ6 == uiConfig) { // TQ6
 							if ("1".equals(recStateFront)) {
 								textRecStateFront
 										.setText(getResources().getString(
