@@ -60,7 +60,7 @@
         <!-- 云服务 -->
 
         <RelativeLayout
-            android:id="@+id/layoutService"
+            android:id="@+id/layoutYiKa"
             android:layout_width="@dimen/sl9_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
             android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
@@ -223,38 +223,5 @@
         </RelativeLayout>
     </RelativeLayout>
 
-    <LinearLayout
-        android:id="@+id/layoutBottomBig"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_toLeftOf="@id/layoutBottomSmall"
-        android:orientation="horizontal"
-        android:visibility="gone" >
-
-        <!-- 云服务 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutYiKa"
-            android:layout_width="@dimen/main_item_total_width"
-            android:layout_height="match_parent"
-            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
-
-            <ImageView
-                android:id="@+id/imageYika"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:src="@drawable/weme_sl_6" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/sl9_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/sl9_pager_big_margin_right"
-                android:layout_marginTop="@dimen/sl9_pager_big_margin_top"
-                android:background="?android:attr/selectableItemBackground" >
-            </RelativeLayout>
-        </RelativeLayout>
-    </LinearLayout>
 
 </RelativeLayout>

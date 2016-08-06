@@ -127,7 +127,7 @@ public class MainActivity extends Activity {
 		} else {
 			uiConfig = UIConfig.TQ6;
 		}
-		uiConfig = UIConfig.SL9; // FIXME:Delete this line
+		//uiConfig = UIConfig.SL9; // FIXME:Delete this line
 		MyLog.d("BRAND:" + brand + ",UIConfig:" + uiConfig);
 
 		if (UIConfig.SL9 == uiConfig) {// SL 9.76
