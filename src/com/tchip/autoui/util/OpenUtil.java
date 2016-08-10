@@ -468,7 +468,15 @@ public class OpenUtil {
 					break;
 
 				case XIMALAYA:
-					startAppbyPackage(activity, "com.ximalaya.ting.android.car");
+					ComponentName componentXimalaya;
+					componentXimalaya = new ComponentName(
+							"com.ximalaya.ting.android.car",
+							"com.ximalaya.ting.android.car.activity.MainActivity");
+					Intent intentXimalaya = new Intent();
+					intentXimalaya.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					intentXimalaya.setComponent(componentXimalaya);
+					activity.startActivity(intentXimalaya);
 					break;
 
 				case MTK_YGPS:
