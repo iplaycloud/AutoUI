@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.kuwo.autosdk.api.KWAPI;
-import cn.kuwo.autosdk.api.PlayState;
 
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
@@ -83,6 +82,7 @@ public class MainActivity extends Activity {
 	private Handler mainHandler;
 
 	private String brand = "TQ";
+	private String model = "TX2";
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
 
@@ -114,23 +114,28 @@ public class MainActivity extends Activity {
 		mainHandler = new Handler(this.getMainLooper());
 		kuwoAPI = KWAPI.createKWAPI(this, "auto");
 
-		setContentView(R.layout.activity_pager);
+		brand = Build.BRAND;
+		model = Build.MODEL;
+		if ("TX2S".equals(model)) { // TX2S-9.76
+			if ("SL".equals(brand)) {
+				uiConfig = UIConfig.SL9;
+			} else {
+				uiConfig = UIConfig.TQ9;
+			}
+			setContentView(R.layout.activity_pager_9);
+		} else { // TX2-6.86
+			if ("SL".equals(brand)) {
+				uiConfig = UIConfig.SL6;
+			} else {
+				uiConfig = UIConfig.TQ6;
+			}
+			setContentView(R.layout.activity_pager_6);
+		}
 
 		LayoutInflater inflater = LayoutInflater.from(this);
-		brand = Build.BRAND;
-		if ("SL9".equals(brand)) {
-			uiConfig = UIConfig.SL9;
-		} else if ("TQ9".equals(brand)) {
-			uiConfig = UIConfig.TQ9;
-		} else if ("SL6".equals(brand)) {
-			uiConfig = UIConfig.SL6;
-		} else {
-			uiConfig = UIConfig.TQ6;
-		}
-		//uiConfig = UIConfig.SL9; // FIXME:Delete this line
 		MyLog.d("BRAND:" + brand + ",UIConfig:" + uiConfig);
 
-		if (UIConfig.SL9 == uiConfig) {// SL 9.76
+		if (UIConfig.SL9 == uiConfig) { // SL 9.76
 			viewMain = inflater.inflate(R.layout.activity_sl_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_9_two, null);
 		} else if (UIConfig.SL6 == uiConfig) { // SL 6.86
@@ -519,7 +524,7 @@ public class MainActivity extends Activity {
 
 			case R.id.layoutNavigation:
 				OpenUtil.openModule(MainActivity.this,
-						MODULE_TYPE.NAVI_GAODE_CAR);
+						MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
 				break;
 
 			case R.id.layoutWeather:
