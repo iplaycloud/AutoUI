@@ -523,8 +523,13 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutNavigation:
-				OpenUtil.openModule(MainActivity.this,
-						MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
+				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9) {
+					OpenUtil.openModule(MainActivity.this,
+							MODULE_TYPE.NAVI_BAIDU);
+				} else {
+					OpenUtil.openModule(MainActivity.this,
+							MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
+				}
 				break;
 
 			case R.id.layoutWeather:

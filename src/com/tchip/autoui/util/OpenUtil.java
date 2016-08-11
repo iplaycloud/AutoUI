@@ -59,6 +59,9 @@ public class OpenUtil {
 		/** MTKLogger */
 		MTK_LOGGER,
 
+		/** 百度导航 */
+		NAVI_BAIDU,
+
 		/** 导航:高德地图 */
 		NAVI_GAODE,
 
@@ -285,6 +288,17 @@ public class OpenUtil {
 					intentMtkLogger.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentMtkLogger);
+					break;
+
+				case NAVI_BAIDU:
+					ComponentName componentBaiduNavi = new ComponentName(
+							"com.baidu.navi",
+							"com.baidu.navi.NaviActivity");
+					Intent intentBaiduNavi = new Intent();
+					intentBaiduNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					intentBaiduNavi.setComponent(componentBaiduNavi);
+					activity.startActivity(intentBaiduNavi);
 					break;
 
 				case NAVI_GAODE:
@@ -564,6 +578,7 @@ public class OpenUtil {
 				"com.android.gallery3d", // 图库
 				"com.autonavi.amapauto", // 高德地图（车机版）
 				"com.autonavi.amapautolite", // 高德地图（车镜版）
+				"com.baidu.navi", // 百度导航
 				"com.ximalaya.ting.android.car", // 喜马拉雅（车机版）
 				// "entry.dsa2014", // 电子狗
 				"com.coagent.ecar", // 翼卡
@@ -584,7 +599,9 @@ public class OpenUtil {
 			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR);
 		} else if ("com.autonavi.amapautolite".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
-		} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
+		} else if("com.baidu.navi".equals(pkgWhenBack)){
+			openModule(activity, MODULE_TYPE.NAVI_BAIDU);
+		}else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.DIALER);
 		} else if ("entry.dsa2014".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.EDOG);
