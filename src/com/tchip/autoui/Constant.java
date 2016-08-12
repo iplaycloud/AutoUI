@@ -36,6 +36,9 @@ public interface Constant {
 		/** 隐藏格式化对话框 */
 		public static final String HIDE_FORMAT_DIALOG = "com.tchip.HIDE_FORMAT_DIALOG";
 
+		/** 发送KEY,Extra:key(int) */
+		public static final String SEND_KEY = "tchip.intent.action.SEND_KEY";
+
 		/** TTS播报,Extra:content(String) */
 		public static final String TTS_SPEAK = "tchip.intent.action.TTS_SPEAK";
 

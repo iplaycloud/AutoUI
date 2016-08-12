@@ -235,7 +235,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/navigation_sl_6" />
+                android:src="@drawable/navigation_sl_6_baidu" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -268,7 +268,6 @@
                 android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
                 android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
-            
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>

@@ -217,6 +217,7 @@ public class OpenUtil {
 							"entry.dsa2014", "entry.dsa2014.MainActivity");
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
+					intentEDog.putExtra("startmode", 0);
 					intentEDog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentEDog);
@@ -292,8 +293,7 @@ public class OpenUtil {
 
 				case NAVI_BAIDU:
 					ComponentName componentBaiduNavi = new ComponentName(
-							"com.baidu.navi",
-							"com.baidu.navi.NaviActivity");
+							"com.baidu.navi", "com.baidu.navi.NaviActivity");
 					Intent intentBaiduNavi = new Intent();
 					intentBaiduNavi.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
@@ -599,9 +599,9 @@ public class OpenUtil {
 			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR);
 		} else if ("com.autonavi.amapautolite".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
-		} else if("com.baidu.navi".equals(pkgWhenBack)){
+		} else if ("com.baidu.navi".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.NAVI_BAIDU);
-		}else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
+		} else if ("com.goodocom.gocsdk".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.DIALER);
 		} else if ("entry.dsa2014".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.EDOG);

@@ -162,6 +162,7 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Constant.Broadcast.BACK_CAR_OFF);
 		mainFilter.addAction(Constant.Broadcast.GSENSOR_CRASH);
 		mainFilter.addAction(Constant.Broadcast.TTS_SPEAK);
+		mainFilter.addAction(Constant.Broadcast.SEND_KEY);
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		mainFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
@@ -523,7 +524,8 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutNavigation:
-				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9) {
+				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9
+						|| uiConfig == UIConfig.SL6) {
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.NAVI_BAIDU);
 				} else {
@@ -784,6 +786,9 @@ public class MainActivity extends Activity {
 				if (null != content && content.trim().length() > 0) {
 					speakVoice(content);
 				}
+			} else if (Constant.Broadcast.SEND_KEY.equals(action)) {
+				int key = intent.getIntExtra("key", KeyEvent.KEYCODE_HOME);
+				sendKeyCode(key);
 			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
 				Calendar calendar = Calendar.getInstance(); // 获取时间
 				int minute = calendar.get(Calendar.MINUTE);
