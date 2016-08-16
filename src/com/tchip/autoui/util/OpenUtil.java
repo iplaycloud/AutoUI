@@ -528,7 +528,7 @@ public class OpenUtil {
 		}
 	}
 
-	private static void killApp(Context context, String app) {
+	public static void killApp(Context context, String app) {
 		ActivityManager myActivityManager = (ActivityManager) context
 				.getSystemService(Context.ACTIVITY_SERVICE);
 		List<ActivityManager.RunningAppProcessInfo> mRunningPros = myActivityManager

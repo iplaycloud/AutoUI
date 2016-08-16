@@ -305,8 +305,7 @@ public class MainActivity extends Activity {
 			}
 			if (!MyApp.isAccOn) {
 				sendBroadcast(new Intent(Constant.Broadcast.RELEASE_RECORD));
-				sendBroadcast(new Intent(Constant.Broadcast.KILL_APP).putExtra(
-						"name", "com.tchip.autorecord"));
+				OpenUtil.killApp(context, "com.tchip.autorecord");
 			}
 		}
 
