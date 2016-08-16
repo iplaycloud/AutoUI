@@ -235,7 +235,7 @@
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"
-                android:src="@drawable/navigation_sl_6_baidu" />
+                android:src="@drawable/navigation_sl_6" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

@@ -429,8 +429,8 @@ public class MainActivity extends Activity {
 		// 电子狗
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
 		layoutEDog.setOnClickListener(new MyOnClickListener());
-		// FM发射
 		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
 		}
@@ -474,7 +474,7 @@ public class MainActivity extends Activity {
 					Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
 			textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
 			updateWeatherInfo();
-		} else if (UIConfig.SL9 == uiConfig) {
+		} else if (UIConfig.SL9 == uiConfig || UIConfig.TQ9 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
@@ -523,8 +523,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutNavigation:
-				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9
-						|| uiConfig == UIConfig.SL6) {
+				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9) {
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.NAVI_BAIDU);
 				} else {
@@ -567,10 +566,12 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutYiKa:
-				if (UIConfig.SL6 == uiConfig) { // SL 6.86
+				if (UIConfig.SL6 == uiConfig || UIConfig.SL9 == uiConfig) { // SL
+																			// 6.86
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.CLOUD_CENTER);
-				} else if (UIConfig.TQ6 == uiConfig) { // TQ 6.86
+				} else if (UIConfig.TQ6 == uiConfig || UIConfig.TQ9 == uiConfig) { // TQ
+																					// 6.86
 					if (Constant.Module.hasYouku) {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.YOUKU);
