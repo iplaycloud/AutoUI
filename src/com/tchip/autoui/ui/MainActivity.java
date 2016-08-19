@@ -186,7 +186,7 @@ public class MainActivity extends Activity {
 		// 首次启动是否需要自动录像
 		if (1 == SettingUtil.getAccStatus()) {
 			doAccOnWork();
-			new Thread(new StartRecordThread()).start();
+			new Thread(new StartRecordWhenBootThread()).start();
 			startWeatherService();
 		} else {
 			MyApp.isAccOn = false; // 同步ACC状态
@@ -280,12 +280,21 @@ public class MainActivity extends Activity {
 		}
 	}
 
-	class StartRecordThread implements Runnable {
+	class StartRecordWhenBootThread implements Runnable {
+
+		@Override
+		public void run() {
+			startAutoRecord(System.currentTimeMillis());
+		}
+
+	}
+
+	class StartRecordWhenAccOnThread implements Runnable {
 
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(500);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -730,7 +739,7 @@ public class MainActivity extends Activity {
 								.equals("1"))) {
 					MyLog.v("AutoRecord is ParkRecording, do not restart.");
 				} else {
-					new Thread(new StartRecordThread()).start();
+					new Thread(new StartRecordWhenAccOnThread()).start();
 				}
 				doAccOnWork();
 				initialNodeState();
@@ -1052,8 +1061,12 @@ public class MainActivity extends Activity {
 
 			case 6: // 同步倒车状态
 				this.removeMessages(6);
+				int backCarStatus = SettingUtil.getBackCarStatus();
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, ""
-						+ SettingUtil.getBackCarStatus());
+						+ backCarStatus);
+				if (1 == backCarStatus) {
+					startAutoRecord(SystemClock.currentThreadTimeMillis());
+				}
 				this.removeMessages(6);
 				break;
 
