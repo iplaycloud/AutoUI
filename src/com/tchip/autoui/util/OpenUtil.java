@@ -218,6 +218,7 @@ public class OpenUtil {
 					Intent intentEDog = new Intent();
 					intentEDog.setComponent(componentEDog);
 					intentEDog.putExtra("startmode", 0);
+					intentEDog.putExtra("time", System.currentTimeMillis());
 					intentEDog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentEDog);
