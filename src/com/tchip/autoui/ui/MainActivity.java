@@ -285,7 +285,7 @@ public class MainActivity extends Activity {
 		@Override
 		public void run() {
 			try {
-				Thread.sleep(1000);
+				Thread.sleep(2000);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -802,7 +802,15 @@ public class MainActivity extends Activity {
 				}
 			} else if (Constant.Broadcast.SEND_KEY.equals(action)) {
 				int key = intent.getIntExtra("key", KeyEvent.KEYCODE_HOME);
-				sendKeyCode(key);
+
+				ActivityManager am = (ActivityManager) context
+						.getSystemService(Context.ACTIVITY_SERVICE);
+				ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+				String currentPackageName = cn.getPackageName();
+				if (!"com.tchip.autorecord".equals(currentPackageName)
+						&& !ClickUtil.isSendKeyTooQuick(500)) {
+					sendKeyCode(key);
+				}
 			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
 				Calendar calendar = Calendar.getInstance(); // 获取时间
 				int minute = calendar.get(Calendar.MINUTE);
@@ -846,7 +854,7 @@ public class MainActivity extends Activity {
 				} else if ("recentapps".equals(reason)) {
 				}
 			} else if ("android.net.conn.CONNECTIVITY_CHANGE".equals(action)) {
-				if (!ClickUtil.isUpdateWeatherQuick(10 * 1000)) {
+				if (!ClickUtil.isUpdateWeatherQuick(15 * 1000)) {
 					startWeatherService();
 				}
 			}

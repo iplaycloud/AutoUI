@@ -45,5 +45,18 @@ public class ClickUtil {
 		lastUpdateWeatherTime = time;
 		return false;
 	}
+	
+	private static long lastSendKeyTime;
+
+	public static boolean isSendKeyTooQuick(int runMinSpan) {
+		long time = System.currentTimeMillis();
+		long timeD = time - lastSendKeyTime;
+		if (0 < timeD && timeD < runMinSpan) {
+			MyLog.v("ClickUtil.isSendKeyTooQuick,Run Too Quickly!");
+			return true;
+		}
+		lastSendKeyTime = time;
+		return false;
+	}
 
 }
