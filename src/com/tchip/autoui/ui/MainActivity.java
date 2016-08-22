@@ -196,6 +196,7 @@ public class MainActivity extends Activity {
 			doSleepWork();
 			MyApp.isSleeping = true;
 		}
+		startDSAWhenBoot(context);
 	}
 
 	@Override
@@ -231,6 +232,19 @@ public class MainActivity extends Activity {
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
+	}
+	
+	/** 启动后台DSA */
+	private void startDSAWhenBoot(Context context){
+		ComponentName componentEDog = new ComponentName(
+							"entry.dsa2014", "entry.dsa2014.MainActivity");
+		Intent intentEDog = new Intent();
+		intentEDog.setComponent(componentEDog);
+		intentEDog.putExtra("startmode", 2);
+		intentEDog.putExtra("time", System.currentTimeMillis());
+		intentEDog.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+				| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+		context.startActivity(intentEDog);
 	}
 
 	/** 启动前录 */
