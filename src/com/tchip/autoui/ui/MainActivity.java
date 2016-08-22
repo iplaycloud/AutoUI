@@ -196,7 +196,7 @@ public class MainActivity extends Activity {
 			doSleepWork();
 			MyApp.isSleeping = true;
 		}
-		startDSAWhenBoot(context);
+		new Thread(new StartDSAWhenBootThread()).start();
 	}
 
 	@Override
@@ -234,8 +234,22 @@ public class MainActivity extends Activity {
 			return super.onKeyDown(keyCode, event);
 	}
 	
+	class StartDSAWhenBootThread implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(2000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			startDSAWhenBoot();
+		}
+
+	}
+	
 	/** 启动后台DSA */
-	private void startDSAWhenBoot(Context context){
+	private void startDSAWhenBoot(){
 		ComponentName componentEDog = new ComponentName(
 							"entry.dsa2014", "entry.dsa2014.MainActivity");
 		Intent intentEDog = new Intent();
