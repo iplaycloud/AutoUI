@@ -122,6 +122,9 @@ public interface Constant {
 
 		/** ACC不在时凌晨3点是否重启机器 */
 		public static final boolean rebootAt3 = false;
+
+		/** 是否监视CPU温度执行高温脚本 */
+		public static final boolean cpuMonitor = false;
 	}
 
 	public static final class Path {
@@ -164,6 +167,8 @@ public interface Constant {
 
 		/** 后录存储路径 */
 		public static String RECORD_BACK = "/storage/sdcard1/DrivingRecord/VideoBack/";
+
+		public static String CPU_TEMP = "/sys/bus/i2c/devices/0-007f/read_curr_temp";
 	}
 
 }

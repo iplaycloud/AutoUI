@@ -11,6 +11,7 @@ import com.tchip.autoui.Constant;
 import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
 import com.tchip.autoui.receiver.RebootReceiver;
+import com.tchip.autoui.service.TempMonitorService;
 import com.tchip.autoui.util.ClickUtil;
 import com.tchip.autoui.util.HintUtil;
 import com.tchip.autoui.util.MyLog;
@@ -188,6 +189,7 @@ public class MainActivity extends Activity {
 			doAccOnWork();
 			new Thread(new StartRecordWhenBootThread()).start();
 			startWeatherService();
+			startTempMonitorService();
 		} else {
 			MyApp.isAccOn = false; // 同步ACC状态
 			ProviderUtil.setValue(context, Name.ACC_STATE, "0");
@@ -233,7 +235,7 @@ public class MainActivity extends Activity {
 		} else
 			return super.onKeyDown(keyCode, event);
 	}
-	
+
 	class StartDSAWhenBootThread implements Runnable {
 
 		@Override
@@ -247,11 +249,11 @@ public class MainActivity extends Activity {
 		}
 
 	}
-	
+
 	/** 启动后台DSA */
-	private void startDSAWhenBoot(){
-		ComponentName componentEDog = new ComponentName(
-							"entry.dsa2014", "entry.dsa2014.MainActivity");
+	private void startDSAWhenBoot() {
+		ComponentName componentEDog = new ComponentName("entry.dsa2014",
+				"entry.dsa2014.MainActivity");
 		Intent intentEDog = new Intent();
 		intentEDog.setComponent(componentEDog);
 		intentEDog.putExtra("startmode", 2);
@@ -777,6 +779,7 @@ public class MainActivity extends Activity {
 				doAccOnWork();
 				initialNodeState();
 				startWeatherService();
+				startTempMonitorService();
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				MyApp.isAccOn = (1 == SettingUtil.getAccStatus());
@@ -800,6 +803,7 @@ public class MainActivity extends Activity {
 					MyApp.isSleeping = false;
 					new Thread(new GoingParkMonitorThread()).start();
 				}
+				stopTempMonitorService();
 			} else if (Constant.Broadcast.GSENSOR_CRASH.equals(action)) { // 停车守卫
 				MyLog.v("MyApp.isSleeping:" + MyApp.isSleeping);
 				if (MyApp.isSleeping && !MyApp.isAccOn
@@ -902,6 +906,26 @@ public class MainActivity extends Activity {
 			intentWeather.setClassName("com.tchip.weather",
 					"com.tchip.weather.service.UpdateWeatherService");
 			startService(intentWeather);
+		}
+	}
+
+	/** 开启CPU温度监控 */
+	private void startTempMonitorService() {
+		if (Constant.Module.cpuMonitor) {
+			if (MyApp.isAccOn) {
+				Intent intentTemp = new Intent(MainActivity.this,
+						TempMonitorService.class);
+				startService(intentTemp);
+			}
+		}
+	}
+
+	/** 关闭CPU温度监控 */
+	private void stopTempMonitorService() {
+		if (Constant.Module.cpuMonitor) {
+			Intent intentTemp = new Intent(MainActivity.this,
+					TempMonitorService.class);
+			stopService(intentTemp);
 		}
 	}
 

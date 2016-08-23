@@ -99,6 +99,8 @@
         </activity>
         <activity android:name="com.tchip.autoui.ui.MultimediaActivity" />
 
+        <service android:name="com.tchip.autoui.service.TempMonitorService" />
+
         <receiver android:name="com.tchip.autoui.receiver.CardMountReceiver" >
             <intent-filter android:priority="2147483646" >
                 <action android:name="android.intent.action.MEDIA_MOUNTED" />

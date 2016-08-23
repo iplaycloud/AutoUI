@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -405,6 +406,45 @@ public class SettingUtil {
 			} catch (Exception e) {
 			}
 		}
+	}
+
+	/** 获取CPU当前温度 */
+	public static int getCpuTemp() {
+		File file = new File(Constant.Path.CPU_TEMP);
+		if (file.exists()) {
+			try {
+				BufferedReader reader = new BufferedReader(new FileReader(file));
+				String number = null;
+				while ((number = reader.readLine()) != null) {
+					reader.close();
+					return Integer.parseInt(number);
+				}
+				reader.close();
+			} catch (Exception e) {
+				e.printStackTrace();
+				MyLog.e("getCpuTemp catch:" + e.toString());
+			}
+		}
+		return 0;
+	}
+
+	/** 执行命令行 */
+	public static String executeCmd(String cmd) {
+		String str = "/n";
+		try {
+			Process p = Runtime.getRuntime().exec(cmd);
+			BufferedReader in = new BufferedReader(new InputStreamReader(
+					p.getInputStream()));
+			String line = null;
+			while ((line = in.readLine()) != null) {
+				str += line + "/n";
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			MyLog.e("executeCmd.Exception:" + e.toString());
+		}
+		MyLog.w("executeCmd:" + cmd + ",result:" + str);
+		return str;
 	}
 
 }
