@@ -93,6 +93,24 @@
     <dimen name="weather_info_margin_bottom">8dp</dimen>
     <dimen name="weather_info_margin_span">3dp</dimen>
 
+    <!-- 公版UI7 -->
+    <dimen name="tq7_main_item_title_margin_top">26dp</dimen>
+    <dimen name="tq7_edog_state_margin_bottom">22dp</dimen>
+    <dimen name="tq7_record_screen_margin_right">26dp</dimen>
+    <dimen name="tq7_record_front_margin_top">27dp</dimen>
+    <dimen name="tq7_record_back_margin_top">48dp</dimen>
+    <dimen name="tq7_main_item_center_point_margin_left">33dp</dimen>
+    <dimen name="tq7_main_item_center_point_margin_right">21dp</dimen>
+    <dimen name="tq7_main_item_center_point_margin_top">55dp</dimen>
+    <dimen name="tq7_main_item_center_point_margin_bottom">0dp</dimen>
+    <dimen name="tq7_small_item_title_margin_top">18dp</dimen>
+    <dimen name="tq7_pager_two_image_margin_top">18dp</dimen>
+    <dimen name="tq7_record_screen_text_size">16sp</dimen>
+    <dimen name="tq7_pager_two_image_height">120dp</dimen>
+    <dimen name="tq7_pager_two_image_width">191dp</dimen>
+    <dimen name="tq7_pager_two_ripple_width">164dp</dimen>
+    <dimen name="tq7_pager_two_ripple_height">80dp</dimen>
+
     <!-- 善领UI6 -->
     <dimen name="sl6_pager_big_margin_top">26dp</dimen>
     <dimen name="sl6_pager_big_margin_bottom">12dp</dimen>
