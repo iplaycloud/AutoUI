@@ -92,6 +92,10 @@ public class MainActivity extends Activity {
 		TQ6,
 		/** 善领 6.86 */
 		SL6,
+		/** 公版7.84 */
+		TQ7,
+		/** 善领7.84 */
+		SL7,
 		/** 公版 9.76 */
 		TQ9,
 		/** 善领 9.76 */
@@ -124,6 +128,13 @@ public class MainActivity extends Activity {
 				uiConfig = UIConfig.TQ9;
 			}
 			setContentView(R.layout.activity_pager_9);
+		} else if ("TX3".equals(model)) { // TX3-7.84
+			if ("SL".equals(brand)) {
+				uiConfig = UIConfig.SL7;
+			} else {
+				uiConfig = UIConfig.TQ7;
+			}
+			setContentView(R.layout.activity_pager_6);
 		} else { // TX2-6.86
 			if ("SL".equals(brand)) {
 				uiConfig = UIConfig.SL6;
@@ -139,6 +150,12 @@ public class MainActivity extends Activity {
 		if (UIConfig.SL9 == uiConfig) { // SL 9.76
 			viewMain = inflater.inflate(R.layout.activity_sl_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_9_two, null);
+		} else if (UIConfig.SL7 == uiConfig) { // SL 7.84
+			viewMain = inflater.inflate(R.layout.activity_sl_7_one, null);
+			viewVice = inflater.inflate(R.layout.activity_sl_7_two, null);
+		} else if (UIConfig.TQ7 == uiConfig) { // TQ 7.84
+			viewMain = inflater.inflate(R.layout.activity_tq_7_one, null);
+			viewVice = inflater.inflate(R.layout.activity_tq_7_two, null);
 		} else if (UIConfig.SL6 == uiConfig) { // SL 6.86
 			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
@@ -473,7 +490,8 @@ public class MainActivity extends Activity {
 		// 电子狗
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
 		layoutEDog.setOnClickListener(new MyOnClickListener());
-		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
+				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
@@ -507,7 +525,8 @@ public class MainActivity extends Activity {
 							: R.drawable.weme_tq_6, null));
 		}
 
-		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
+				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig) {
 			// 天气
 			RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 			layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -610,12 +629,12 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutYiKa:
-				if (UIConfig.SL6 == uiConfig || UIConfig.SL9 == uiConfig) { // SL
-																			// 6.86
+				if (UIConfig.SL6 == uiConfig || UIConfig.SL7 == uiConfig
+						|| UIConfig.SL9 == uiConfig) { // SL
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.CLOUD_CENTER);
-				} else if (UIConfig.TQ6 == uiConfig || UIConfig.TQ9 == uiConfig) { // TQ
-																					// 6.86
+				} else if (UIConfig.TQ6 == uiConfig || UIConfig.TQ7 == uiConfig
+						|| UIConfig.TQ9 == uiConfig) { // TQ
 					if (Constant.Module.hasYouku) {
 						OpenUtil.openModule(MainActivity.this,
 								MODULE_TYPE.YOUKU);
@@ -674,7 +693,8 @@ public class MainActivity extends Activity {
 
 	/** 更新天气信息 */
 	private void updateWeatherInfo() {
-		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig) {
+		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
+				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig) {
 			if (isPagerTwoShowed) {
 				Message msgUpdateWeather = new Message();
 				msgUpdateWeather.what = 2;
@@ -1040,7 +1060,8 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 						if (UIConfig.SL6 == uiConfig
-								|| UIConfig.SL9 == uiConfig) { // SL6 + SL9
+								|| UIConfig.SL7 == uiConfig
+								|| UIConfig.SL9 == uiConfig) { // SL
 							if ("1".equals(recStateFront)) {
 								textRecStateFront
 										.setText(getResources().getString(
@@ -1062,7 +1083,8 @@ public class MainActivity extends Activity {
 										.setText(getResources().getString(
 												R.string.rec_state_back_off));
 							}
-						} else if (UIConfig.TQ6 == uiConfig) { // TQ6
+						} else if (UIConfig.TQ6 == uiConfig
+								|| UIConfig.TQ7 == uiConfig) { // TQ
 							if ("1".equals(recStateFront)) {
 								textRecStateFront
 										.setText(getResources().getString(

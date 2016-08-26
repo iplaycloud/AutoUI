@@ -12,6 +12,7 @@
         android:layout_width="200dp"
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/sl7_margin_right_left"
         android:orientation="vertical" >
 
         <!-- 电话 -->
@@ -26,24 +27,24 @@
                 android:id="@+id/textPhone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/main_item_title_margin_top"
+                android:layout_marginTop="@dimen/sl7_main_item_title_margin_top"
                 android:text="@string/title_phone"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
             <ImageView
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textPhone"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:contentDescription="@null"
                 android:src="@drawable/phone_sl_6" />
 
             <RelativeLayout
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textPhone"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:background="?android:attr/selectableItemBackground" />
         </RelativeLayout>
 
@@ -60,24 +61,24 @@
                 android:id="@+id/textMusic"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/main_item_title_margin_top"
+                android:layout_marginTop="@dimen/sl7_main_item_title_margin_top"
                 android:text="@string/title_music"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
             <ImageView
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textMusic"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:contentDescription="@null"
                 android:src="@drawable/music_sl_6" />
 
             <RelativeLayout
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textMusic"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:background="?android:attr/selectableItemBackground" />
         </RelativeLayout>
 
@@ -94,24 +95,24 @@
                 android:id="@+id/textFmTransmit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_item_title_margin_top"
+                android:layout_marginTop="@dimen/sl7_small_item_title_margin_top"
                 android:text="@string/title_fm_transmit"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
             <ImageView
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textFmTransmit"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:contentDescription="@null"
                 android:src="@drawable/fmtransmit_sl_6" />
 
             <RelativeLayout
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textFmTransmit"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:background="?android:attr/selectableItemBackground" />
         </RelativeLayout>
         <!-- 文件管理 -->
@@ -128,24 +129,24 @@
                 android:id="@+id/textFileManager"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/small_item_title_margin_top"
+                android:layout_marginTop="@dimen/sl7_small_item_title_margin_top"
                 android:text="@string/title_file_manager"
                 android:textColor="@color/main_item_title_color"
                 android:textSize="@dimen/main_item_title_size" />
 
             <ImageView
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textFileManager"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:contentDescription="@null"
                 android:src="@drawable/filemanager_sl_6" />
 
             <RelativeLayout
-                android:layout_width="@dimen/pager_one_image_length"
-                android:layout_height="@dimen/pager_one_image_length"
+                android:layout_width="@dimen/sl7_pager_one_image_length"
+                android:layout_height="@dimen/sl7_pager_one_image_length"
                 android:layout_below="@id/textFileManager"
-                android:layout_marginTop="@dimen/pager_one_image_margin_top"
+                android:layout_marginTop="@dimen/sl7_pager_one_image_margin_top"
                 android:background="?android:attr/selectableItemBackground" />
         </RelativeLayout>
     </RelativeLayout>
@@ -154,6 +155,7 @@
         android:id="@+id/layoutBottomBig"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:layout_marginLeft="@dimen/sl7_margin_right_left"
         android:layout_marginRight="@dimen/sl6_layout_big_margin_right"
         android:layout_toLeftOf="@id/layoutBottomSmall"
         android:orientation="horizontal" >
@@ -162,7 +164,7 @@
 
         <RelativeLayout
             android:id="@+id/layoutRecord"
-            android:layout_width="@dimen/main_item_total_width"
+            android:layout_width="@dimen/sl7_main_item_total_width"
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/main_item_margin_right"
             android:layout_marginRight="@dimen/main_item_margin_right" >
@@ -184,9 +186,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
-                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
+                android:layout_marginBottom="@dimen/sl7_pager_big_margin_bottom"
+                android:layout_marginLeft="@dimen/sl7_pager_big_margin_left"
+                android:layout_marginRight="@dimen/sl7_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl7_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
 
                 <ImageView
@@ -195,7 +198,7 @@
                     android:layout_height="@dimen/sl6_record_btn_edge"
                     android:layout_alignParentBottom="true"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/sl6_record_btn_margin_bottom"
+                    android:layout_marginBottom="@dimen/sl7_record_btn_margin_bottom"
                     android:background="?android:attr/selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     android:src="@drawable/record_start_normal_sl_6" />
@@ -206,10 +209,10 @@
                     android:layout_height="wrap_content"
                     android:layout_above="@id/imageRecordState"
                     android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/sl6_record_text_margin_bottom"
+                    android:layout_marginBottom="@dimen/sl7_record_text_margin_bottom"
                     android:text="@string/rec_state_back_off"
                     android:textColor="@color/sl_record_screen_text_color"
-                    android:textSize="@dimen/record_screen_text_size" />
+                    android:textSize="@dimen/sl7_record_screen_text_size" />
 
                 <TextView
                     android:id="@+id/textRecStateFront"
@@ -219,7 +222,7 @@
                     android:layout_centerHorizontal="true"
                     android:text="@string/rec_state_front_off"
                     android:textColor="@color/sl_record_screen_text_color"
-                    android:textSize="@dimen/record_screen_text_size" />
+                    android:textSize="@dimen/sl7_record_screen_text_size" />
             </RelativeLayout>
         </RelativeLayout>
 
@@ -227,7 +230,7 @@
 
         <RelativeLayout
             android:id="@+id/layoutNavigation"
-            android:layout_width="@dimen/main_item_total_width"
+            android:layout_width="@dimen/sl7_main_item_total_width"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/main_item_margin_right" >
 
@@ -240,9 +243,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
-                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
+                android:layout_marginBottom="@dimen/sl7_pager_big_margin_bottom"
+                android:layout_marginLeft="@dimen/sl7_pager_big_margin_left"
+                android:layout_marginRight="@dimen/sl7_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl7_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
             </RelativeLayout>
         </RelativeLayout>
@@ -251,7 +255,7 @@
 
         <RelativeLayout
             android:id="@+id/layoutEDog"
-            android:layout_width="@dimen/main_item_total_width"
+            android:layout_width="@dimen/sl7_main_item_total_width"
             android:layout_height="match_parent"
             android:layout_marginRight="@dimen/main_item_margin_right" >
 
@@ -264,9 +268,10 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="@dimen/sl6_pager_big_margin_bottom"
-                android:layout_marginRight="@dimen/sl6_pager_big_margin_right"
-                android:layout_marginTop="@dimen/sl6_pager_big_margin_top"
+                android:layout_marginBottom="@dimen/sl7_pager_big_margin_bottom"
+                android:layout_marginLeft="@dimen/sl7_pager_big_margin_left"
+                android:layout_marginRight="@dimen/sl7_pager_big_margin_right"
+                android:layout_marginTop="@dimen/sl7_pager_big_margin_top"
                 android:background="?android:attr/selectableItemBackground" >
             </RelativeLayout>
         </RelativeLayout>
