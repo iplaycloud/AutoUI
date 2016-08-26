@@ -124,7 +124,7 @@ public interface Constant {
 		public static final boolean rebootAt3 = false;
 
 		/** 是否监视CPU温度执行高温脚本 */
-		public static final boolean cpuMonitor = false;
+		public static final boolean cpuMonitor = true;
 	}
 
 	public static final class Path {

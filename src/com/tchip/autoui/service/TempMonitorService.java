@@ -20,8 +20,12 @@ public class TempMonitorService extends Service {
 	private final String PATH_HIGH = "/system/xbin/gaowen";
 	/** 正常时执行脚本路径 */
 	private final String PATH_NORMAL = "/system/xbin/zhengchang";
+	
+	private final String PATH_ZONE = "/system/xbin/zone";
 
 	private int tempFlag = 0;
+	private int zoneFlag = 0;
+	private boolean iszoneFlag = false;
 
 	/** 读取cpu温度的间隔时间 */
 	private int cpuReadSpan = 1000 * 5;
@@ -69,27 +73,48 @@ public class TempMonitorService extends Service {
 			if (cpuTemp < TEMP_LOW) {
 				if (isHighing) {
 					tempFlag--;
-				} else {
+				} else if (iszoneFlag) {
+					zoneFlag--;
+				}else {
+					zoneFlag = 0;
 					tempFlag = 0;
 				}
 			} else if (cpuTemp > TEMP_HIGH) {
+				zoneFlag = 0;
 				if (!isHighing) {
 					tempFlag++;
 				} else {
 					tempFlag = 0;
 				}
-			} else {
+			} else {					//105000 ~ 115000
 				tempFlag = 0;
+				zoneFlag++;
+				if(zoneFlag >= 3 && !isHighing && !iszoneFlag){
+					zoneFlag = 0;
+					SettingUtil.executeCmd(PATH_ZONE);
+					iszoneFlag = true;
+				}else if(zoneFlag >= 3 || iszoneFlag){
+					zoneFlag = 0;
+				}
 			}
-			Log.v(TAG, "TEMP:" + cpuTemp + "-FALG:" + tempFlag + "-HIGH:"
-					+ isHighing);
-			if (tempFlag >= 5) {
+			Log.v(TAG, "TEMP:" + cpuTemp + " -FALG:" + tempFlag + " -HIGH:"
+					+ isHighing + " -iszoneFlag:" + iszoneFlag + " -zoneFlag:" + zoneFlag);
+			if (tempFlag >= 3) {
 				tempFlag = 0;
+				iszoneFlag = false;
 				isHighing = true;
 				SettingUtil.executeCmd(PATH_HIGH);
-			} else if (tempFlag <= -5) {
+			} else if (tempFlag <= -3) {
 				tempFlag = 0;
+				iszoneFlag = false;
 				isHighing = false;
+				SettingUtil.executeCmd(PATH_NORMAL);
+			}
+			if(zoneFlag <= -3){		//正常到3*1235 在变成正常的case
+				zoneFlag = 0;
+				iszoneFlag = false;
+				isHighing = false;
+				SettingUtil.executeCmd(PATH_HIGH);
 				SettingUtil.executeCmd(PATH_NORMAL);
 			}
 			mHandler.postDelayed(readCpuTemp, cpuReadSpan);
