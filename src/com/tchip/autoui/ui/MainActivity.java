@@ -588,7 +588,7 @@ public class MainActivity extends Activity {
 			case R.id.layoutNavigation:
 				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9) {
 					OpenUtil.openModule(MainActivity.this,
-							MODULE_TYPE.NAVI_BAIDU);
+							MODULE_TYPE.NAVI_GAODE_CAR_MIRROR); // NAVI_BAIDU
 				} else {
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
