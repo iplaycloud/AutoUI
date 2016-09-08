@@ -129,11 +129,12 @@ public class MainActivity extends Activity {
 			}
 			setContentView(R.layout.activity_pager_9);
 		} else if ("TX3".equals(model)) { // TX3-7.84
-			if ("SL".equals(brand)) {
-				uiConfig = UIConfig.SL7;
-			} else {
-				uiConfig = UIConfig.TQ7;
-			}
+		// if ("SL".equals(brand)) {
+		// uiConfig = UIConfig.SL7;
+		// } else {
+		// uiConfig = UIConfig.TQ7;
+		// }
+			uiConfig = UIConfig.SL7;
 			setContentView(R.layout.activity_pager_6);
 		} else { // TX2-6.86
 			if ("SL".equals(brand)) {

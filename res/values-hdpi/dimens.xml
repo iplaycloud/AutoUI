@@ -133,11 +133,18 @@
     <dimen name="sl7_record_text_margin_bottom">15dp</dimen>
     <dimen name="sl7_pager_one_image_margin_top">5dp</dimen>
     <dimen name="sl7_main_item_title_margin_top">22dp</dimen>
-    <dimen name="sl7_main_item_total_width">180dp</dimen>
+    <dimen name="sl7_main_item_total_width">150dp</dimen>
     <dimen name="sl7_small_item_title_margin_top">10dp</dimen>
     <dimen name="sl7_pager_two_image_height">115dp</dimen>
     <dimen name="sl7_pager_two_image_width">185dp</dimen>
     <dimen name="sl7_pager_one_image_length">80dp</dimen>
+
+    <!-- UI7 -->
+    <dimen name="ui7_image_big_width">144dp</dimen>
+    <dimen name="ui7_image_big_height">234dp</dimen>
+    <dimen name="ui7_image_small_height">114dp</dimen>
+    <dimen name="ui7_item_margin_horizontal">10dp</dimen>
+    <dimen name="ui7_weather_info_icon_length">65dp</dimen>
 
     <!-- 善领UI9 -->
     <dimen name="sl9_main_item_margin_right">14dp</dimen>
