@@ -38,6 +38,7 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.net.Uri;
 import android.os.Build;
@@ -129,12 +130,11 @@ public class MainActivity extends Activity {
 			}
 			setContentView(R.layout.activity_pager_9);
 		} else if ("TX3".equals(model)) { // TX3-7.84
-		// if ("SL".equals(brand)) {
-		// uiConfig = UIConfig.SL7;
-		// } else {
-		// uiConfig = UIConfig.TQ7;
-		// }
-			uiConfig = UIConfig.SL7;
+			if ("SL".equals(brand)) {
+				uiConfig = UIConfig.SL7;
+			} else {
+				uiConfig = UIConfig.TQ7;
+			}
 			setContentView(R.layout.activity_pager_6);
 		} else { // TX2-6.86
 			if ("SL".equals(brand)) {
@@ -252,6 +252,11 @@ public class MainActivity extends Activity {
 			return true;
 		} else
 			return super.onKeyDown(keyCode, event);
+	}
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
 	}
 
 	class StartDSAWhenBootThread implements Runnable {

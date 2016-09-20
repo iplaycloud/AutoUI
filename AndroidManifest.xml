@@ -4,7 +4,7 @@
     package="com.tchip.autoui"
     android:sharedUserId="android.uid.system"
     android:versionCode="1"
-    android:versionName="2016.08.22-10:00" >
+    android:versionName="2016.09.20-09:30" >
 
     <uses-sdk
         android:minSdkVersion="21"
@@ -84,7 +84,7 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name="com.tchip.autoui.ui.MainActivity"
-            android:configChanges="mcc|mnc"
+            android:configChanges="screenSize|orientation|keyboard|mcc|mnc"
             android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="landscape"
