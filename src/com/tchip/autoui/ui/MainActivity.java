@@ -253,7 +253,7 @@ public class MainActivity extends Activity {
 		} else
 			return super.onKeyDown(keyCode, event);
 	}
-	
+
 	@Override
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
@@ -290,13 +290,15 @@ public class MainActivity extends Activity {
 	private void startAutoRecord(long sendTime) {
 		if (MyApp.isAccOn) {
 			try {
-				ActivityManager am = (ActivityManager) context
-						.getSystemService(Context.ACTIVITY_SERVICE);
-				ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
-				String currentPackageName = cn.getPackageName();
-				MyLog.v("currentPackageName:" + currentPackageName);
-				ProviderUtil.setValue(context, Name.PKG_WHEN_BACK,
-						currentPackageName);
+				if (ClickUtil.shouldSaveBackPkg(2500)) {
+					ActivityManager am = (ActivityManager) context
+							.getSystemService(Context.ACTIVITY_SERVICE);
+					ComponentName cn = am.getRunningTasks(1).get(0).topActivity;
+					String currentPackageName = cn.getPackageName();
+					MyLog.v("currentPackageName:" + currentPackageName);
+					ProviderUtil.setValue(context, Name.PKG_WHEN_BACK,
+							currentPackageName);
+				}
 
 				ComponentName componentRecord = new ComponentName(
 						"com.tchip.autorecord",

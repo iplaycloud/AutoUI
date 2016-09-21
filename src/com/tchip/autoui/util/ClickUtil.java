@@ -45,7 +45,7 @@ public class ClickUtil {
 		lastUpdateWeatherTime = time;
 		return false;
 	}
-	
+
 	private static long lastSendKeyTime;
 
 	public static boolean isSendKeyTooQuick(int runMinSpan) {
@@ -57,6 +57,16 @@ public class ClickUtil {
 		}
 		lastSendKeyTime = time;
 		return false;
+	}
+
+	/** 上次倒车时间 */
+	private static long lastBackTime;
+
+	public static boolean shouldSaveBackPkg(int runMinSpan) {
+		long time = System.currentTimeMillis();
+		long timeD = time - lastBackTime;
+		lastBackTime = time;
+		return timeD > runMinSpan;
 	}
 
 }
