@@ -161,8 +161,8 @@ public class MainActivity extends Activity {
 			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
 		} else { // TQ 6.86
-			viewMain = inflater.inflate(R.layout.activity_tq_6_one, null);
-			viewVice = inflater.inflate(R.layout.activity_tq_6_two, null);
+			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
+			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
 		}
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
@@ -523,14 +523,15 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(new MyOnClickListener());
 		if (UIConfig.TQ6 == uiConfig) { // TQ 6.86
-			TextView textTitleYika = (TextView) findViewById(R.id.textTitleYika);
-			textTitleYika.setText(getResources().getString(
-					Constant.Module.hasYouku ? R.string.title_youku
-							: R.string.title_weme));
-			ImageView imageYika = (ImageView) findViewById(R.id.imageYika);
-			imageYika.setImageDrawable(getResources().getDrawable(
-					Constant.Module.hasYouku ? R.drawable.multimedia_big_tq_6
-							: R.drawable.weme_tq_6, null));
+			// TextView textTitleYika = (TextView)
+			// findViewById(R.id.textTitleYika);
+			// textTitleYika.setText(getResources().getString(
+			// Constant.Module.hasYouku ? R.string.title_youku
+			// : R.string.title_weme));
+			// ImageView imageYika = (ImageView) findViewById(R.id.imageYika);
+			// imageYika.setImageDrawable(getResources().getDrawable(
+			// Constant.Module.hasYouku ? R.drawable.multimedia_big_tq_6
+			// : R.drawable.weme_tq_6, null));
 		}
 
 		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
@@ -1068,6 +1069,7 @@ public class MainActivity extends Activity {
 					@Override
 					public void run() {
 						if (UIConfig.SL6 == uiConfig
+								|| UIConfig.TQ6 == uiConfig
 								|| UIConfig.SL7 == uiConfig
 								|| UIConfig.SL9 == uiConfig) { // SL
 							if ("1".equals(recStateFront)) {
@@ -1091,8 +1093,7 @@ public class MainActivity extends Activity {
 										.setText(getResources().getString(
 												R.string.rec_state_back_off));
 							}
-						} else if (UIConfig.TQ6 == uiConfig
-								|| UIConfig.TQ7 == uiConfig) { // TQ
+						} else if (UIConfig.TQ7 == uiConfig) { // TQ
 							if ("1".equals(recStateFront)) {
 								textRecStateFront
 										.setText(getResources().getString(
