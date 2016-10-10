@@ -26,6 +26,7 @@ public class TempMonitorService extends Service {
 	private int tempFlag = 0;
 	private int zoneFlag = 0;
 	private boolean iszoneFlag = false;
+	private int tempRun = 0;
 
 	/** 读取cpu温度的间隔时间 */
 	private int cpuReadSpan = 1000 * 5;
@@ -98,17 +99,19 @@ public class TempMonitorService extends Service {
 				}
 			}
 			Log.v(TAG, "TEMP:" + cpuTemp + " -FALG:" + tempFlag + " -HIGH:"
-					+ isHighing + " -iszoneFlag:" + iszoneFlag + " -zoneFlag:" + zoneFlag);
+					+ isHighing + " -iszoneFlag:" + iszoneFlag + " -zoneFlag:" + zoneFlag  + " -tempRun:" + tempRun);
 			if (tempFlag >= 3) {
 				tempFlag = 0;
 				iszoneFlag = false;
 				isHighing = true;
+				tempRun = 3;
 				SettingUtil.executeCmd(PATH_HIGH);
 			} else if (tempFlag <= -3) {
 				tempFlag = 0;
 				iszoneFlag = false;
 				isHighing = false;
 				SettingUtil.executeCmd(PATH_NORMAL);
+				tempRun = 1;
 			}
 			if(zoneFlag <= -3){		//正常到3*1235 在变成正常的case
 				zoneFlag = 0;
@@ -116,6 +119,7 @@ public class TempMonitorService extends Service {
 				isHighing = false;
 				SettingUtil.executeCmd(PATH_HIGH);
 				SettingUtil.executeCmd(PATH_NORMAL);
+				tempRun = 2;
 			}
 			mHandler.postDelayed(readCpuTemp, cpuReadSpan);
 		}
