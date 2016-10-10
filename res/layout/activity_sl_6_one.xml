@@ -232,6 +232,7 @@
             android:layout_marginRight="@dimen/main_item_margin_right" >
 
             <ImageView
+                android:id="@+id/imageNavigation"
                 android:layout_width="@dimen/main_item_image_width"
                 android:layout_height="@dimen/main_item_image_height"
                 android:contentDescription="@null"

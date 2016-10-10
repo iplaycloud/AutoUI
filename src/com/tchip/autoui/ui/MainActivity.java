@@ -31,11 +31,13 @@ import com.tchip.autoui.view.TransitionViewPagerContainer;
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.AlarmManager;
+import android.app.AlertDialog;
 import android.app.Instrumentation;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
@@ -50,12 +52,14 @@ import android.os.Message;
 import android.os.PowerManager;
 import android.os.SystemClock;
 import android.os.PowerManager.WakeLock;
+import android.provider.Settings;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
@@ -68,6 +72,11 @@ public class MainActivity extends Activity {
 	private View viewMain, viewVice;
 	private List<View> viewList;
 	private TransitionViewPager viewPager;
+
+	/**
+	 * 导航图标
+	 */
+	private ImageView imageNavigation;
 
 	private ImageView imageWeatherInfo;
 	private TextView textWeatherInfo, textWeatherTmpRange, textWeatherCity;
@@ -488,6 +497,86 @@ public class MainActivity extends Activity {
 		// 导航
 		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
 		layoutNavigation.setOnClickListener(new MyOnClickListener());
+
+		if ("TX2S".equals(model)) {
+			imageNavigation = (ImageView) findViewById(R.id.imageNavigation);
+
+			String nowMapSetting = Settings.System.getString(
+					getContentResolver(), "tchip_navi_app");
+			if (nowMapSetting != null && "gaode".equals(nowMapSetting)) {
+				imageNavigation
+						.setImageDrawable(getDrawable(R.drawable.navigation_sl_9));
+			} else {
+				imageNavigation
+						.setImageDrawable(getDrawable(R.drawable.navigation_sl_9_baidu));
+			}
+
+			layoutNavigation.setOnLongClickListener(new OnLongClickListener() {
+
+				@Override
+				public boolean onLongClick(View v) {
+					AlertDialog.Builder builder = new AlertDialog.Builder(
+							MainActivity.this);
+					builder.setIcon(R.drawable.ic_launcher);
+					builder.setTitle("选择默认地图");
+					final String[] maps = { "百度导航", "高德地图" };
+					String strMapSetting = Settings.System.getString(
+							getContentResolver(), "tchip_navi_app");
+					int nowSelect = 0;
+					if (strMapSetting != null && "gaode".equals(strMapSetting)) {
+						nowSelect = 1;
+					}
+					/**
+					 * 第一个参数指定我们要显示的一组下拉单选框的数据集合 第二个参数代表索引，指定默认哪一个单选框被勾选上
+					 * 第三个参数给每一个单选项绑定一个监听器
+					 */
+					builder.setSingleChoiceItems(maps, nowSelect,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+								}
+							});
+					builder.setPositiveButton("确定",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+									switch (which) {
+									case 1: // 高德地图
+										Settings.System.putString(
+												getContentResolver(),
+												"tchip_navi_app", "baidu");
+										imageNavigation
+												.setImageDrawable(getDrawable(R.drawable.navigation_sl_9));
+										break;
+
+									case 0:
+									default: // 百度地图
+										Settings.System.putString(
+												context.getContentResolver(),
+												"tchip_navi_app", "baidu");
+										imageNavigation
+												.setImageDrawable(getDrawable(R.drawable.navigation_sl_9_baidu));
+										break;
+									}
+									sendBroadcast(new Intent(
+											"com.tchip.navi_app_changed"));
+								}
+							});
+					builder.setNegativeButton("取消",
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog,
+										int which) {
+
+								}
+							});
+					builder.show();
+					return true;
+				}
+			});
+		}
 		// 音乐
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(new MyOnClickListener());
@@ -595,9 +684,16 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutNavigation:
-				if (uiConfig == UIConfig.SL9 || uiConfig == UIConfig.TQ9) {
-					OpenUtil.openModule(MainActivity.this,
-							MODULE_TYPE.NAVI_GAODE_CAR_MIRROR); // NAVI_BAIDU
+				if ("TX2S".equals(model)) {
+					String strMapSetting = Settings.System.getString(
+							getContentResolver(), "tchip_navi_app");
+					if (strMapSetting != null && "gaode".equals(strMapSetting)) {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
+					} else {
+						OpenUtil.openModule(MainActivity.this,
+								MODULE_TYPE.NAVI_BAIDU);
+					}
 				} else {
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);

@@ -86,11 +86,12 @@
             android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
 
             <ImageView
+                android:id="@+id/imageNavigation"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:contentDescription="@null"
-                android:src="@drawable/navigation_sl_9" />
+                android:src="@drawable/navigation_sl_9_baidu" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
