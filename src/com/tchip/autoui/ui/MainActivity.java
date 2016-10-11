@@ -485,6 +485,8 @@ public class MainActivity extends Activity {
 
 	};
 
+	
+	private int nowSelect = 0;
 	private void updateLayoutOne() {
 		// 行车记录
 		RelativeLayout layoutRecord = (RelativeLayout) findViewById(R.id.layoutRecord);
@@ -522,7 +524,7 @@ public class MainActivity extends Activity {
 					final String[] maps = { "百度导航", "高德地图" };
 					String strMapSetting = Settings.System.getString(
 							getContentResolver(), "tchip_navi_app");
-					int nowSelect = 0;
+					MyLog.v("strMapSetting.Before:" + strMapSetting);
 					if (strMapSetting != null && "gaode".equals(strMapSetting)) {
 						nowSelect = 1;
 					}
@@ -535,6 +537,7 @@ public class MainActivity extends Activity {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
+									nowSelect = which;
 								}
 							});
 					builder.setPositiveButton("确定",
@@ -542,11 +545,12 @@ public class MainActivity extends Activity {
 								@Override
 								public void onClick(DialogInterface dialog,
 										int which) {
-									switch (which) {
+									MyLog.v("onClick.nowSelect:" + nowSelect);
+									switch (nowSelect) {
 									case 1: // 高德地图
 										Settings.System.putString(
 												getContentResolver(),
-												"tchip_navi_app", "baidu");
+												"tchip_navi_app", "gaode");
 										imageNavigation
 												.setImageDrawable(getDrawable(R.drawable.navigation_sl_9));
 										break;
