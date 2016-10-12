@@ -485,8 +485,8 @@ public class MainActivity extends Activity {
 
 	};
 
-	
 	private int nowSelect = 0;
+
 	private void updateLayoutOne() {
 		// 行车记录
 		RelativeLayout layoutRecord = (RelativeLayout) findViewById(R.id.layoutRecord);
