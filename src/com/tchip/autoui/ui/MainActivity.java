@@ -1030,7 +1030,8 @@ public class MainActivity extends Activity {
 
 	/** 更新天气 */
 	private void startWeatherService() {
-		if (MyApp.isAccOn && TelephonyUtil.isNetworkConnected(context)) {
+		if (MyApp.isAccOn && TelephonyUtil.isNetworkConnected(context)
+				&& !"TX2S".equals(model)) {
 			Intent intentWeather = new Intent();
 			intentWeather.setClassName("com.tchip.weather",
 					"com.tchip.weather.service.UpdateWeatherService");

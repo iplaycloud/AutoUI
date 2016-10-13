@@ -639,10 +639,12 @@ public class OpenUtil {
 			sendKeyCode(KeyEvent.KEYCODE_HOME);
 		} else if ("com.mediatek.engineermode".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.ENGINEER_MODE);
-		} else if ("com.mediatek.mtklogger".endsWith(pkgWhenBack)) {
+		} else if ("com.mediatek.mtklogger".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.MTK_LOGGER);
-		} else if ("com.mediatek.ygps".endsWith(pkgWhenBack)) {
+		} else if ("com.mediatek.ygps".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.MTK_YGPS);
+		} else if ("com.tchip.txzstart".equals(pkgWhenBack)) {
+			activity.sendBroadcast(new Intent("tchip.intent.action.MOVE_RECORD_BACK"));
 		} else {
 			startAppbyPackage(activity, pkgWhenBack);
 		}
