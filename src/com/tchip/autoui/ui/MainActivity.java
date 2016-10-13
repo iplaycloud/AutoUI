@@ -553,6 +553,8 @@ public class MainActivity extends Activity {
 												"tchip_navi_app", "gaode");
 										imageNavigation
 												.setImageDrawable(getDrawable(R.drawable.navigation_sl_9));
+										OpenUtil.killApp(context,
+												"com.baidu.navi");
 										break;
 
 									case 0:
@@ -562,6 +564,8 @@ public class MainActivity extends Activity {
 												"tchip_navi_app", "baidu");
 										imageNavigation
 												.setImageDrawable(getDrawable(R.drawable.navigation_sl_9_baidu));
+										OpenUtil.killApp(context,
+												"com.autonavi.amapautolite");
 										break;
 									}
 									sendBroadcast(new Intent(
