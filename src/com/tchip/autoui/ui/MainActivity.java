@@ -108,6 +108,8 @@ public class MainActivity extends Activity {
 		SL7,
 		/** 公版 9.76 */
 		TQ9,
+		/** 竟加 9.76 */
+		JJ9,
 		/** 善领 9.76 */
 		SL9
 	}
@@ -134,6 +136,8 @@ public class MainActivity extends Activity {
 		if ("TX2S".equals(model)) { // TX2S-9.76
 			if ("SL".equals(brand)) {
 				uiConfig = UIConfig.SL9;
+			} else if ("JJ".equals(brand)) {
+				uiConfig = UIConfig.JJ9;
 			} else {
 				uiConfig = UIConfig.TQ9;
 			}
@@ -160,6 +164,9 @@ public class MainActivity extends Activity {
 		if (UIConfig.SL9 == uiConfig) { // SL 9.76
 			viewMain = inflater.inflate(R.layout.activity_sl_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_9_two, null);
+		} else if (UIConfig.JJ9 == uiConfig) { // JJ 9.76
+			viewMain = inflater.inflate(R.layout.activity_jj_9_one, null);
+			viewVice = inflater.inflate(R.layout.activity_jj_9_two, null);
 		} else if (UIConfig.SL7 == uiConfig) { // SL 7.84
 			viewMain = inflater.inflate(R.layout.activity_sl_7_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_7_two, null);
@@ -500,7 +507,7 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutNavigation = (RelativeLayout) findViewById(R.id.layoutNavigation);
 		layoutNavigation.setOnClickListener(new MyOnClickListener());
 
-		if ("TX2S".equals(model)) {
+		if (UIConfig.SL9 == uiConfig) { // SL 9.76
 			imageNavigation = (ImageView) findViewById(R.id.imageNavigation);
 
 			String nowMapSetting = Settings.System.getString(
@@ -589,9 +596,15 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(new MyOnClickListener());
 
-		// 蓝牙通话
-		RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
-		layoutPhone.setOnClickListener(new MyOnClickListener());
+		if (UIConfig.SL9 == uiConfig) {
+			// 蓝牙通话
+			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
+			layoutPhone.setOnClickListener(new MyOnClickListener());
+		} else if (UIConfig.JJ9 == uiConfig) {
+			// 网络电台-喜马拉雅
+			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
+			layoutXimalaya.setOnClickListener(new MyOnClickListener());
+		}
 		// 电子狗
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
 		layoutEDog.setOnClickListener(new MyOnClickListener());
@@ -610,9 +623,15 @@ public class MainActivity extends Activity {
 	}
 
 	private void updateLayoutTwo() {
-		// 网络电台-喜马拉雅
-		RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
-		layoutXimalaya.setOnClickListener(new MyOnClickListener());
+		if (UIConfig.SL9 == uiConfig) {
+			// 网络电台-喜马拉雅
+			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
+			layoutXimalaya.setOnClickListener(new MyOnClickListener());
+		} else if (UIConfig.JJ9 == uiConfig) {
+			// 蓝牙通话
+			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
+			layoutPhone.setOnClickListener(new MyOnClickListener());
+		}
 		// 微信助手
 		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
 		layoutWechat.setOnClickListener(new MyOnClickListener());
@@ -643,7 +662,8 @@ public class MainActivity extends Activity {
 					Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
 			textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
 			updateWeatherInfo();
-		} else if (UIConfig.SL9 == uiConfig || UIConfig.TQ9 == uiConfig) {
+		} else if (UIConfig.SL9 == uiConfig || UIConfig.TQ9 == uiConfig
+				|| UIConfig.JJ9 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
@@ -692,7 +712,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutNavigation:
-				if ("TX2S".equals(model)) {
+				if (UIConfig.SL9 == uiConfig) { // SL 9.76
 					String strMapSetting = Settings.System.getString(
 							getContentResolver(), "tchip_navi_app");
 					if (strMapSetting != null && "gaode".equals(strMapSetting)) {
@@ -753,6 +773,8 @@ public class MainActivity extends Activity {
 								MODULE_TYPE.YOUKU);
 					} else
 						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
+				} else if (UIConfig.JJ9 == uiConfig) { // JJ
+					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
 				}
 				break;
 
@@ -1220,8 +1242,29 @@ public class MainActivity extends Activity {
 										.setText(getResources().getString(
 												R.string.rec_state_back_off));
 							}
+						} else if (UIConfig.JJ9 == uiConfig) { // JJ 9
+							if ("1".equals(recStateFront)) {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_on));
+								imageRecordState
+										.setImageResource(R.drawable.record_stop_normal_jj_9);
+							} else {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_off));
+								imageRecordState
+										.setImageResource(R.drawable.record_start_normal_jj_9);
+							}
+							if ("1".equals(recStateBack)) {
+								textRecStateBack.setText(getResources()
+										.getString(R.string.rec_state_back_on));
+							} else {
+								textRecStateBack
+										.setText(getResources().getString(
+												R.string.rec_state_back_off));
+							}
 						}
-
 					}
 				});
 				this.removeMessages(1);

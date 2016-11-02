@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutTwo"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:gravity="center"
+    android:orientation="horizontal" >
+
+    <LinearLayout
+        android:id="@+id/layoutNineTwo"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/sl9_big_item_image_height"
+        android:layout_alignParentBottom="true"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal" >
+
+        <!-- 微信助手 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutWechat"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/wechat_jj_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 蓝牙电话 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutPhone"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/phone_jj_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- FM发射 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutFMTransmit"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/fmtransmit_jj_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 云服务 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutYiKa"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/service_jj_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 设置 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutSetting"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:src="@drawable/setting_jj_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/layoutBottomSmall"
+        android:layout_width="@dimen/pager_two_image_width"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:visibility="gone" >
+
+        <!-- 天气 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutWeather"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/pager_two_image_height" >
+
+            <ImageView
+                android:layout_width="@dimen/pager_two_image_width"
+                android:layout_height="@dimen/pager_two_image_height"
+                android:contentDescription="@null"
+                android:src="@drawable/weather_sl_6" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:background="?android:attr/selectableItemBackground" >
+
+                <TextView
+                    android:id="@+id/textWeatherCity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="10dp"
+                    android:drawableLeft="@drawable/weather_location_tq_6"
+                    android:text="@string/weather_not_record"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <ImageView
+                    android:id="@+id/imageWeatherInfo"
+                    android:layout_width="@dimen/weather_info_icon_length"
+                    android:layout_height="@dimen/weather_info_icon_length"
+                    android:layout_alignParentLeft="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="12dp"
+                    android:contentDescription="@null"
+                    android:src="@drawable/weather_sun_tq_6" />
+
+                <TextView
+                    android:id="@+id/textWeatherTmpRange"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/imageWeatherInfo"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="5dp"
+                    android:text="@string/weather_no_temp"
+                    android:textColor="#ffffff"
+                    android:textSize="16sp" />
+
+                <TextClock
+                    android:id="@+id/textDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginTop="10dp"
+                    android:format12Hour="yy/MM/dd"
+                    android:format24Hour="yy/MM/dd"
+                    android:textColor="#ffffff"
+                    android:textSize="18sp" />
+
+                <TextClock
+                    android:id="@+id/textClock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginRight="10dp"
+                    android:format12Hour="HH:mm"
+                    android:format24Hour="HH:mm"
+                    android:textColor="#ffffff"
+                    android:textSize="36sp" />
+
+                <TextView
+                    android:id="@+id/textWeatherInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_above="@id/textWeatherTmpRange"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="@dimen/weather_info_margin_span"
+                    android:layout_marginRight="@dimen/weather_info_margin_right"
+                    android:text="@string/weather_unknown"
+                    android:textColor="#ffffff"
+                    android:textSize="@dimen/weather_info_text_size"
+                    android:visibility="gone" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+</RelativeLayout>
