@@ -275,7 +275,7 @@ public class OpenUtil {
 					// 普通HD版："cn.kuwo.kwmusichd","cn.kuwo.kwmusichd.WelcomeActivity"
 					// 车载HD版："cn.kuwo.kwmusiccar","cn.kuwo.kwmusiccar.WelcomeActivity"
 					componentMusic = new ComponentName("cn.kuwo.kwmusiccar",
-							"cn.kuwo.kwmusiccar.WelcomeActivity");
+							"cn.kuwo.kwmusiccar.MainActivity");
 					Intent intentMusic = new Intent();
 					intentMusic.setComponent(componentMusic);
 					intentMusic.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
