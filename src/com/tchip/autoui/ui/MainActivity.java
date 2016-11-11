@@ -102,6 +102,8 @@ public class MainActivity extends Activity {
 		TQ6,
 		/** 善领 6.86 */
 		SL6,
+		/** 全球沃 6.86 */
+		WO6,
 		/** 公版7.84 */
 		TQ7,
 		/** 善领7.84 */
@@ -152,6 +154,8 @@ public class MainActivity extends Activity {
 		} else { // TX2-6.86
 			if ("SL".equals(brand)) {
 				uiConfig = UIConfig.SL6;
+			} else if ("WO".equals(brand)) {
+				uiConfig = UIConfig.WO6;
 			} else {
 				uiConfig = UIConfig.TQ6;
 			}
@@ -176,6 +180,9 @@ public class MainActivity extends Activity {
 		} else if (UIConfig.SL6 == uiConfig) { // SL 6.86
 			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
+		} else if (UIConfig.WO6 == uiConfig) { // WO 6.86
+			viewMain = inflater.inflate(R.layout.activity_wo_6_one, null);
+			viewVice = inflater.inflate(R.layout.activity_wo_6_two, null);
 		} else { // TQ 6.86
 			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
@@ -596,7 +603,7 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(new MyOnClickListener());
 
-		if (UIConfig.SL9 == uiConfig) {
+		if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
 			// 蓝牙通话
 			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 			layoutPhone.setOnClickListener(new MyOnClickListener());
@@ -609,7 +616,8 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
 		layoutEDog.setOnClickListener(new MyOnClickListener());
 		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
-				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig) {
+				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig
+				|| UIConfig.WO6 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
@@ -623,7 +631,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void updateLayoutTwo() {
-		if (UIConfig.SL9 == uiConfig) {
+		if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
 			// 网络电台-喜马拉雅
 			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
 			layoutXimalaya.setOnClickListener(new MyOnClickListener());
@@ -651,7 +659,8 @@ public class MainActivity extends Activity {
 		}
 
 		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
-				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig) {
+				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig
+				|| UIConfig.WO6 == uiConfig) {
 			// 天气
 			RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 			layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -774,6 +783,8 @@ public class MainActivity extends Activity {
 					} else
 						OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
 				} else if (UIConfig.JJ9 == uiConfig) { // JJ
+					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
+				} else if (UIConfig.WO6 == uiConfig) { // WO
 					OpenUtil.openModule(MainActivity.this, MODULE_TYPE.YIKA);
 				}
 				break;
@@ -1255,6 +1266,28 @@ public class MainActivity extends Activity {
 												R.string.rec_state_front_off));
 								imageRecordState
 										.setImageResource(R.drawable.record_start_normal_jj_9);
+							}
+							if ("1".equals(recStateBack)) {
+								textRecStateBack.setText(getResources()
+										.getString(R.string.rec_state_back_on));
+							} else {
+								textRecStateBack
+										.setText(getResources().getString(
+												R.string.rec_state_back_off));
+							}
+						} else if (UIConfig.WO6 == uiConfig) {
+							if ("1".equals(recStateFront)) {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_on));
+								imageRecordState
+										.setImageResource(R.drawable.record_stop_normal_wo_6);
+							} else {
+								textRecStateFront
+										.setText(getResources().getString(
+												R.string.rec_state_front_off));
+								imageRecordState
+										.setImageResource(R.drawable.record_start_normal_wo_6);
 							}
 							if ("1".equals(recStateBack)) {
 								textRecStateBack.setText(getResources()
