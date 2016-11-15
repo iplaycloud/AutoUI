@@ -24,6 +24,7 @@ import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
 import com.tchip.autoui.util.ProviderUtil.Name;
+import com.tchip.autoui.view.FormatDialog;
 import com.tchip.autoui.view.TransitionViewPager;
 import com.tchip.autoui.view.TransitionViewPager.TransitionEffect;
 import com.tchip.autoui.view.TransitionViewPagerContainer;
@@ -40,6 +41,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.DialogInterface.OnClickListener;
 import android.content.res.Configuration;
 import android.database.ContentObserver;
 import android.net.Uri;
@@ -59,6 +61,7 @@ import android.support.v4.view.PagerAdapter;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnLongClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -208,6 +211,7 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Intent.ACTION_TIME_TICK);
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		mainFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+		mainFilter.addAction("tchip.intent.action.SD_CORRUPT");
 		registerReceiver(mainReceiver, mainFilter);
 
 		getContentResolver()
@@ -1055,9 +1059,75 @@ public class MainActivity extends Activity {
 				if (!ClickUtil.isUpdateWeatherQuick(15 * 1000)) {
 					startWeatherService();
 				}
+			} else if ("tchip.intent.action.SD_CORRUPT".equals(action)) {
+				FormatDialog.Builder builder = new FormatDialog.Builder(
+						context.getApplicationContext());
+				builder.setMessage("SD卡已损坏，请尝试重新格式化。");
+				builder.setTitle("提示");
+				builder.setPositiveButton("确认", new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						new Thread(new FormatCardThread()).start();
+					}
+				});
+				builder.setNegativeButton("取消", new OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				FormatDialog alertDialog = builder.create();
+				alertDialog.getWindow().setType(
+						WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
+				alertDialog.setCanceledOnTouchOutside(false);
+				if (!alertDialog.isShowing()) {
+					alertDialog.show();
+				}
 			}
 		}
 	}
+
+	class FormatCardThread implements Runnable {
+
+		@Override
+		public void run() {
+			while ((!"0".equals(ProviderUtil.getValue(context,
+					Name.REC_BACK_STATE, "0")) || !"0".equals(ProviderUtil
+					.getValue(context, Name.REC_FRONT_STATE, "0")))) {
+				try {
+					context.sendBroadcast(new Intent(
+							"tchip.intent.action.MEDIA_FORMAT").putExtra(
+							"path", "/storage/sdcard1"));
+					Thread.sleep(500);
+					Message messageWait = new Message();
+					messageWait.what = 0;
+					formatCardHandler.sendMessage(messageWait);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			Message messageFormat = new Message();
+			messageFormat.what = 1;
+			formatCardHandler.sendMessage(messageFormat);
+		}
+	}
+
+	Handler formatCardHandler = new Handler() {
+
+		public void handleMessage(Message message) {
+			switch (message.what) {
+			case 0:
+				MyLog.w("FormatCard wait for stopping record");
+				break;
+
+			case 1:
+				context.sendBroadcast(new Intent(
+						"tchip.intent.action.FORMAT_CARD"));
+				break;
+			}
+		}
+	};
 
 	/** 设置状态栏 */
 	private void setStatusBarVisible(boolean isVisible) {

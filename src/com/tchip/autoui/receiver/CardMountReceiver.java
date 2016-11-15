@@ -27,6 +27,7 @@ public class CardMountReceiver extends BroadcastReceiver {
 	public void onReceive(final Context context, Intent intent) {
 		this.context = context;
 		String action = intent.getAction();
+
 		MyLog.i("CardMountReceiver.action:" + action);
 		if (action.equals(Intent.ACTION_MEDIA_MOUNTED)) {
 			if ("/storage/sdcard1".equals(intent.getData().getPath())) { // 是否需要格式化录像卡？
