@@ -21,6 +21,8 @@ import android.app.KeyguardManager.KeyguardLock;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.location.LocationManager;
 import android.os.PowerManager;
 import android.provider.Settings;
@@ -32,6 +34,21 @@ public class SettingUtil {
 	public static boolean isAccOn(Context context) {
 		String accState = ProviderUtil.getValue(context, Name.ACC_STATE, "0");
 		return "1".equals(accState);
+	}
+
+	/**
+	 * 调整系统亮度
+	 * 
+	 * @param brightness
+	 */
+	public static void setBrightness(Context context, int brightness) {
+		if (brightness <= Constant.Setting.MAX_BRIGHTNESS && brightness > -1) {
+			boolean setSuccess = Settings.System.putInt(
+					context.getContentResolver(),
+					Settings.System.SCREEN_BRIGHTNESS, brightness);
+			MyLog.v("SettingUtil.setBrightness: " + brightness + ", "
+					+ setSuccess);
+		}
 	}
 
 	/**
@@ -364,14 +381,14 @@ public class SettingUtil {
 	public static File fileAutoLightSwitch = new File(
 			Constant.Path.NODE_BACK_STATUS);
 
-	public static void setAutoLight(boolean enable) {
-		if (enable) {
-			SaveFileToNode(fileAutoLightSwitch, "1");
-		} else {
-			SaveFileToNode(fileAutoLightSwitch, "0");
-		}
-		MyLog.v("[SettingUtil]setAutoLight:" + enable);
-	}
+	// public static void setAutoLight(boolean enable) {
+	// if (enable) {
+	// SaveFileToNode(fileAutoLightSwitch, "1");
+	// } else {
+	// SaveFileToNode(fileAutoLightSwitch, "0");
+	// }
+	// MyLog.v("[SettingUtil]setAutoLight:" + enable);
+	// }
 
 	private static File fileAccOffWake = new File(Constant.Path.NODE_ACC_STATUS);
 

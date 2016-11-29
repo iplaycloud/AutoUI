@@ -8,6 +8,7 @@ import java.util.Locale;
 import cn.kuwo.autosdk.api.KWAPI;
 
 import com.tchip.autoui.Constant;
+import com.tchip.autoui.Constant.Setting;
 import com.tchip.autoui.MyApp;
 import com.tchip.autoui.R;
 import com.tchip.autoui.receiver.RebootReceiver;
@@ -1054,6 +1055,26 @@ public class MainActivity extends Activity {
 							speakVoice("整点报时:" + hour + "点整");
 						}
 						startWeatherService();
+
+						String strAutoLight = ProviderUtil.getValue(context,
+								Name.SET_AUTO_LIGHT_STATE, "0");
+						if ("1".equals(strAutoLight)) {
+							if (hour >= 6 && hour < 18) {
+								SettingUtil.setBrightness(
+										getApplicationContext(),
+										Setting.AUTO_BRIGHT_DAY - 1);
+								SettingUtil.setBrightness(
+										getApplicationContext(),
+										Setting.AUTO_BRIGHT_DAY);
+							} else {
+								SettingUtil.setBrightness(
+										getApplicationContext(),
+										Setting.AUTO_BRIGHT_NIGHT + 1);
+								SettingUtil.setBrightness(
+										getApplicationContext(),
+										Setting.AUTO_BRIGHT_DAY);
+							}
+						}
 					} else { // ACC_OFF
 						if (hour == 3) {
 							SettingUtil.normalReboot(context);
@@ -1486,9 +1507,20 @@ public class MainActivity extends Activity {
 				String strAutoLight = ProviderUtil.getValue(context,
 						Name.SET_AUTO_LIGHT_STATE, "0");
 				if ("1".equals(strAutoLight)) {
-					SettingUtil.setAutoLight(true);
+					Calendar calendar = Calendar.getInstance(); // 获取时间
+					int hour = calendar.get(Calendar.HOUR_OF_DAY);
+					if (hour >= 6 && hour < 18) {
+						SettingUtil.setBrightness(getApplicationContext(),
+								Setting.AUTO_BRIGHT_DAY - 1);
+						SettingUtil.setBrightness(getApplicationContext(),
+								Setting.AUTO_BRIGHT_DAY);
+					} else {
+						SettingUtil.setBrightness(getApplicationContext(),
+								Setting.AUTO_BRIGHT_NIGHT + 1);
+						SettingUtil.setBrightness(getApplicationContext(),
+								Setting.AUTO_BRIGHT_DAY);
+					}
 				} else {
-					SettingUtil.setAutoLight(false);
 				}
 				// ACC下电唤醒
 				String strAccOffWake = ProviderUtil.getValue(context,

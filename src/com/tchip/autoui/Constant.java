@@ -13,6 +13,36 @@ public interface Constant {
 		public static final String NAME = "AutoUI";
 
 	}
+	
+	public static final class Setting {
+
+		/** 最大亮度 */
+		public static final int MAX_BRIGHTNESS = 190; // 255;
+
+		/** 默认亮度 */
+		public static final int DEFAULT_BRIGHTNESS = 190;
+		
+		/** 根据时间自动调节亮度-白天 */
+		public static final int AUTO_BRIGHT_DAY = 180;
+		
+		/** 根据时间自动调节亮度-晚上 */
+		public static final int AUTO_BRIGHT_NIGHT = 32;
+
+		/** Camera自动调节亮度是否打开 */
+		public static final boolean AUTO_BRIGHT_DEFAULT_ON = false;
+
+		public static final int SCREEN_OFF_30S = 30 * 1000;
+
+		public static final int SCREEN_OFF_1M = 60 * 1000;
+
+		public static final int SCREEN_OFF_2M = 2 * SCREEN_OFF_1M;
+
+		public static final int SCREEN_OFF_10M = 10 * SCREEN_OFF_1M;
+
+		public static final int SCREEN_OFF_NEVER = Integer.MAX_VALUE;
+
+		public static final int SCREEN_OFF_DEFAULT = SCREEN_OFF_NEVER; // 2147483647
+	}
 
 	/** 广播 */
 	public static final class Broadcast {
