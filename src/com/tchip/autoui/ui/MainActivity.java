@@ -136,6 +136,8 @@ public class MainActivity extends Activity {
 		mainHandler = new Handler(this.getMainLooper());
 		kuwoAPI = KWAPI.createKWAPI(this, "auto");
 
+		ProviderUtil.setValue(context, Name.RECORD_INITIAL, "0");
+
 		brand = Build.BRAND;
 		model = Build.MODEL;
 		if ("TX2S".equals(model)) { // TX2S-9.76
@@ -252,7 +254,11 @@ public class MainActivity extends Activity {
 		super.onResume();
 		setStatusBarVisible(true);
 		updateAllInfo();
-		syncBackCarStatus();
+		if (isDSAStart) {
+			syncBackCarStatus();
+		} else {
+			new Thread(new SyncBackCarStatusThread()).start();
+		}
 	}
 
 	@Override
@@ -286,6 +292,22 @@ public class MainActivity extends Activity {
 		super.onConfigurationChanged(newConfig);
 	}
 
+	class SyncBackCarStatusThread implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(3000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			syncBackCarStatus();
+		}
+
+	}
+
+	private boolean isDSAStart = false;
+
 	class StartDSAWhenBootThread implements Runnable {
 
 		@Override
@@ -296,6 +318,7 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
 			}
 			startDSAWhenBoot();
+			isDSAStart = true;
 		}
 
 	}
@@ -953,6 +976,7 @@ public class MainActivity extends Activity {
 			} else if (Constant.Broadcast.ACC_OFF.equals(action)) {
 				MyApp.isAccOn = false;
 				MyApp.isAccOn = (1 == SettingUtil.getAccStatus());
+				ProviderUtil.setValue(context, Name.RECORD_INITIAL, "0");
 				ProviderUtil.setValue(context, Name.ACC_STATE, "0");
 				KWAPI.createKWAPI(MainActivity.this, "auto").exitAPP(
 						MainActivity.this);
@@ -996,7 +1020,12 @@ public class MainActivity extends Activity {
 				speakVoice(getResources().getString(R.string.hint_back_car_now));
 			} else if (Constant.Broadcast.BACK_CAR_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "0");
-				OpenUtil.returnWhenBackOver(MainActivity.this);
+				if ("1".equals(ProviderUtil.getValue(context,
+						Name.RECORD_INITIAL, "0"))) {
+					OpenUtil.returnWhenBackOver(MainActivity.this);
+				} else {
+					new Thread(new ReturnWhenBackOverThread()).start();
+				}
 			} else if (Constant.Broadcast.TTS_SPEAK.equals(action)) {
 				String content = intent.getExtras().getString("content");
 				if (null != content && content.trim().length() > 0) {
@@ -1086,6 +1115,20 @@ public class MainActivity extends Activity {
 				}
 			}
 		}
+	}
+
+	class ReturnWhenBackOverThread implements Runnable {
+
+		@Override
+		public void run() {
+			try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			OpenUtil.returnWhenBackOver(MainActivity.this);
+		}
+
 	}
 
 	class FormatCardThread implements Runnable {
