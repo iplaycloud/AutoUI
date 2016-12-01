@@ -1072,7 +1072,7 @@ public class MainActivity extends Activity {
 										Setting.AUTO_BRIGHT_NIGHT + 1);
 								SettingUtil.setBrightness(
 										getApplicationContext(),
-										Setting.AUTO_BRIGHT_DAY);
+										Setting.AUTO_BRIGHT_NIGHT);
 							}
 						}
 					} else { // ACC_OFF
