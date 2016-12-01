@@ -101,6 +101,8 @@ public class MainActivity extends Activity {
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
 
+	private boolean isDriveMode = false;
+
 	private enum UIConfig {
 		/** 公版 6.86 */
 		TQ6,
@@ -215,6 +217,8 @@ public class MainActivity extends Activity {
 		mainFilter.addAction(Intent.ACTION_CLOSE_SYSTEM_DIALOGS);
 		mainFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
 		mainFilter.addAction("tchip.intent.action.SD_CORRUPT");
+		mainFilter.addAction("com.tchip.IN_NAVI_MODE");
+		mainFilter.addAction("com.tchip.OUT_NAVI_MODE");
 		registerReceiver(mainReceiver, mainFilter);
 
 		getContentResolver()
@@ -1046,38 +1050,35 @@ public class MainActivity extends Activity {
 			} else if (Intent.ACTION_TIME_TICK.equals(action)) {
 				Calendar calendar = Calendar.getInstance(); // 获取时间
 				int minute = calendar.get(Calendar.MINUTE);
+				int hour = calendar.get(Calendar.HOUR_OF_DAY);
 				if (minute == 0) {
 					int year = calendar.get(Calendar.YEAR);
 					MyLog.v("TimeTickReceiver.Year:" + year);
-					int hour = calendar.get(Calendar.HOUR_OF_DAY);
 					if (MyApp.isAccOn) { // ACC_ON
 						if (year >= 2016) {
 							speakVoice("整点报时:" + hour + "点整");
 						}
 						startWeatherService();
-
-						String strAutoLight = ProviderUtil.getValue(context,
-								Name.SET_AUTO_LIGHT_STATE, "0");
-						if ("1".equals(strAutoLight)) {
-							if (hour >= 6 && hour < 18) {
-								SettingUtil.setBrightness(
-										getApplicationContext(),
-										Setting.AUTO_BRIGHT_DAY - 1);
-								SettingUtil.setBrightness(
-										getApplicationContext(),
-										Setting.AUTO_BRIGHT_DAY);
-							} else {
-								SettingUtil.setBrightness(
-										getApplicationContext(),
-										Setting.AUTO_BRIGHT_NIGHT + 1);
-								SettingUtil.setBrightness(
-										getApplicationContext(),
-										Setting.AUTO_BRIGHT_NIGHT);
-							}
-						}
 					} else { // ACC_OFF
 						if (hour == 3) {
 							SettingUtil.normalReboot(context);
+						}
+					}
+				}
+				if (MyApp.isAccOn && !isDriveMode) {
+					String strAutoLight = ProviderUtil.getValue(context,
+							Name.SET_AUTO_LIGHT_STATE, "0");
+					if ("1".equals(strAutoLight)) {
+						if (hour >= 6 && hour < 18) {
+							SettingUtil.setBrightness(getApplicationContext(),
+									Setting.AUTO_BRIGHT_DAY - 1);
+							SettingUtil.setBrightness(getApplicationContext(),
+									Setting.AUTO_BRIGHT_DAY);
+						} else {
+							SettingUtil.setBrightness(getApplicationContext(),
+									Setting.AUTO_BRIGHT_NIGHT + 1);
+							SettingUtil.setBrightness(getApplicationContext(),
+									Setting.AUTO_BRIGHT_NIGHT);
 						}
 					}
 				}
@@ -1134,6 +1135,10 @@ public class MainActivity extends Activity {
 				if (!alertDialog.isShowing()) {
 					alertDialog.show();
 				}
+			} else if ("com.tchip.IN_NAVI_MODE".equals(action)) {
+				isDriveMode = true;
+			} else if ("com.tchip.OUT_NAVI_MODE".equals(action)) {
+				isDriveMode = false;
 			}
 		}
 	}
