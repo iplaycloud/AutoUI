@@ -629,7 +629,7 @@ public class OpenUtil {
 				"com.coagent.ecar", // 翼卡
 				"com.hdsc.monitor.heart.monitorvoice", // 汇德思创
 				"com.youku.phone", // 优酷
-				"com.tencent.qqlive", // 腾讯视频
+				"com.tudou.android", // 土豆视频
 				"com.chartcross.gpstest", // GPS_Test
 				"com.mediatek.filemanager", // 文件管理
 				"com.tchip.autofm", // FM发射
@@ -692,7 +692,7 @@ public class OpenUtil {
 		} else if ("com.tchip.txzstart".equals(pkgWhenBack)) {
 			activity.sendBroadcast(new Intent(
 					"tchip.intent.action.MOVE_RECORD_BACK"));
-		} else if ("com.tencent.qqlive".equals(pkgWhenBack)) {
+		} else if ("com.tudou.android".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.VIDEO_ONLINE);
 		} else if ("com.chartcross.gpstest".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.GPS_TEST);

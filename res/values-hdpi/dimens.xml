@@ -156,6 +156,11 @@
     <dimen name="sl9_small_item_image_height">120dp</dimen>
     <dimen name="sl9_small_item_image_width">@dimen/sl9_big_item_image_width</dimen>
 
+    <!-- 善领UI6(new) -->
+    <dimen name="sl6_big_item_image_height">393px</dimen>
+    <dimen name="sl6_big_item_image_width">216px</dimen>
+    <dimen name="sl6_main_item_margin_right">10dp</dimen>
+
     <!-- 全球沃TX2-6.86 -->
     <dimen name="wo_6_item_big_margin_top">20px</dimen>
     <dimen name="wo_6_record_btn_edge">70px</dimen>

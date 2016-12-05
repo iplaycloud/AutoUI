@@ -8,10 +8,10 @@ public class MyApp extends Application {
 
 	/** ACC是否连接 */
 	public static boolean isAccOn = true;
-	
+
 	/** 是否处于低功耗待机状态 */
 	public static boolean isSleeping = false;
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();

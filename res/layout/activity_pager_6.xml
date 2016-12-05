@@ -1,6 +1,25 @@
-<com.tchip.autoui.view.TransitionViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/viewpager"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginLeft="@dimen/main_margin_left" />
+    android:background="#000000"
+    android:orientation="vertical" >
+
+    <com.tchip.autoui.view.TransitionViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="@dimen/main_margin_left"
+        android:layout_marginTop="15px"
+        android:layout_weight="1" />
+
+    <com.tchip.autoui.view.CirclePageIndicator
+        android:id="@+id/circlePageIndicator"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/main_margin_left"
+        android:background="@color/lc_8_indicator_bg"
+        android:paddingBottom="5dp" />
+
+</LinearLayout>

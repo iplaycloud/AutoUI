@@ -14,10 +14,10 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
-        <!-- 微信助手 -->
+        <!-- GPS Test -->
 
         <RelativeLayout
-            android:id="@+id/layoutWechat"
+            android:id="@+id/layoutGpsTest"
             android:layout_width="@dimen/sl6_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
             android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
@@ -26,7 +26,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
-                android:src="@drawable/sl_6_wechat" />
+                android:src="@drawable/sl_6_gps_test" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -35,10 +35,10 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <!-- 喜马拉雅 -->
+        <!-- 滴滴司机 -->
 
         <RelativeLayout
-            android:id="@+id/layoutXimalaya"
+            android:id="@+id/layoutDidi"
             android:layout_width="@dimen/sl6_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
             android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
@@ -47,7 +47,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
-                android:src="@drawable/sl_6_ximalaya" />
+                android:src="@drawable/sl_6_didi" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -59,10 +59,10 @@
         <!-- 蓝牙电话 -->
 
         <RelativeLayout
-            android:id="@+id/layoutPhone"
             android:layout_width="@dimen/sl6_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
+            android:layout_marginRight="@dimen/sl6_main_item_margin_right"
+            android:visibility="invisible" >
 
             <ImageView
                 android:layout_width="match_parent"
@@ -81,10 +81,10 @@
         <!-- 云服务 -->
 
         <RelativeLayout
-            android:id="@+id/layoutYiKa"
             android:layout_width="@dimen/sl6_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
+            android:layout_marginRight="@dimen/sl6_main_item_margin_right"
+            android:visibility="invisible" >
 
             <ImageView
                 android:layout_width="match_parent"
@@ -102,12 +102,12 @@
         <RelativeLayout
             android:layout_width="@dimen/sl6_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
+            android:layout_marginRight="@dimen/sl6_main_item_margin_right"
+            android:visibility="invisible" >
 
             <!-- 设置 -->
 
             <RelativeLayout
-                android:id="@+id/layoutSetting"
                 android:layout_width="@dimen/sl9_small_item_image_width"
                 android:layout_height="@dimen/sl9_small_item_image_height"
                 android:layout_alignParentBottom="true" >
@@ -128,7 +128,6 @@
             <!-- FM发射 -->
 
             <RelativeLayout
-                android:id="@+id/layoutFMTransmit"
                 android:layout_width="@dimen/sl9_small_item_image_width"
                 android:layout_height="@dimen/sl9_small_item_image_height"
                 android:layout_above="@id/layoutFileManager"

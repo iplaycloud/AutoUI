@@ -192,6 +192,7 @@ public class MainActivity extends Activity {
 		} else if (UIConfig.SL6 == uiConfig) { // SL 6.86
 			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
+			viewLast = inflater.inflate(R.layout.activity_sl_6_three, null);
 		} else if (UIConfig.WO6 == uiConfig) { // WO 6.86
 			viewMain = inflater.inflate(R.layout.activity_wo_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_wo_6_two, null);
@@ -202,7 +203,7 @@ public class MainActivity extends Activity {
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
 		viewList.add(viewVice);
-		if (UIConfig.SL9 == uiConfig) {
+		if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig) {
 			viewList.add(viewLast);
 		}
 
@@ -210,7 +211,7 @@ public class MainActivity extends Activity {
 		viewPager.setTransitionEffect(TransitionEffect.Standard);
 		viewPager.setPageMargin(0); // 10
 		viewPager.setAdapter(pagerAdapter);
-		
+
 		circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
 		circlePageIndicator.setViewPager(viewPager);
 
@@ -647,7 +648,7 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(myOnClickListener);
 
-		if (UIConfig.SL9 == uiConfig) {
+		if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig) {
 			// 在线视频
 			RelativeLayout layoutVideoOL = (RelativeLayout) findViewById(R.id.layoutVideoOL);
 			layoutVideoOL.setOnClickListener(myOnClickListener);
@@ -663,9 +664,8 @@ public class MainActivity extends Activity {
 		// 电子狗
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
 		layoutEDog.setOnClickListener(myOnClickListener);
-		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
-				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig
-				|| UIConfig.WO6 == uiConfig) {
+		if (UIConfig.TQ6 == uiConfig || UIConfig.TQ7 == uiConfig
+				|| UIConfig.SL7 == uiConfig || UIConfig.WO6 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(myOnClickListener);
@@ -679,11 +679,12 @@ public class MainActivity extends Activity {
 	}
 
 	private void updateLayoutTwo() {
-		if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
+		if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig
+				|| UIConfig.WO6 == uiConfig) {
 			// 网络电台-喜马拉雅
 			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
 			layoutXimalaya.setOnClickListener(myOnClickListener);
-			if (UIConfig.SL9 == uiConfig) {
+			if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig) {
 				// 蓝牙通话
 				RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 				layoutPhone.setOnClickListener(myOnClickListener);
@@ -711,9 +712,8 @@ public class MainActivity extends Activity {
 			// : R.drawable.weme_tq_6, null));
 		}
 
-		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
-				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig
-				|| UIConfig.WO6 == uiConfig) {
+		if (UIConfig.TQ6 == uiConfig || UIConfig.TQ7 == uiConfig
+				|| UIConfig.SL7 == uiConfig || UIConfig.WO6 == uiConfig) {
 			// 天气
 			RelativeLayout layoutWeather = (RelativeLayout) findViewById(R.id.layoutWeather);
 			layoutWeather.setOnClickListener(new MyOnClickListener());
@@ -724,7 +724,7 @@ public class MainActivity extends Activity {
 					Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
 			textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
 		} else if (UIConfig.SL9 == uiConfig || UIConfig.TQ9 == uiConfig
-				|| UIConfig.JJ9 == uiConfig) {
+				|| UIConfig.JJ9 == uiConfig || UIConfig.SL6 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(myOnClickListener);
@@ -861,11 +861,11 @@ public class MainActivity extends Activity {
 			case R.id.layoutSetting:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.SETTING);
 				break;
-				
+
 			case R.id.layoutGpsTest:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.GPS_TEST);
 				break;
-				
+
 			case R.id.layoutDidi:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.DIDI);
 				break;
@@ -916,8 +916,8 @@ public class MainActivity extends Activity {
 
 	/** 更新天气信息 */
 	private void updateWeatherInfo() {
-		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
-				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig) {
+		if (UIConfig.TQ6 == uiConfig || UIConfig.TQ7 == uiConfig
+				|| UIConfig.SL7 == uiConfig) {
 			if (isPagerTwoShowed) {
 				Message msgUpdateWeather = new Message();
 				msgUpdateWeather.what = 2;
