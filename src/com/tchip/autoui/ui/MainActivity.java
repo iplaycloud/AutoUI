@@ -73,7 +73,7 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
 	private Context context;
 
-	private View viewMain, viewVice;
+	private View viewMain, viewVice, viewLast;
 	private List<View> viewList;
 	private TransitionViewPager viewPager;
 
@@ -100,6 +100,7 @@ public class MainActivity extends Activity {
 	private String model = "TX2";
 	private boolean isPagerOneShowed = false;
 	private boolean isPagerTwoShowed = false;
+	private boolean isPagerThreeShowed = false;
 
 	private boolean isDriveMode = false;
 
@@ -176,6 +177,7 @@ public class MainActivity extends Activity {
 		if (UIConfig.SL9 == uiConfig) { // SL 9.76
 			viewMain = inflater.inflate(R.layout.activity_sl_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_9_two, null);
+			viewLast = inflater.inflate(R.layout.activity_sl_9_three, null);
 		} else if (UIConfig.JJ9 == uiConfig) { // JJ 9.76
 			viewMain = inflater.inflate(R.layout.activity_jj_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_jj_9_two, null);
@@ -198,6 +200,9 @@ public class MainActivity extends Activity {
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
 		viewList.add(viewVice);
+		if (UIConfig.SL9 == uiConfig) {
+			viewList.add(viewLast);
+		}
 
 		viewPager = (TransitionViewPager) findViewById(R.id.viewpager);
 		viewPager.setTransitionEffect(TransitionEffect.Standard);
@@ -524,8 +529,10 @@ public class MainActivity extends Activity {
 			MyLog.v("position:" + position);
 			if (position == 0)
 				updateLayoutOne();
-			else
+			else if (position == 1)
 				updateLayoutTwo();
+			else
+				updateLayoutThree();
 			return viewList.get(position);
 		}
 
@@ -633,30 +640,34 @@ public class MainActivity extends Activity {
 		}
 		// 音乐
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
-		layoutMusic.setOnClickListener(new MyOnClickListener());
+		layoutMusic.setOnClickListener(myOnClickListener);
 
-		if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
+		if (UIConfig.SL9 == uiConfig) {
+			// 在线视频
+			RelativeLayout layoutVideoOL = (RelativeLayout) findViewById(R.id.layoutVideoOL);
+			layoutVideoOL.setOnClickListener(myOnClickListener);
+		} else if (UIConfig.WO6 == uiConfig) {
 			// 蓝牙通话
 			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
-			layoutPhone.setOnClickListener(new MyOnClickListener());
+			layoutPhone.setOnClickListener(myOnClickListener);
 		} else if (UIConfig.JJ9 == uiConfig) {
 			// 网络电台-喜马拉雅
 			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
-			layoutXimalaya.setOnClickListener(new MyOnClickListener());
+			layoutXimalaya.setOnClickListener(myOnClickListener);
 		}
 		// 电子狗
 		RelativeLayout layoutEDog = (RelativeLayout) findViewById(R.id.layoutEDog);
-		layoutEDog.setOnClickListener(new MyOnClickListener());
+		layoutEDog.setOnClickListener(myOnClickListener);
 		if (UIConfig.TQ6 == uiConfig || UIConfig.SL6 == uiConfig
 				|| UIConfig.TQ7 == uiConfig || UIConfig.SL7 == uiConfig
 				|| UIConfig.WO6 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
-			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
+			layoutFMTransmit.setOnClickListener(myOnClickListener);
 		}
 		// 文件管理
 		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
-		layoutFileManager.setOnClickListener(new MyOnClickListener());
+		layoutFileManager.setOnClickListener(myOnClickListener);
 
 		isPagerOneShowed = true;
 		updateAllInfo();
@@ -666,18 +677,23 @@ public class MainActivity extends Activity {
 		if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
 			// 网络电台-喜马拉雅
 			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
-			layoutXimalaya.setOnClickListener(new MyOnClickListener());
+			layoutXimalaya.setOnClickListener(myOnClickListener);
+			if (UIConfig.SL9 == uiConfig) {
+				// 蓝牙通话
+				RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
+				layoutPhone.setOnClickListener(myOnClickListener);
+			}
 		} else if (UIConfig.JJ9 == uiConfig) {
 			// 蓝牙通话
 			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
-			layoutPhone.setOnClickListener(new MyOnClickListener());
+			layoutPhone.setOnClickListener(myOnClickListener);
 		}
 		// 微信助手
 		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
-		layoutWechat.setOnClickListener(new MyOnClickListener());
+		layoutWechat.setOnClickListener(myOnClickListener);
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
-		layoutYiKa.setOnClickListener(new MyOnClickListener());
+		layoutYiKa.setOnClickListener(myOnClickListener);
 		if (UIConfig.TQ6 == uiConfig) { // TQ 6.86
 			// TextView textTitleYika = (TextView)
 			// findViewById(R.id.textTitleYika);
@@ -702,21 +718,33 @@ public class MainActivity extends Activity {
 			textWeatherTmpRange.setTypeface(TypefaceUtil.get(this,
 					Constant.Path.FONT + "Font-Helvetica-Neue-LT-Pro.otf"));
 			textWeatherCity = (TextView) findViewById(R.id.textWeatherCity);
-			updateWeatherInfo();
 		} else if (UIConfig.SL9 == uiConfig || UIConfig.TQ9 == uiConfig
 				|| UIConfig.JJ9 == uiConfig) {
 			// FM发射
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
-			layoutFMTransmit.setOnClickListener(new MyOnClickListener());
+			layoutFMTransmit.setOnClickListener(myOnClickListener);
 		}
 
 		// 设置
 		RelativeLayout layoutSetting = (RelativeLayout) findViewById(R.id.layoutSetting);
-		layoutSetting.setOnClickListener(new MyOnClickListener());
+		layoutSetting.setOnClickListener(myOnClickListener);
 
 		isPagerTwoShowed = true;
 		updateAllInfo();
 	}
+
+	private void updateLayoutThree() {
+		// GPS_TEST
+		RelativeLayout layoutGpsTest = (RelativeLayout) findViewById(R.id.layoutGpsTest);
+		layoutGpsTest.setOnClickListener(myOnClickListener);
+		// 滴滴司机
+		RelativeLayout layoutDidi = (RelativeLayout) findViewById(R.id.layoutDidi);
+		layoutDidi.setOnClickListener(myOnClickListener);
+
+		isPagerThreeShowed = true;
+	}
+
+	private MyOnClickListener myOnClickListener = new MyOnClickListener();
 
 	class MyOnClickListener implements View.OnClickListener {
 
@@ -767,6 +795,10 @@ public class MainActivity extends Activity {
 					OpenUtil.openModule(MainActivity.this,
 							MODULE_TYPE.NAVI_GAODE_CAR_MIRROR);
 				}
+				break;
+
+			case R.id.layoutVideoOL:
+				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.VIDEO_ONLINE);
 				break;
 
 			case R.id.layoutWeather:
@@ -823,6 +855,14 @@ public class MainActivity extends Activity {
 
 			case R.id.layoutSetting:
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.SETTING);
+				break;
+				
+			case R.id.layoutGpsTest:
+				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.GPS_TEST);
+				break;
+				
+			case R.id.layoutDidi:
+				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.DIDI);
 				break;
 
 			default:

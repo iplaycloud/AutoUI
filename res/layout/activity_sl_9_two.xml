@@ -8,7 +8,6 @@
     android:orientation="horizontal" >
 
     <LinearLayout
-        android:id="@+id/layoutNineTwo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/sl9_big_item_image_height"
         android:layout_alignParentBottom="true"
@@ -57,6 +56,28 @@
             </RelativeLayout>
         </RelativeLayout>
 
+        <!-- 蓝牙电话 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutPhone"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@null"
+                android:src="@drawable/phone_sl_9" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
         <!-- 云服务 -->
 
         <RelativeLayout
@@ -69,7 +90,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
-                android:src="@drawable/service_sl_9" />
+                android:src="@drawable/sl_9_service" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -78,45 +99,52 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <!-- FM发射 -->
-
         <RelativeLayout
-            android:id="@+id/layoutFMTransmit"
             android:layout_width="@dimen/sl9_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
             android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
 
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:src="@drawable/fmtransmit_sl_9" />
+            <!-- 设置 -->
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" >
+                android:id="@+id/layoutSetting"
+                android:layout_width="@dimen/sl9_small_item_image_width"
+                android:layout_height="@dimen/sl9_small_item_image_height"
+                android:layout_alignParentBottom="true" >
+
+                <ImageView
+                    android:layout_width="@dimen/sl9_big_item_image_width"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:contentDescription="@null"
+                    android:src="@drawable/sl_9_setting" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground" />
             </RelativeLayout>
-        </RelativeLayout>
 
-        <!-- 设置 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutSetting"
-            android:layout_width="@dimen/sl9_big_item_image_width"
-            android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:src="@drawable/setting_sl_9" />
+            <!-- FM发射 -->
 
             <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" >
+                android:id="@+id/layoutFMTransmit"
+                android:layout_width="@dimen/sl9_small_item_image_width"
+                android:layout_height="@dimen/sl9_small_item_image_height"
+                android:layout_above="@id/layoutFileManager"
+                android:layout_marginBottom="20dp" >
+
+                <ImageView
+                    android:layout_width="@dimen/sl9_big_item_image_width"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@null"
+                    android:src="@drawable/sl_9_fm" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="?android:attr/selectableItemBackground" >
+                </RelativeLayout>
             </RelativeLayout>
         </RelativeLayout>
     </LinearLayout>
@@ -222,6 +250,5 @@
             </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
-
 
 </RelativeLayout>

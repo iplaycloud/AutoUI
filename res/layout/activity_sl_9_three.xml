@@ -14,95 +14,10 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
-        <!-- 行车记录 -->
+        <!-- GPS Test -->
 
         <RelativeLayout
-            android:id="@+id/layoutRecord"
-            android:layout_width="@dimen/sl9_big_item_image_width"
-            android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginLeft="@dimen/sl9_main_item_margin_right"
-            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:src="@drawable/record_sl_9" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/main_item_title_margin_left"
-                android:layout_marginTop="@dimen/main_item_title_margin_top"
-                android:textColor="@color/main_item_title_color"
-                android:textSize="@dimen/main_item_title_size" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" >
-
-                <ImageView
-                    android:id="@+id/imageRecordState"
-                    android:layout_width="@dimen/sl6_record_btn_edge"
-                    android:layout_height="@dimen/sl6_record_btn_edge"
-                    android:layout_alignParentBottom="true"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/sl6_record_btn_margin_bottom"
-                    android:background="?android:attr/selectableItemBackgroundBorderless"
-                    android:contentDescription="@null"
-                    android:src="@drawable/record_start_normal_sl_6" />
-
-                <TextView
-                    android:id="@+id/textRecStateBack"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/imageRecordState"
-                    android:layout_centerHorizontal="true"
-                    android:layout_marginBottom="@dimen/sl6_record_text_margin_bottom"
-                    android:text="@string/rec_state_back_off"
-                    android:textColor="@color/sl_record_screen_text_color"
-                    android:textSize="@dimen/record_screen_text_size" />
-
-                <TextView
-                    android:id="@+id/textRecStateFront"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_above="@id/textRecStateBack"
-                    android:layout_centerHorizontal="true"
-                    android:text="@string/rec_state_front_off"
-                    android:textColor="@color/sl_record_screen_text_color"
-                    android:textSize="@dimen/record_screen_text_size" />
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!-- 导航 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutNavigation"
-            android:layout_width="@dimen/sl9_big_item_image_width"
-            android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
-
-            <ImageView
-                android:id="@+id/imageNavigation"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@null"
-                android:src="@drawable/navigation_sl_9_baidu" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" >
-            </RelativeLayout>
-        </RelativeLayout>
-
-        <!-- 在线视频 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutVideoOL"
+            android:id="@+id/layoutGpsTest"
             android:layout_width="@dimen/sl9_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
             android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
@@ -112,7 +27,51 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:contentDescription="@null"
-                android:src="@drawable/sl_9_video_qq" />
+                android:src="@drawable/sl_9_gpstest" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 滴滴打车 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutDidi"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@null"
+                android:src="@drawable/sl_9_didi" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 蓝牙电话 -->
+
+        <RelativeLayout
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right"
+            android:visibility="invisible" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@null"
+                android:src="@drawable/phone_sl_9" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -127,7 +86,8 @@
             android:id="@+id/layoutEDog"
             android:layout_width="@dimen/sl9_big_item_image_width"
             android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right"
+            android:visibility="invisible" >
 
             <ImageView
                 android:layout_width="match_parent"
@@ -154,7 +114,8 @@
                 android:id="@+id/layoutFileManager"
                 android:layout_width="@dimen/sl9_small_item_image_width"
                 android:layout_height="@dimen/sl9_small_item_image_height"
-                android:layout_alignParentBottom="true" >
+                android:layout_alignParentBottom="true"
+                android:visibility="invisible" >
 
                 <ImageView
                     android:layout_width="@dimen/sl9_big_item_image_width"
@@ -176,7 +137,8 @@
                 android:layout_width="@dimen/sl9_small_item_image_width"
                 android:layout_height="@dimen/sl9_small_item_image_height"
                 android:layout_above="@id/layoutFileManager"
-                android:layout_marginBottom="20dp" >
+                android:layout_marginBottom="20dp"
+                android:visibility="invisible" >
 
                 <ImageView
                     android:layout_width="@dimen/sl9_big_item_image_width"

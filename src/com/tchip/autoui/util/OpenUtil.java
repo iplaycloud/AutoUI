@@ -32,6 +32,9 @@ public class OpenUtil {
 		/** 拨号 */
 		DIALER,
 
+		/** 滴滴司机 */
+		DIDI,
+
 		/** 电子狗 */
 		EDOG,
 
@@ -46,6 +49,9 @@ public class OpenUtil {
 
 		/** 图库 */
 		GALLERY,
+
+		/** GPS_TEST */
+		GPS_TEST,
 
 		/** 短信 */
 		MMS,
@@ -115,6 +121,9 @@ public class OpenUtil {
 
 		/** 视频 */
 		VIDEO,
+
+		/** 在线视频 */
+		VIDEO_ONLINE,
 
 		/** 天气 */
 		WEATHER,
@@ -196,6 +205,17 @@ public class OpenUtil {
 					activity.startActivity(intentDialer);
 					break;
 
+				case DIDI:
+					ComponentName componentDidi = new ComponentName(
+							"com.sdu.didi.gsui",
+							"com.sdu.didi.gsui.main.GuideActivity");
+					Intent intentDidi = new Intent();
+					intentDidi.setComponent(componentDidi);
+					intentDidi.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					activity.startActivity(intentDidi);
+					break;
+
 				case ENGINEER_MODE:
 					Intent intentEngineerMode = new Intent(Intent.ACTION_VIEW);
 					intentEngineerMode.setClassName(
@@ -257,6 +277,17 @@ public class OpenUtil {
 					intentImage.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
 							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
 					activity.startActivity(intentImage);
+					break;
+
+				case GPS_TEST:
+					ComponentName componentExtGps = new ComponentName(
+							"com.chartcross.gpstest",
+							"com.chartcross.gpstest.GPSTest");
+					Intent intentExtGps = new Intent();
+					intentExtGps.setComponent(componentExtGps);
+					intentExtGps.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_TASK_ON_HOME);
+					activity.startActivity(intentExtGps);
 					break;
 
 				case MMS:
@@ -439,6 +470,19 @@ public class OpenUtil {
 					activity.startActivity(intentVideo);
 					break;
 
+				case VIDEO_ONLINE:
+					ComponentName componentVideoOL = new ComponentName(
+							"com.tencent.qqlive",
+							"com.tencent.qqlive.ona.activity.HomeActivity");
+					Intent intentVideoOL = new Intent();
+					intentVideoOL.setComponent(componentVideoOL);
+					intentVideoOL.addCategory(Intent.CATEGORY_DEFAULT);
+					intentVideoOL.addCategory(Intent.CATEGORY_LAUNCHER);
+					intentVideoOL.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+							| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+					activity.startActivity(intentVideoOL);
+					break;
+
 				case WEATHER:
 					ComponentName componentWeather;
 					componentWeather = new ComponentName("com.tchip.weather",
@@ -585,6 +629,8 @@ public class OpenUtil {
 				"com.coagent.ecar", // 翼卡
 				"com.hdsc.monitor.heart.monitorvoice", // 汇德思创
 				"com.youku.phone", // 优酷
+				"com.tencent.qqlive", // 腾讯视频
+				"com.chartcross.gpstest", // GPS_Test
 				"com.mediatek.filemanager", // 文件管理
 				"com.tchip.autofm", // FM发射
 				"com.tchip.weather" // 天气
@@ -644,7 +690,12 @@ public class OpenUtil {
 		} else if ("com.mediatek.ygps".equals(pkgWhenBack)) {
 			openModule(activity, MODULE_TYPE.MTK_YGPS);
 		} else if ("com.tchip.txzstart".equals(pkgWhenBack)) {
-			activity.sendBroadcast(new Intent("tchip.intent.action.MOVE_RECORD_BACK"));
+			activity.sendBroadcast(new Intent(
+					"tchip.intent.action.MOVE_RECORD_BACK"));
+		} else if ("com.tencent.qqlive".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.VIDEO_ONLINE);
+		} else if ("com.chartcross.gpstest".equals(pkgWhenBack)) {
+			openModule(activity, MODULE_TYPE.GPS_TEST);
 		} else {
 			startAppbyPackage(activity, pkgWhenBack);
 		}
