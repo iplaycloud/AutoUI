@@ -25,6 +25,7 @@ import com.tchip.autoui.util.TypefaceUtil;
 import com.tchip.autoui.util.WeatherUtil;
 import com.tchip.autoui.util.OpenUtil.MODULE_TYPE;
 import com.tchip.autoui.util.ProviderUtil.Name;
+import com.tchip.autoui.view.CirclePageIndicator;
 import com.tchip.autoui.view.FormatDialog;
 import com.tchip.autoui.view.TransitionViewPager;
 import com.tchip.autoui.view.TransitionViewPager.TransitionEffect;
@@ -76,6 +77,7 @@ public class MainActivity extends Activity {
 	private View viewMain, viewVice, viewLast;
 	private List<View> viewList;
 	private TransitionViewPager viewPager;
+	private CirclePageIndicator circlePageIndicator;
 
 	/**
 	 * 导航图标
@@ -208,6 +210,9 @@ public class MainActivity extends Activity {
 		viewPager.setTransitionEffect(TransitionEffect.Standard);
 		viewPager.setPageMargin(0); // 10
 		viewPager.setAdapter(pagerAdapter);
+		
+		circlePageIndicator = (CirclePageIndicator) findViewById(R.id.circlePageIndicator);
+		circlePageIndicator.setViewPager(viewPager);
 
 		mainReceiver = new MainReceiver();
 		IntentFilter mainFilter = new IntentFilter();

@@ -17,5 +17,15 @@
     <color name="dialog_format_title">#eeeeee</color>
     <color name="dialog_format_message">#ffffff</color>
     <color name="dialog_format_button">#17ddcd</color>
+    <!-- ViewPagerIndicator -->
+    <color name="background_holo_dark">#ff000000</color>
+    <color name="background_holo_light">#fff3f3f3</color>
+    <color name="bright_foreground_holo_dark">#fff3f3f3</color>
+    <color name="bright_foreground_holo_light">#ff000000</color>
+    <color name="bright_foreground_disabled_holo_dark">#ff4c4c4c</color>
+    <color name="bright_foreground_inverse_holo_dark">#ff000000</color>
+    <color name="bright_foreground_inverse_holo_light">#fff3f3f3</color>
+    <color name="lc_8_indicator_bg">@color/main_item_bg</color>
+    <color name="icon_hint_text_color">#ffffff</color>
 
 </resources>

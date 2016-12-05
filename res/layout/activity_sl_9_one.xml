@@ -112,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:layout_alignParentBottom="true"
                 android:contentDescription="@null"
-                android:src="@drawable/sl_9_video_qq" />
+                android:src="@drawable/sl_9_video_tudou" />
 
             <RelativeLayout
                 android:layout_width="match_parent"

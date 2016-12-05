@@ -472,8 +472,8 @@ public class OpenUtil {
 
 				case VIDEO_ONLINE:
 					ComponentName componentVideoOL = new ComponentName(
-							"com.tencent.qqlive",
-							"com.tencent.qqlive.ona.activity.HomeActivity");
+							"com.tudou.android",
+							"com.tudou.ui.activity.HomePageActivity");
 					Intent intentVideoOL = new Intent();
 					intentVideoOL.setComponent(componentVideoOL);
 					intentVideoOL.addCategory(Intent.CATEGORY_DEFAULT);
