@@ -470,17 +470,8 @@ public class OpenUtil {
 					activity.startActivity(intentVideo);
 					break;
 
-				case VIDEO_ONLINE:
-					ComponentName componentVideoOL = new ComponentName(
-							"com.tudou.android",
-							"com.tudou.ui.activity.HomePageActivity");
-					Intent intentVideoOL = new Intent();
-					intentVideoOL.setComponent(componentVideoOL);
-					intentVideoOL.addCategory(Intent.CATEGORY_DEFAULT);
-					intentVideoOL.addCategory(Intent.CATEGORY_LAUNCHER);
-					intentVideoOL.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-							| Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-					activity.startActivity(intentVideoOL);
+				case VIDEO_ONLINE:// "com.tudou.android","com.tudou.ui.activity.HomePageActivity"
+					startAppbyPackage(activity, "com.tudou.android");
 					break;
 
 				case WEATHER:

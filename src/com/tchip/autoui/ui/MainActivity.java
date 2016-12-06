@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Locale;
 
 import cn.kuwo.autosdk.api.KWAPI;
+import cn.kuwo.autosdk.api.PlayState;
 
 import com.tchip.autoui.Constant;
 import com.tchip.autoui.Constant.Setting;
@@ -803,6 +804,7 @@ public class MainActivity extends Activity {
 				break;
 
 			case R.id.layoutVideoOL:
+				kuwoAPI.setPlayState(context, PlayState.STATE_PAUSE);
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.VIDEO_ONLINE);
 				break;
 
