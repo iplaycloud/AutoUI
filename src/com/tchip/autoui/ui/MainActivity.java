@@ -649,11 +649,11 @@ public class MainActivity extends Activity {
 		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
 		layoutMusic.setOnClickListener(myOnClickListener);
 
-		if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig) {
+		if (UIConfig.SL6 == uiConfig) {
 			// 在线视频
 			RelativeLayout layoutVideoOL = (RelativeLayout) findViewById(R.id.layoutVideoOL);
 			layoutVideoOL.setOnClickListener(myOnClickListener);
-		} else if (UIConfig.WO6 == uiConfig) {
+		} else if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
 			// 蓝牙通话
 			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 			layoutPhone.setOnClickListener(myOnClickListener);
@@ -685,10 +685,14 @@ public class MainActivity extends Activity {
 			// 网络电台-喜马拉雅
 			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
 			layoutXimalaya.setOnClickListener(myOnClickListener);
-			if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig) {
+			if (UIConfig.SL6 == uiConfig) {
 				// 蓝牙通话
 				RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 				layoutPhone.setOnClickListener(myOnClickListener);
+			} else if (UIConfig.SL9 == uiConfig) {
+				// 滴滴司机
+				RelativeLayout layoutDidi = (RelativeLayout) findViewById(R.id.layoutDidi);
+				layoutDidi.setOnClickListener(myOnClickListener);
 			}
 		} else if (UIConfig.JJ9 == uiConfig) {
 			// 蓝牙通话
@@ -743,9 +747,6 @@ public class MainActivity extends Activity {
 		// GPS_TEST
 		RelativeLayout layoutGpsTest = (RelativeLayout) findViewById(R.id.layoutGpsTest);
 		layoutGpsTest.setOnClickListener(myOnClickListener);
-		// 滴滴司机
-		RelativeLayout layoutDidi = (RelativeLayout) findViewById(R.id.layoutDidi);
-		layoutDidi.setOnClickListener(myOnClickListener);
 
 		isPagerThreeShowed = true;
 	}
@@ -805,6 +806,7 @@ public class MainActivity extends Activity {
 
 			case R.id.layoutVideoOL:
 				kuwoAPI.setPlayState(context, PlayState.STATE_PAUSE);
+				OpenUtil.killApp(context, "com.ximalaya.ting.android.car");
 				OpenUtil.openModule(MainActivity.this, MODULE_TYPE.VIDEO_ONLINE);
 				break;
 

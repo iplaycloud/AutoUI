@@ -56,28 +56,6 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <!-- 蓝牙电话 -->
-
-        <RelativeLayout
-            android:id="@+id/layoutPhone"
-            android:layout_width="@dimen/sl9_big_item_image_width"
-            android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@null"
-                android:src="@drawable/phone_sl_9" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" >
-            </RelativeLayout>
-        </RelativeLayout>
-
         <!-- 云服务 -->
 
         <RelativeLayout
@@ -91,6 +69,28 @@
                 android:layout_height="match_parent"
                 android:contentDescription="@null"
                 android:src="@drawable/sl_9_service" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 滴滴打车 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutDidi"
+            android:layout_width="@dimen/sl9_big_item_image_width"
+            android:layout_height="@dimen/sl9_big_item_image_height"
+            android:layout_marginRight="@dimen/sl9_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@null"
+                android:src="@drawable/sl_9_didi" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
