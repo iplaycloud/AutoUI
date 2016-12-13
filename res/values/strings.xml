@@ -73,10 +73,12 @@
         <item>RotateDown</item>
         <item>Accordion</item>
     </string-array>
-    
+
     <!-- FormatDialog -->
     <string name="dialog_format_title">提示</string>
     <string name="dialog_format_confirm">确认</string>
     <string name="dialog_format_cancel">取消</string>
+    
+    <string name="no_cvbs_detect">请先插入后拉摄像头！</string>
 
 </resources>

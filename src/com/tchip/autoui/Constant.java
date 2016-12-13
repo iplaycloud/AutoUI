@@ -13,7 +13,7 @@ public interface Constant {
 		public static final String NAME = "AutoUI";
 
 	}
-	
+
 	public static final class Setting {
 
 		/** 最大亮度 */
@@ -21,10 +21,10 @@ public interface Constant {
 
 		/** 默认亮度 */
 		public static final int DEFAULT_BRIGHTNESS = 190;
-		
+
 		/** 根据时间自动调节亮度-白天 */
 		public static final int AUTO_BRIGHT_DAY = 180;
-		
+
 		/** 根据时间自动调节亮度-晚上 */
 		public static final int AUTO_BRIGHT_NIGHT = 32;
 
@@ -155,6 +155,9 @@ public interface Constant {
 
 		/** 是否监视CPU温度执行高温脚本 */
 		public static final boolean cpuMonitor = true;
+		
+		/** 是否可以侦测后拉CVBS状态（仅有TX5支持） */
+		public static final boolean hasCVBSDetect = true;
 	}
 
 	public static final class Path {
@@ -179,6 +182,9 @@ public interface Constant {
 
 		/** ACC状态 */
 		public static final String NODE_ACC_STATUS = "/sys/bus/i2c/devices/0-007f/ACC_status";
+		
+		/** CVBS 状态(5位数，最后一位标志0,1) */
+		public static final String NODE_CVBS_STATUS = "/sys/bus/i2c/devices/0-007f/camera_status";
 
 		/** SD卡插入标志:0-未插入 1-插入 */
 		public static final String NODE_SD_STATUS = "/sys/bus/i2c/devices/0-007f/tf1_status";

@@ -1069,9 +1069,15 @@ public class MainActivity extends Activity {
 					}
 				}
 			} else if (Constant.Broadcast.BACK_CAR_ON.equals(action)) {
-				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "1");
-				startAutoRecord(SystemClock.currentThreadTimeMillis());
-				speakVoice(getResources().getString(R.string.hint_back_car_now));
+				if (Constant.Module.hasCVBSDetect && !SettingUtil.isCVBSIn()) {
+					HintUtil.showToast(context,
+							getString(R.string.no_cvbs_detect));
+				} else {
+					ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "1");
+					startAutoRecord(SystemClock.currentThreadTimeMillis());
+					speakVoice(getResources().getString(
+							R.string.hint_back_car_now));
+				}
 			} else if (Constant.Broadcast.BACK_CAR_OFF.equals(action)) {
 				ProviderUtil.setValue(context, Name.BACK_CAR_STATE, "0");
 				if ("1".equals(ProviderUtil.getValue(context,

@@ -35,6 +35,39 @@ public class SettingUtil {
 		String accState = ProviderUtil.getValue(context, Name.ACC_STATE, "0");
 		return "1".equals(accState);
 	}
+	
+	/**
+	 * 获取CVBS状态
+	 * 
+	 * @return
+	 */
+	public static boolean isCVBSIn() {
+		File fileCVBSState = new File(Constant.Path.NODE_CVBS_STATUS); // 背光值节点
+		boolean isCVBSIn = false;
+		String strValue = "";
+		if (fileCVBSState.exists()) {
+			try {
+				InputStreamReader read = new InputStreamReader(
+						new FileInputStream(fileCVBSState), "utf-8");
+				BufferedReader bufferedReader = new BufferedReader(read);
+				String lineTxt = null;
+				while ((lineTxt = bufferedReader.readLine()) != null) {
+					strValue += lineTxt.toString();
+				}
+				read.close();
+				isCVBSIn = strValue.endsWith("1");
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+				MyLog.e("[SettingUtil]getCVBSState: FileNotFoundException");
+			} catch (IOException e) {
+				e.printStackTrace();
+				MyLog.e("[SettingUtil]getCVBSState: IOException");
+			}
+		}
+		MyLog.i("[SettingUtil]isCVBSIn:" + isCVBSIn);
+		return isCVBSIn;
+	}
+
 
 	/**
 	 * 调整系统亮度
