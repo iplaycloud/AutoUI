@@ -180,7 +180,7 @@ public class MainActivity extends Activity {
 		if (UIConfig.SL9 == uiConfig) { // SL 9.76
 			viewMain = inflater.inflate(R.layout.activity_sl_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_9_two, null);
-			viewLast = inflater.inflate(R.layout.activity_sl_9_three, null);
+			// viewLast = inflater.inflate(R.layout.activity_sl_9_three, null);
 		} else if (UIConfig.JJ9 == uiConfig) { // JJ 9.76
 			viewMain = inflater.inflate(R.layout.activity_jj_9_one, null);
 			viewVice = inflater.inflate(R.layout.activity_jj_9_two, null);
@@ -204,7 +204,7 @@ public class MainActivity extends Activity {
 		viewList = new ArrayList<View>();// 将要分页显示的View装入数组中
 		viewList.add(viewMain);
 		viewList.add(viewVice);
-		if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig) {
+		if (UIConfig.SL6 == uiConfig) {
 			viewList.add(viewLast);
 		}
 
@@ -690,9 +690,8 @@ public class MainActivity extends Activity {
 				RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 				layoutPhone.setOnClickListener(myOnClickListener);
 			} else if (UIConfig.SL9 == uiConfig) {
-				// 滴滴司机
-				RelativeLayout layoutDidi = (RelativeLayout) findViewById(R.id.layoutDidi);
-				layoutDidi.setOnClickListener(myOnClickListener);
+				RelativeLayout layoutGpsTest = (RelativeLayout) findViewById(R.id.layoutGpsTest);
+				layoutGpsTest.setOnClickListener(myOnClickListener);
 			}
 		} else if (UIConfig.JJ9 == uiConfig) {
 			// 蓝牙通话
