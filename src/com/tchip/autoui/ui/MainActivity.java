@@ -193,7 +193,7 @@ public class MainActivity extends Activity {
 		} else if (UIConfig.SL6 == uiConfig) { // SL 6.86
 			viewMain = inflater.inflate(R.layout.activity_sl_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_sl_6_two, null);
-			viewLast = inflater.inflate(R.layout.activity_sl_6_three, null);
+			// viewLast = inflater.inflate(R.layout.activity_sl_6_three, null);
 		} else if (UIConfig.WO6 == uiConfig) { // WO 6.86
 			viewMain = inflater.inflate(R.layout.activity_wo_6_one, null);
 			viewVice = inflater.inflate(R.layout.activity_wo_6_two, null);
@@ -205,7 +205,7 @@ public class MainActivity extends Activity {
 		viewList.add(viewMain);
 		viewList.add(viewVice);
 		if (UIConfig.SL6 == uiConfig) {
-			viewList.add(viewLast);
+			// viewList.add(viewLast);
 		}
 
 		viewPager = (TransitionViewPager) findViewById(R.id.viewpager);
@@ -645,15 +645,9 @@ public class MainActivity extends Activity {
 				}
 			});
 		}
-		// 音乐
-		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
-		layoutMusic.setOnClickListener(myOnClickListener);
 
-		if (UIConfig.SL6 == uiConfig) {
-			// 在线视频
-			RelativeLayout layoutVideoOL = (RelativeLayout) findViewById(R.id.layoutVideoOL);
-			layoutVideoOL.setOnClickListener(myOnClickListener);
-		} else if (UIConfig.SL9 == uiConfig || UIConfig.WO6 == uiConfig) {
+		if (UIConfig.SL6 == uiConfig || UIConfig.SL9 == uiConfig
+				|| UIConfig.WO6 == uiConfig) {
 			// 蓝牙通话
 			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 			layoutPhone.setOnClickListener(myOnClickListener);
@@ -671,6 +665,10 @@ public class MainActivity extends Activity {
 			RelativeLayout layoutFMTransmit = (RelativeLayout) findViewById(R.id.layoutFMTransmit);
 			layoutFMTransmit.setOnClickListener(myOnClickListener);
 		}
+
+		// 音乐
+		RelativeLayout layoutMusic = (RelativeLayout) findViewById(R.id.layoutMusic);
+		layoutMusic.setOnClickListener(myOnClickListener);
 		// 文件管理
 		RelativeLayout layoutFileManager = (RelativeLayout) findViewById(R.id.layoutFileManager);
 		layoutFileManager.setOnClickListener(myOnClickListener);
@@ -680,16 +678,16 @@ public class MainActivity extends Activity {
 	}
 
 	private void updateLayoutTwo() {
+		// 微信助手
+		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
+		layoutWechat.setOnClickListener(myOnClickListener);
+
 		if (UIConfig.SL9 == uiConfig || UIConfig.SL6 == uiConfig
 				|| UIConfig.WO6 == uiConfig) {
 			// 网络电台-喜马拉雅
 			RelativeLayout layoutXimalaya = (RelativeLayout) findViewById(R.id.layoutXimalaya);
 			layoutXimalaya.setOnClickListener(myOnClickListener);
-			if (UIConfig.SL6 == uiConfig) {
-				// 蓝牙通话
-				RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
-				layoutPhone.setOnClickListener(myOnClickListener);
-			} else if (UIConfig.SL9 == uiConfig) {
+			if (UIConfig.SL6 == uiConfig || UIConfig.SL9 == uiConfig) {
 				RelativeLayout layoutGpsTest = (RelativeLayout) findViewById(R.id.layoutGpsTest);
 				layoutGpsTest.setOnClickListener(myOnClickListener);
 			}
@@ -698,9 +696,6 @@ public class MainActivity extends Activity {
 			RelativeLayout layoutPhone = (RelativeLayout) findViewById(R.id.layoutPhone);
 			layoutPhone.setOnClickListener(myOnClickListener);
 		}
-		// 微信助手
-		RelativeLayout layoutWechat = (RelativeLayout) findViewById(R.id.layoutWechat);
-		layoutWechat.setOnClickListener(myOnClickListener);
 		// 翼卡
 		RelativeLayout layoutYiKa = (RelativeLayout) findViewById(R.id.layoutYiKa);
 		layoutYiKa.setOnClickListener(myOnClickListener);

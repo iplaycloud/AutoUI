@@ -14,26 +14,7 @@
         android:gravity="center_horizontal"
         android:orientation="horizontal" >
 
-        <!-- GPS Test -->
-
-        <RelativeLayout
-            android:id="@+id/layoutGpsTest"
-            android:layout_width="@dimen/sl6_big_item_image_width"
-            android:layout_height="@dimen/sl9_big_item_image_height"
-            android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
-
-            <ImageView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:contentDescription="@null"
-                android:src="@drawable/sl_6_gps_test" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="?android:attr/selectableItemBackground" >
-            </RelativeLayout>
-        </RelativeLayout>
+       
 
         <!-- 滴滴司机 -->
 

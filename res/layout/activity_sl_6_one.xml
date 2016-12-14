@@ -105,7 +105,8 @@
             android:id="@+id/layoutVideoOL"
             android:layout_width="@dimen/sl6_big_item_image_width"
             android:layout_height="@dimen/sl6_big_item_image_height"
-            android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
+            android:layout_marginRight="@dimen/sl6_main_item_margin_right"
+            android:visibility="gone" >
 
             <ImageView
                 android:layout_width="match_parent"
@@ -113,6 +114,28 @@
                 android:layout_alignParentBottom="true"
                 android:contentDescription="@null"
                 android:src="@drawable/sl_6_video_online_tudou" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?android:attr/selectableItemBackground" >
+            </RelativeLayout>
+        </RelativeLayout>
+
+        <!-- 蓝牙电话 -->
+
+        <RelativeLayout
+            android:id="@+id/layoutPhone"
+            android:layout_width="@dimen/sl6_big_item_image_width"
+            android:layout_height="@dimen/sl6_big_item_image_height"
+            android:layout_marginRight="@dimen/sl6_main_item_margin_right" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:contentDescription="@null"
+                android:src="@drawable/sl_6_phone" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
