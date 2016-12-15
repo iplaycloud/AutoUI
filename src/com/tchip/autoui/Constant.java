@@ -157,7 +157,7 @@ public interface Constant {
 		public static final boolean cpuMonitor = true;
 		
 		/** 是否可以侦测后拉CVBS状态（仅有TX5支持） */
-		public static final boolean hasCVBSDetect = true;
+		public static final boolean hasCVBSDetect = false;
 	}
 
 	public static final class Path {
